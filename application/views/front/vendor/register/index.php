@@ -294,32 +294,31 @@
                                  </div>
 
 
-                                 <div class="col-sm-6">
+                                 <div class="col-sm-6 selectpro">
                                      
                                                <?php  $row=$this->db->get("category");
                                                     
 
                                                     ?>
-                                    
-                            <div class="select-wrapper"id="select-wrapper">
+                            
+
+                             <!--  Brand category -->       
+                            <div class="select-wrapper" id="select-wrapper">
                                  <select name="brandcategory[]" multiple="multiple"size="1">
-                                     <option value="">Category</option>
+                                    
 
                                                     <?php foreach($row->result() as $cat){?>
 
-                                                        <option> <?php echo$cat->category_name; ?></option>
+                                                        <option value="<?php  echo$cat->category_name; ?>"> <?php echo$cat->category_name; ?></option>
                                                  <?php   }   ?>
                                                     
-                                                  <!--  <option value="81">(+81) Japa</option>
-                                                    <option value="852">(+852) Hong Kong </option>
-                                                    <option value="65">(+65) Singapore</option>  -->
+                                                  
                                                 </select>
                                                 </div>
                                 
 
                                  </div>
-
-                                 
+                        
 
                                     
 
