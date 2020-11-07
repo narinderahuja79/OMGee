@@ -294,32 +294,37 @@
                                  </div>
 
 
-                                 <div class="col-sm-6">
+                                 <div class="col-sm-6 selectpro">
                                      
                                                <?php  $row=$this->db->get("category");
                                                     
 
                                                     ?>
-                                    
-                            <div class="select-wrapper"id="select-wrapper">
+                            
+
+                             <!--  Brand category -->       
+                            <div class="select-wrapper" id="select-wrapper">
                                  <select name="brandcategory[]" multiple="multiple"size="1">
-                                     <option value="">Category</option>
+                                    
+                                                   <option value="wine">Wine</option>
+                                                    <?php foreach($row->result() as $cat){
 
-                                                    <?php foreach($row->result() as $cat){?>
+                                                      if($cat->category_name=="Wine"){    
+                                                       continue;
+                                                          }
+                                                        else{
 
-                                                        <option> <?php echo$cat->category_name; ?></option>
-                                                 <?php   }   ?>
+                                                      ?>
+
+                                                        <option value="<?php  echo$cat->category_name; ?>"> <?php echo$cat->category_name; ?></option>
+                                                 <?php   } }  ?>
                                                     
-                                                  <!--  <option value="81">(+81) Japa</option>
-                                                    <option value="852">(+852) Hong Kong </option>
-                                                    <option value="65">(+65) Singapore</option>  -->
+                                                  
                                                 </select>
                                                 </div>
                                 
 
-                                 </div>
-
-                                 
+                                 </div>                       
 
                                     
 
@@ -371,7 +376,7 @@ $(document).ready(function(){
             x++; //Increment field counter
             $(wrapper).append(fieldHTML); //Add field html
 
-            $('#select-wrapper').append("<div class='mcx'><Select  size='1'multiple><option>Category</option><?php foreach($row->result() as $cat){?><option> <?php echo$cat->category_name; ?></option><?php   }   ?>?></Select></div>");
+            $('#select-wrapper').append("<div class='mcx'><Select name='brandcategory[]'' size='1'multiple><?php foreach($row->result() as $cat){?><option value'<?php  echo$cat->category_name?>'> <?php echo$cat->category_name; ?></option><?php   }   ?>?></Select></div>");
         }
     });
     

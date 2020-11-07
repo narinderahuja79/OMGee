@@ -33,6 +33,267 @@ class Vendor extends CI_Controller
     public function index()
     {
         if ($this->session->userdata('vendor_login') == 'yes') {
+            // Starts the countdown
+            //-----------gokul code start------------
+            $productinfo = array();
+            $sale=$this->Webservice_model->getDataFromTabel('sale', '*');
+            $hk_data = array();$aus_data = array();$sg_data = array();$jp_data = array();
+            if(!empty($sale)){
+                foreach($sale as $key => $val){
+                    // echo $val->product_details;die;
+                    if(!empty($val->product_details)){
+                        $saledata = json_decode($val->product_details);    
+                        $getCountry = !empty($val->shipping_address) ? json_decode($val->shipping_address) : "";    
+                        
+                        $country = !empty($getCountry) ? $getCountry->country : "";
+                        foreach($saledata as $data){
+                            $saleArr = array();
+
+                            $getoption = !empty($data->option) ? json_decode($data->option) : "";   
+                            // echo "<pre>"; print_r($getoption);echo "<pre>";
+                                // $cateRes=$this->crud_model->getProductCategory($getoption->productid);
+
+                            if(!empty($country) && !empty($getoption->productid)){
+                                $cate_id=$this->Webservice_model->getDataFromTabel('product', 'category,current_stock,variety');
+
+                                $cate_id = !empty($cate_id) ? $cate_id[0] : 0;
+
+                                $saleArr['product_id'] = $getoption->productid;
+                                $category_id = !empty($cate_id) ? $cate_id->category : 0;
+                                // echo $category_id;
+                                // echo "<br>";
+                                $subcate=$this->Webservice_model->getDataFromTabel('sub_category','*',array('category'=>$category_id));
+
+                                // echo "<pre>"; print_r($subcate);echo "<pre>";
+                                $subcate = !empty($subcate) ? $subcate[0] : 0;
+                                
+                                $saleArr['sub_category'] = !empty($subcate) ? $subcate->sub_category_name : "N/A";
+                                $saleArr['country'] = $country;
+                                $saleArr['qty'] = $data->qty;
+                                $saleArr['current_stock'] = !empty($cate_id) ? $cate_id->current_stock : 50;
+                                $saleArr['variety'] = !empty($cate_id) ? $cate_id->variety :"N/A";
+                                $saleArr['price'] = $data->price;
+                                // $saleArr['category'] = !empty($cateRes) ? $cateRes[0]->category_name : "";
+                                $productinfo[]=$saleArr;
+                            }
+                        }
+
+                    }
+                    
+                }
+            }
+
+
+
+
+            // $totalRevenue = '0';
+            $totalQty = '0';
+            $austotalQty = '0';
+            $sgtotalQty = '0';
+            $jptotalQty = '0';
+            $hktotalQty = '0';
+
+
+            $ausRevenue = '0';
+            $sgRevenue = '0';
+            $jpRevenue = '0';
+            $hkRevenue = '0';
+
+            // echo "<pre>"; print_r($productinfo);die('yes');
+            $topProduct = array();
+            $sg = array();$jp = array();$au = array();$hk = array();
+            if(!empty($productinfo)){
+
+                //top varity product
+                $top_product = array_reduce($productinfo, function ($a, $b) {
+                    isset($a[$b['product_id']]) ? $a[$b['product_id']]['qty'] += $b['qty'] : $a[$b['product_id']] = $b;  
+                    return $a;
+                });     
+                $topProduct = !empty($top_product) ? array_values($top_product) : "";
+                $proTop = array();
+                if(!empty($topProduct)){
+                    foreach ($topProduct as $key => $row){
+                        $proTop[$key] = $row['qty'];
+                    }    
+                    array_multisort($proTop, SORT_DESC, $topProduct);
+                }
+
+
+                foreach($productinfo as $keyqty){
+                    $totalQty=  $totalQty+$keyqty['qty'];      
+                }
+                
+                foreach($productinfo as $keyval){
+                    // $res = array();
+                     $sgres = array();
+                    if($keyval['country']=='SG'){
+                        $sgres['product_id'] = $keyval['product_id'];
+                        $sgres['country'] = $keyval['country'];
+                        $sgres['qty'] = $keyval['qty'];
+                        $sgres['sub_category'] = $keyval['sub_category'];
+                        $sgres['current_stock'] = $keyval['current_stock'];
+                        $sgres['price'] = $keyval['price'];
+                        $sgres['variety'] = $keyval['variety'];
+                        
+                        $sgtotalQty=  $sgtotalQty+$keyval['qty'];
+                        $sgRevenue= $sgRevenue+$keyval['price'];      
+                        $sg[] = $sgres;
+                    }
+                }
+                foreach($productinfo as $keyval1){
+                    $aures = array();
+                    if($keyval1['country']=='AU'){
+                        $aures['product_id'] = $keyval1['product_id'];
+                        $aures['country'] = $keyval1['country'];
+                        $aures['qty'] = $keyval1['qty'];
+                        $aures['sub_category'] = $keyval1['sub_category'];
+                        $aures['current_stock'] = $keyval1['current_stock'];
+                        $aures['price'] = $keyval1['price'];
+                        $aures['variety'] = $keyval1['variety'];
+                        $austotalQty=  $austotalQty+$keyval1['qty'];
+                        $ausRevenue= $ausRevenue+$keyval1['price'];      
+                        $au[] = $aures;
+                    }
+                }
+                foreach($productinfo as $keyval2){
+                    $jpres = array();
+                    if($keyval2['country']=='JP'){
+                        $jpres['product_id'] = $keyval2['product_id'];
+                        $jpres['country'] = $keyval2['country'];
+                        $jpres['qty'] = $keyval2['qty'];
+                        $jpres['sub_category'] = $keyval2['sub_category'];
+                        $jpres['current_stock'] = $keyval2['current_stock'];
+                        $jpres['price'] = $keyval2['price'];
+                        $jpres['variety'] = $keyval2['variety'];
+                        $jptotalQty=  $jptotalQty+$keyval2['qty'];
+                        $jpRevenue= $jpRevenue+$keyval2['price'];      
+                        $jp[] = $jpres;
+                    }
+                }
+                foreach($productinfo as $keyval3){
+                    $hkres = array();
+                    if($keyval3['country']=='HK'){
+                        $hkres['product_id'] = $keyval3['product_id'];
+                        $hkres['country'] = $keyval3['country'];
+                        $hkres['qty'] = $keyval3['qty'];
+                        $hkres['sub_category'] = $keyval3['sub_category'];
+                        $hkres['current_stock'] = $keyval3['current_stock'];
+                        $hkres['price'] = $keyval3['price'];
+                        $hkres['variety'] =$keyval3['variety'];
+                        $hktotalQty=  $hktotalQty+$keyval3['qty'];
+                        $hkRevenue= $hkRevenue+$keyval3['price'];      
+                        $hk[] = $hkres;
+                    }
+                }
+            }
+
+
+            
+
+            // for HK
+
+            if(!empty($hk)){
+                 $sum3 = array_reduce($hk, function ($a, $b) {
+                    isset($a[$b['product_id']]) ? $a[$b['product_id']]['qty'] += $b['qty'] : $a[$b['product_id']] = $b;  
+                    return $a;
+                });     
+                $hk_data = !empty($sum3) ? array_values($sum3) : "";
+                $qtty3 = array();
+                if(!empty($hk_data)){
+                    foreach ($hk_data as $key => $row){
+                        $qtty3[$key] = $row['qty'];
+                    }    
+                    array_multisort($qtty3, SORT_DESC, $hk_data);
+                }
+            }
+
+           
+
+
+            // for australiya
+            if(!empty($au)){
+                 $sum = array_reduce($au, function ($a, $b) {
+                    isset($a[$b['product_id']]) ? $a[$b['product_id']]['qty'] += $b['qty'] : $a[$b['product_id']] = $b;  
+                    return $a;
+                });     
+                $aus_data = !empty($sum) ? array_values($sum) : "";
+                $qtty = array();
+                if(!empty($aus_data)){
+                    foreach ($aus_data as $key => $row){
+                        // echo "<pre>"; print_r($row);die('yes');
+                        $qtty[$key] = $row['qty'];
+                    }    
+                    array_multisort($qtty, SORT_DESC, $aus_data);
+                }
+            }
+
+
+
+            // for SG
+            if(!empty($sg)){
+                 $sum1 = array_reduce($sg, function ($a, $b) {
+                    isset($a[$b['product_id']]) ? $a[$b['product_id']]['qty'] += $b['qty'] : $a[$b['product_id']] = $b;  
+                    return $a;
+                });     
+                $sg_data = !empty($sum1) ? array_values($sum1) : "";
+                $qtty1 = array();
+                if(!empty($sg_data)){
+                    foreach ($sg_data as $key => $row){
+                        // echo "<pre>"; print_r($row);die('yes');
+                        $qtty1[$key] = $row['qty'];
+                    }    
+                    array_multisort($qtty1, SORT_DESC, $sg_data);
+                }
+            }
+
+
+
+            // for JP
+            if(!empty($jp)){
+                 $sum2 = array_reduce($jp, function ($a, $b) {
+                    isset($a[$b['product_id']]) ? $a[$b['product_id']]['qty'] += $b['qty'] : $a[$b['product_id']] = $b;  
+                    return $a;
+                });     
+                $jp_data = !empty($sum2) ? array_values($sum2) : "";
+                $qtty2 = array();
+                if(!empty($jp_data)){
+                    foreach ($jp_data as $key => $row){
+                        // echo "<pre>"; print_r($row);die('yes');
+                        $qtty2[$key] = $row['qty'];
+                    }    
+                    array_multisort($qtty2, SORT_DESC, $jp_data);
+                }
+            }
+
+
+            
+            $page_data['hk_data'] = $hk_data;
+            $page_data['aus_data'] = $aus_data;
+            $page_data['sg_data'] = $sg_data;
+            $page_data['jp_data'] = $jp_data;
+
+            $page_data['totalQty'] = $totalQty;
+
+            // $page_data['totalRevenue'] = $totalRevenue;
+
+            
+            $page_data['austotalQty'] = $austotalQty;
+            $page_data['sgtotalQty'] = $sgtotalQty;
+            $page_data['jptotalQty'] = $jptotalQty;
+            $page_data['hktotalQty'] = $hktotalQty;
+
+
+            $page_data['ausRevenue'] = $ausRevenue;
+            $page_data['sgRevenue'] = $sgRevenue;
+            $page_data['jpRevenue'] = $jpRevenue;
+            $page_data['hkRevenue'] = $hkRevenue;
+
+            $page_data['topProduct'] = $topProduct;
+
+
+           
+
+            //-------------gokul code end----------------------------
             $page_data['page_name'] = "dashboard";
             $this->load->view('back/index', $page_data);
         } else {
