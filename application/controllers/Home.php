@@ -2574,7 +2574,9 @@ class Home extends CI_Controller
             $this->load->library('form_validation');
             $safe = 'yes';
             $char = '';
-            foreach($_POST as $k=>$row){
+
+            $vpsw=array('password1'=>$_POST['password1'],'password2'=>$_POST['password2']);
+            foreach($vpsw as $k=>$row){
                 if (preg_match('/[\'^":()}{#~><>|=¬]/', $row,$match))
                 {
                     if($k !== 'password1' && $k !== 'password2')
@@ -2646,6 +2648,28 @@ class Home extends CI_Controller
                                 $data['password'] = sha1($password);
                                 $this->db->insert('vendor', $data);
                                 //echo $this->db->last_query();
+
+                              $newvendor_id=$this->db->insert_id();
+
+                                if(!empty($newvendor_id))
+                                {
+
+                                  $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$this->input->post('vendor_brand'));
+
+
+                                  $this->db->insert('vendorbrands',$vendor_brands);
+
+
+                                }
+
+
+
+
+
+
+
+
+
                                 $msg = 'done';
                                 if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
                                     $msg = 'done_but_not_sent';
@@ -2704,6 +2728,44 @@ class Home extends CI_Controller
                             $data['password'] = sha1($password);
                             $this->db->insert('vendor', $data);
                            // echo $this->db->last_query();
+
+
+
+
+                               $newvendor_id=$this->db->insert_id();
+
+                                if(!empty($newvendor_id))
+                                {
+                                  $brand=$_POST["brand"];
+
+
+
+                              for($i=0;$i<count($brand);$i++) 
+                              {
+
+
+
+                                     $name=$brand[$i];
+
+
+                                     $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$name);
+
+                                      $this->db->insert('vendorbrands',$vendor_brands); 
+
+                                      
+                                  }
+
+
+                               /*   $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$vendor_brands);
+
+
+                                  $this->db->insert('vendorbrands',$vendor_brands);  */
+
+
+                                }
+
+
+
                             $msg = 'done';
                             if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
                             {
