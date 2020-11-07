@@ -35,7 +35,7 @@ class Wallet_model extends CI_Model
                    
                     if($row['status']=="Joined" && $order_buyer)
                     {   
-                       $refered_count = count($order_buyer) + $refered_count ;
+                       $refered_count = ($count++) + $refered_count ;
                        $updateamount =   $refered_count*$earn ;
                     }
                 }  

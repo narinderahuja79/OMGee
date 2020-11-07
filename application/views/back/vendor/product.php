@@ -1,6 +1,6 @@
 <div id="content-container">
 	<div id="page-title">
-		<h1 class="page-header text-overflow"><?php echo translate('manage_product_(_physical_)');?></h1>
+		<h1 class="page-header text-overflow"><?php echo translate('manage_product');?></h1>
 	</div>
         <div class="tab-base">
             <div class="panel">
@@ -34,7 +34,8 @@
 	var user_type = 'vendor';
 	var module = 'product';
 	var list_cont_func = 'list';
-	var dlt_cont_func = 'delete';
+    var dlt_cont_func = 'delete';
+	var dlt_cont_func = 'remove';
 	
 	function proceed(type){
 		if(type == 'to_list'){

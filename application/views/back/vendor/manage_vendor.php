@@ -138,14 +138,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label" for="demo-hor-4">
-                                            <?php echo translate('about');?>
-                                            </label>
-                                            <div class="col-sm-6">
-                                                <textarea name="details" rows="4" maxlength="250" class="form-control"><?php echo ucwords($row['details']); ?></textarea>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                     <!-- End Manage Detail -->
 
@@ -276,18 +269,18 @@
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
-                                            <?php echo translate('minimum_mix_quantity_for_free_delivery_to_banksmeadow_NSW_219');?>
+                                            <?php echo translate('minimum_mix_quantity_for_free_delivery_to_banksmeadow_NSW_2019');?>
                                             </label>
                                             <div class="col-sm-6">
-                                                <input type="text" name="free_delivery" placeholder="<?php echo translate('minimum_mix_quantity_for_free_delivery_to_banksmeadow_NSW_219'); ?>" value="<?php echo currency($row['free_delivery']); ?>"  class="form-control" onkeypress="isInputNumber(event)">
+                                                <input type="text" name="free_delivery" placeholder="<?php echo translate('minimum_mix_quantity_for_free_delivery_to_banksmeadow_NSW_2019'); ?>" value="<?php echo $row['free_delivery']; ?>"  class="form-control" onkeypress="isInputNumber(event)">
                                             </div>                                             
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
-                                            <?php echo translate('delivery_fee_to_banksmeadow_NSW_219_if_either_minimum_are_not_met');?>
+                                            <?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met');?>
                                             </label>
                                             <div class="col-sm-6">
-                                                <input type="text" name="delivery_fee" placeholder="<?php echo translate('delivery_fee_to_banksmeadow_NSW_219_if_either_minimum_are_not_met'); ?>" value="<?php echo currency($row['delivery_fee']); ?>"  class="form-control " onkeypress="isInputNumber(event)">
+                                                <input type="text" name="delivery_fee" placeholder="<?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met'); ?>" value="<?php echo $row['delivery_fee']; ?>"  class="form-control " onkeypress="isInputNumber(event)">
                                             </div>                                             
                                         </div>
                                         <div class="form-group btm_border">
