@@ -6828,7 +6828,12 @@ class Admin extends CI_Controller
             $page_data1['status'] = "paid";
             $this->db->where('transaction_id', $para2);
             $this->db->update('transaction', $page_data1);
-            echo $this->db->last_query();
+            if($this->email_model->status_email('user', $data_transaction['user_id']) == false){
+                $msg = 'done_but_not_sent';
+            }else{
+                $msg = 'done_and_sent';
+            }
+           
         
         } else if ($para1 == 'pay_form') {
             $transaction_id = $para2;
