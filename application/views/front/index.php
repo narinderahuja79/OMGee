@@ -136,7 +136,7 @@
                                                 $events_end_datetime = date("$date $end_time");
                                                 if( ($row1['banner_image'] != NULL) && ( $current_datetime < $events_end_datetime) )
                                                 {
-                                                   $count = count($row1['banner_image'])+$count;  
+                                                     
                                         ?>
                                                     <div class="carousel-item <?php if($n == 1) { echo 'active'; } ?>">
                                                         <a href="<?php echo base_url('home/events/'.$row1['events_id']); ?>">
@@ -150,7 +150,7 @@
                                         ?>
                                    </div>
                                     <?php
-                                        if($count > 1)
+                                        if($n > 1)
                                         {
                                     ?>
                                             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -257,7 +257,6 @@
                                  {
                                      $elements = json_decode($rows['elements'],true);
                                      $txts   = $elements['texts'];
-                                     $countslides = count($rows['slides_id']) + $countslides;
                                  ?>
                               <div class="carousel-item <?php if($n == 1) { echo 'active'; } ?>">
                                  <img class="d-block w-100" src="<?php echo base_url(); ?>uploads/slides_image/slides_<?php echo $rows['slides_id']; ?>.jpeg" alt="<?php echo $n; ?> slide">
@@ -269,7 +268,7 @@
                            </div>
                            <!-- Left and right controls -->
                             <?php
-                                if($countslides > 1)
+                                if($n > 1)
                                 {
                             ?> 
                                 <a class="carousel-control-prev" href="#sidecarouselExampleIndicators" role="button" data-slide="prev">
