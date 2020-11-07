@@ -226,44 +226,18 @@
                         <div class="panel-body">
                             <div class="text-center">
 
-                                <div class="table-responsive" style="display: none;">
+                                <div class="table-responsive">
                                     <table class="table table-striped">
-                                        <tr>
-                                            <td><?php echo translate('name'); ?> </td>
-                                            <td><?php echo ucwords($vend->name); ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo translate('membership_expiration'); ?> 
-                                            <td>
-                                            <?php 
-                                                if($membership == '0'){
-                                                    echo 'Lifetime';
-                                                } else {
-                                                    echo date('d M,Y',$vend->member_expire_timestamp);
-                                                } 
+                                        <?php
+                                        foreach ($arr as $arr1) {
+                                             
                                             ?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo translate('maximum_products'); ?> </td>
-                                            <td>
-                                            <?php 
-                                                if($membership == '0'){
-                                                    echo $this->db->get_where('general_settings',array('type'=>'default_member_product_limit'))->row()->value;
-                                                } else {
-                                                    echo $this->db->get_where('membership',array('membership_id'=>$membership))->row()->product_limit; 
-                                                }
-                                            ?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo translate('total_uploaded_products'); ?> </td>
-                                            <td><?php echo $this->db->get_where('product',array('added_by'=>'{"type":"vendor","id":"'.$this->session->userdata('vendor_id').'"}'))->num_rows(); ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo translate('uploaded_published_products'); ?> </td>
-                                            <td><?php echo $this->db->get_where('product',array('added_by'=>'{"type":"vendor","id":"'.$this->session->userdata('vendor_id').'"}','status'=>'ok'))->num_rows(); ?></td>
-                                        </tr>
+                                                <span class="label label-dark"> <?php echo $arr1['name']; ?> </span>
+                                                <span class="label label-success"> <?php echo $arr1['id']; ?></span>
+                                                <br><br>
+                                            <?php
+                                        }
+                                    ?> 
                                     </table>
                                 </div>
                             </div>
