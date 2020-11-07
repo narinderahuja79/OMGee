@@ -25,7 +25,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <div class="offcanvas-overlay"></div>
 <div class="ajax-loader">
-    <img src="<?php echo base_url('uploads'); ?>/loader.gif" class="img-responsive" />
+   <!-- <img src="<?php echo base_url('uploads'); ?>/loader.gif" class="img-responsive" />  -->
 </div>
 <div class="breadcrumb-area">
     <div class="container">
@@ -277,7 +277,7 @@
                                     <div class="field_wrapper">
                                         
 
-                                      <input type="text"name="vendor_brand"id="vendor_brand"placeholder="Brand  Name"/>
+                                      <input type="text"name="brand[]"id="vendor_brand"placeholder="Brand  Name"/>
 
 
                                      <a href="javascript:void(0);" class="add_button" title="Add field">
@@ -301,8 +301,8 @@
 
                                                     ?>
                                     
-                            <div class="select-wrapper">
-                                 <select name="brandcategory[]" class="mcat"multiple="multiple"style="heihgt:70px;margin-top: 0.2em">
+                            <div class="select-wrapper"id="select-wrapper">
+                                 <select name="brandcategory[]" multiple="multiple"size="1">
                                      <option value="">Category</option>
 
                                                     <?php foreach($row->result() as $cat){?>
@@ -361,7 +361,7 @@ $(document).ready(function(){
     var maxField = 5; //Input fields increment limitation
     var addButton = $('.add_button'); //Add button selector
     var wrapper = $('.field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div><input type="text" name="vendor_brand[]" placeholder="Brand Name"value=""/><a href="javascript:void(0);" class="remove_button">  <img src="https://img.icons8.com/android/24/000000/minus.png" width="12"height="12"style="position:relative;right:-240px;top:-36px;"/></a></div>'; //New input field html 
+    var fieldHTML = '<div><input type="text" name="brand[]" placeholder="Brand Name"value=""/><a href="javascript:void(0);" class="remove_button">  <img src="https://img.icons8.com/android/24/000000/minus.png" width="12"height="12"style="position:relative;right:-240px;top:-36px;"/></a></div>'; //New input field html 
     var x = 1; //Initial field counter is 1
     
     //Once add button is clicked
@@ -370,6 +370,8 @@ $(document).ready(function(){
         if(x < maxField){ 
             x++; //Increment field counter
             $(wrapper).append(fieldHTML); //Add field html
+
+            $('#select-wrapper').append("<div class='mcx'><Select  size='1'multiple><option>Category</option><?php foreach($row->result() as $cat){?><option> <?php echo$cat->category_name; ?></option><?php   }   ?>?></Select></div>");
         }
     });
     
@@ -377,6 +379,9 @@ $(document).ready(function(){
     $(wrapper).on('click', '.remove_button', function(e){
         e.preventDefault();
         $(this).parent('div').remove(); //Remove field html
+        
+        $('.mcx').remove();
+
         x--; //Decrement field counter
     });
 });

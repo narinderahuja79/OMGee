@@ -2735,19 +2735,30 @@ class Home extends CI_Controller
 
                                 if(!empty($newvendor_id))
                                 {
-                                  $vendor_brands=$this->input->post('vendor_brand');
+                                  $brand=$_POST["brand"];
 
 
 
-                                /*  foreach ($variable as $key => $value) {
-                                      # code...
-                                  }*/
+                              for($i=0;$i<count($brand);$i++) 
+                              {
 
 
-                                  $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$vendor_brands);
+
+                                     $name=$brand[$i];
 
 
-                                  $this->db->insert('vendorbrands',$vendor_brands);
+                                     $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$name);
+
+                                      $this->db->insert('vendorbrands',$vendor_brands); 
+
+                                      
+                                  }
+
+
+                               /*   $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$vendor_brands);
+
+
+                                  $this->db->insert('vendorbrands',$vendor_brands);  */
 
 
                                 }
