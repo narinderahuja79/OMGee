@@ -614,24 +614,20 @@ class Home extends CI_Controller
 
             $this->db->where('user_id', $this->session->userdata('user_id'));
             $this->db->update('user',$data);
-            if($this->session->userdata('user_id') > 0)
-            {
-                $msg = 'success'; 
-            }
-            else
-            {
-                $msg = 'fail';
-            }
-            echo json_encode($msg);
+
             $data_transaction['user_id'] = $this->session->userdata('user_id');
             $data_transaction['status'] = "due";
             $data_transaction['amount'] = $this->input->post('amount');
-            $data_transaction['bank_name'] = $this->input->post('bank_name');
-            $data_transaction['account_name'] = $this->input->post('account_name');
-            $data_transaction['bank_account_number'] = $this->input->post('bank_account_number');
-            $data_transaction['bsb_number'] = $this->input->post('bsb_number');
-
             $this->db->insert('transaction',$data_transaction);
+            
+
+            if($this->email_model->withdrawal_amount('user', $data_transaction['user_id'], $data_transaction['status'], $data_transaction['amount']) == false){
+                $msg = 'done_but_not_sent';
+            }else{
+                $msg = 'done_and_sent';
+            }
+            $msg='success';
+            echo json_encode($msg);
         }
         elseif($para1=="wishlist")
         {
@@ -1507,11 +1503,15 @@ class Home extends CI_Controller
         {
             $arr[] = array('created_date'=>$row3['timestamp'],'detail'=>$row3);
         }
-
-        $columns = array_column($arr, 'created_date');
-        array_multisort($columns, SORT_DESC, $arr);
-        
-        $config['total_rows']   = count($arr);
+ 
+        if($arr){
+            $columns = array_column($arr, 'created_date');
+            array_multisort($columns, SORT_DESC, $arr);
+            $config['total_rows']   = count($arr);
+        }
+        else {
+                $config['total_rows']   = 0;
+            }    
         $config['base_url']     = base_url() . 'home/wallet_listed/';
         $config['per_page']     = 5;
         $config['uri_segment']  = 5;
@@ -1549,8 +1549,9 @@ class Home extends CI_Controller
         $config['num_tag_open']  = '<li><a rel="grow" class="btn-u btn-u-sea grow" onClick="' . $function . '">';
         $config['num_tag_close'] = '</a></li>';
         $this->ajax_pagination->initialize($config);
-        
-        $page_data['query'] = $arr;
+        if($arr){
+            $page_data['query'] = $arr;
+        }
         $this->load->view('front/user/wallet_listed',$page_data);
     }
     
@@ -2573,7 +2574,9 @@ class Home extends CI_Controller
             $this->load->library('form_validation');
             $safe = 'yes';
             $char = '';
-            foreach($_POST as $k=>$row){
+
+            $vpsw=array('password1'=>$_POST['password1'],'password2'=>$_POST['password2']);
+            foreach($vpsw as $k=>$row){
                 if (preg_match('/[\'^":()}{#~><>|=¬]/', $row,$match))
                 {
                     if($k !== 'password1' && $k !== 'password2')
@@ -2645,6 +2648,28 @@ class Home extends CI_Controller
                                 $data['password'] = sha1($password);
                                 $this->db->insert('vendor', $data);
                                 //echo $this->db->last_query();
+
+                              $newvendor_id=$this->db->insert_id();
+
+                                if(!empty($newvendor_id))
+                                {
+
+                                  $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$this->input->post('vendor_brand'));
+
+
+                                  $this->db->insert('vendorbrands',$vendor_brands);
+
+
+                                }
+
+
+
+
+
+
+
+
+
                                 $msg = 'done';
                                 if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
                                     $msg = 'done_but_not_sent';
@@ -2703,6 +2728,44 @@ class Home extends CI_Controller
                             $data['password'] = sha1($password);
                             $this->db->insert('vendor', $data);
                            // echo $this->db->last_query();
+
+
+
+
+                               $newvendor_id=$this->db->insert_id();
+
+                                if(!empty($newvendor_id))
+                                {
+                                  $brand=$_POST["brand"];
+
+
+
+                              for($i=0;$i<count($brand);$i++) 
+                              {
+
+
+
+                                     $name=$brand[$i];
+
+
+                                     $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$name);
+
+                                      $this->db->insert('vendorbrands',$vendor_brands); 
+
+                                      
+                                  }
+
+
+                               /*   $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$vendor_brands);
+
+
+                                  $this->db->insert('vendorbrands',$vendor_brands);  */
+
+
+                                }
+
+
+
                             $msg = 'done';
                             if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
                             {

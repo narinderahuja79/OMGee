@@ -4,6 +4,13 @@
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/1.0/src/markerclusterer.js"></script>
 <script src="<?php echo base_url(); ?>template/back/plugins/gauge-js/gauge.min.js"></script>
 
+<?php
+echo "yes";
+    $productData = $this->db->get_where('product')->result_array();
+    echo "<pre>"; print_r($productData);die('yes');
+?>
+
+
 <div id="content-container">	
     <div id="page-title">
         <h1 class="page-header text-overflow"><?php echo translate('dashboard');?></h1>

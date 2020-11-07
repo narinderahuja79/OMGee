@@ -24,16 +24,22 @@
         ?>                
         <tr>
             <td>
-                <?php echo $i ?>                
+                <?php echo $i ;
+                    $user_name =$this->db->get_where('user',array('user_id'=>$row['user_id']))->row()->username;
+                    $bank_name =$this->db->get_where('user',array('user_id'=>$row['user_id']))->row()->bank_name;
+                    $account_name =$this->db->get_where('user',array('user_id'=>$row['user_id']))->row()->account_name;
+                    $bank_account_number =$this->db->get_where('user',array('user_id'=>$row['user_id']))->row()->bank_account_number;
+                    $bsb_number =$this->db->get_where('user',array('user_id'=>$row['user_id']))->row()->bsb_number;
+                ?>                
             </td>
            
-            <td><?php echo $usernme = ucwords($this->db->get_where('user',array('user_id'=>$row['user_id']))->row()->username);
+            <td><?php echo $usernme = ucwords($user_name);
                 ?></td>
             <td><?php echo ucwords($row['amount']); ?></td>
-            <td><?php echo ucwords($row['bank_name']); ?></td>
-            <td><?php echo ucwords($row['account_name']); ?></td>
-            <td><?php echo $row['bank_account_number']; ?></td>
-            <td><?php echo $row['bsb_number']; ?></td>   
+            <td><?php echo ucwords( $bank_name); ?></td>
+            <td><?php echo ucwords($account_name); ?></td>
+            <td><?php echo $bank_account_number; ?></td>
+            <td><?php echo $bsb_number; ?></td>   
             <td>
             	<div class="label label-<?php if($row['status'] == 'paid'){ ?>purple<?php } else { ?>danger<?php } ?>">
                 	<?php echo $row['status']; ?>

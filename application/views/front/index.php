@@ -136,8 +136,7 @@
                                                 $events_end_datetime = date("$date $end_time");
                                                 if( ($row1['banner_image'] != NULL) && ( $current_datetime < $events_end_datetime) )
                                                 {
-                                                     
-                                        ?>
+                                                    ?>
                                                     <div class="carousel-item <?php if($n == 1) { echo 'active'; } ?>">
                                                         <a href="<?php echo base_url('home/events/'.$row1['events_id']); ?>">
                                                             <img class="d-block w-100"  src="<?php echo base_url(); ?>uploads/events_image/<?php echo $row1['banner_image']; ?>" alt="<?php echo $n; ?> events">
@@ -150,7 +149,7 @@
                                         ?>
                                    </div>
                                     <?php
-                                        if($n > 1)
+                                        if($n > 2)
                                         {
                                     ?>
                                             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -197,7 +196,6 @@
                                          {
                                              $elements = json_decode($row1['elements'],true);
                                              $txts   = $elements['texts'];
-                                             $countslider = count($row1['slider_id'])+$countslider; 
                                          ?>
                                       <div class="carousel-item <?php if($n == 1) { echo 'active'; } ?>">
                                          <img class="d-block w-100" src="<?php echo base_url(); ?>uploads/slider_image/background_<?php echo $row1['slider_id']; ?>.jpg" alt="<?php echo $n; ?> slide">
@@ -208,7 +206,7 @@
                                          ?>
                                    </div>
                                     <?php
-                                        if($countslider > 1)
+                                        if($n > 2)
                                         {
                                     ?>        
                                             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -268,7 +266,7 @@
                            </div>
                            <!-- Left and right controls -->
                             <?php
-                                if($n > 1)
+                                if($n > 2)
                                 {
                             ?> 
                                 <a class="carousel-control-prev" href="#sidecarouselExampleIndicators" role="button" data-slide="prev">

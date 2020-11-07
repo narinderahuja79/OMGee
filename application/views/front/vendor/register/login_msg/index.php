@@ -92,19 +92,22 @@
                     <img src="<?php echo base_url(); ?>/template/omgee/images/iconfindericon/thankyou.png">
                 </div>
                 <div class="maintitle">
-                    <h4><?php echo translate('Thank you for registration')?></h4>
-                    <p> <?php echo translate('Please wait for Admin Approval.');?> <br>
-                            <?php echo translate('Once Admin Approved, Email Confirmation will be send to your email.');?>
+                    <h4><?php echo translate('Thank you for registering with OMGee.')?></h4>
+                    <p> <?php echo translate('Your request is now being reviewed by administration team. 
+Please allow 3 to 5 business days for approval
+
+.');?> <br>
+                            <?php echo translate('Upon approval, you will receive a confirmation email and access to your portal.');?>
                             <br>
-                            <?php echo translate('check_your_email');?>.
-                            <?php echo translate('After got Confirmation, You Can ');?></p>
+                            <?php echo translate('Please email the administration team if you have any further question. ');?>.
+                            <?php echo translate('Looking forward to welcoming you on-board and Thank you for your support');?></p>
                 </div>
                 <div class="row">
                     <div class="col-sm-7">
                         <img src="<?php echo base_url(); ?>/template/omgee/images/iconfindericon/thankyoufooter.png" class="img-responsive">
                     </div>
                     <div class="col-sm-5">
-                        <a href="<?php echo base_url();?>vendor"><button type="button" class="btn thankyoubtn"><?php echo translate('login_from_here');?></button></a>
+                       <!-- <a href="<?php echo base_url();?>vendor"><button type="button" class="btn thankyoubtn"><?php echo translate('login_from_here');?></button></a> -->
                     </div>
                 </div>
             </div>
