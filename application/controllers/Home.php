@@ -2658,6 +2658,14 @@ class Home extends CI_Controller
 
                                   $this->db->insert('vendorbrands',$vendor_brands);
 
+                                    $newbrand_id=$this->db->insert_id();
+
+                                    if(!empty($newbrand_id))
+                                    {
+
+                                    }
+
+
 
                                 }
 
@@ -2737,7 +2745,7 @@ class Home extends CI_Controller
                                 {
                                   $brand=$_POST["brand"];
 
-
+                                  $category_name=$_POST['brandcategory'];
 
                               for($i=0;$i<count($brand);$i++) 
                               {
@@ -2750,6 +2758,18 @@ class Home extends CI_Controller
                                      $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$name);
 
                                       $this->db->insert('vendorbrands',$vendor_brands); 
+
+                                    $newbrand_id=$this->db->insert_id();
+
+                                    if(!empty($newbrand_id))
+                                    {
+                                        $category_name=$category_name[$i];
+                          $brandcategory=array('brand_id'=>$newbrand_id,'category_name'=>$category_name);
+
+                               $this->db->insert('brand_category',$brandcategory);
+                                        
+                                    }
+
 
                                       
                                   }

@@ -371,7 +371,7 @@ $(document).ready(function(){
             x++; //Increment field counter
             $(wrapper).append(fieldHTML); //Add field html
 
-            $('#select-wrapper').append("<div class='mcx'><Select  size='1'multiple><option>Category</option><?php foreach($row->result() as $cat){?><option> <?php echo$cat->category_name; ?></option><?php   }   ?>?></Select></div>");
+            $('#select-wrapper').append("<div class='mcx'><Select name='brandcategory[]'' size='1'multiple><?php foreach($row->result() as $cat){?><option value'<?php  echo$cat->category_name?>'> <?php echo$cat->category_name; ?></option><?php   }   ?>?></Select></div>");
         }
     });
     
