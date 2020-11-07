@@ -1,6 +1,6 @@
 <?php
-$physical_check = $this->crud_model->get_type_name_by_id('general_settings','68','value');
-$digital_check = $this->crud_model->get_type_name_by_id('general_settings','69','value');
+    $physical_check = $this->crud_model->get_type_name_by_id('general_settings','68','value');
+    $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69','value');
 ?>
 <nav id="mainnav-container">
     <div id="mainnav">
@@ -22,7 +22,7 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                 </span>
                             </a>
                         </li><!--Menu list item-->
-                        <li <?php if($page_name=="product"){?> class="active-link" <?php } ?> 
+                        <li style="display: none;"<?php if($page_name=="product"){?> class="active-link" <?php } ?> 
                             style="border-top:1px solid rgba(69, 74, 84, 0.7);">
                             <a href="<?php echo base_url(); ?>vendor/product">
                                 <i class="fa fa-shopping-cart"></i>
@@ -39,7 +39,7 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                        		$this->crud_model->vendor_permission('digital')){
 						?>
                         <!--Menu list item-->
-                        <li style="display: none;" <?php if($page_name=="product" || 
+                        <li <?php if($page_name=="product" || 
                                          	$page_name=="stock" ||
 													$page_name=="digital" ){?>
                                                      			class="active-sub" 
@@ -63,14 +63,27 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                     	$this->crud_model->vendor_permission('stock') ){
                             ?>
                             <!--Menu list item-->
-                                <li <?php if($page_name=="product" || 
+                                <li <?php if($page_name=="product"){?> class="active-link" <?php } ?> >
+                                    <a href="<?php echo base_url(); ?>vendor/product">
+                                        <i class="fa fa-circle fs_i"></i>
+                                            <?php echo translate('all_products');?>
+                                    </a>
+                                </li>
+                                <li <?php if($page_name=="remove_product"){?> class="active-link" <?php } ?> >
+                                    <a href="<?php echo base_url(); ?>vendor/remove_product">
+                                        <i class="fa fa-circle fs_i"></i>
+                                            <?php echo translate('removed_product');?>
+                                    </a>
+                                </li> 
+
+                                <li style="display: none;"><?php if($page_name=="product" || 
                                             	$page_name=="stock" ){?>
                                                              class="active-sub" 
                                                                 <?php } ?> >
                                     <a href="#">
                                         <i class="fa fa-list"></i>
                                             <span class="menu-title">
-                                                <?php echo translate('physical_products');?>
+                                                <?php echo translate('Manage_products');?>
                                             </span>
                                             <i class="fa arrow"></i>
                                     </a>
@@ -90,12 +103,12 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                                 </a>
                                             </li>
                                         <?php
-                                            } if($this->crud_model->vendor_permission('stock')){
+                                            } if($this->crud_model->vendor_permission('remove_product')){
                                         ?>
-                                            <li style="display: none;"   <?php if($page_name=="stock"){?> class="active-link" <?php } ?> >
-                                                <a href="<?php echo base_url(); ?>vendor/stock">
+                                            <li <?php if($page_name=="remove_product"){?> class="active-link" <?php } ?> >
+                                                <a href="<?php echo base_url(); ?>vendor/remove_product">
                                                     <i class="fa fa-circle fs_i"></i>
-                                                        <?php echo translate('product_stock');?>
+                                                        <?php echo translate('removed_product');?>
                                                 </a>
                                             </li>
 
