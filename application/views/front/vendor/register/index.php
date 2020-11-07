@@ -306,19 +306,25 @@
                             <div class="select-wrapper" id="select-wrapper">
                                  <select name="brandcategory[]" multiple="multiple"size="1">
                                     
+                                                   <option value="wine">Wine</option>
+                                                    <?php foreach($row->result() as $cat){
 
-                                                    <?php foreach($row->result() as $cat){?>
+                                                      if($cat->category_name=="Wine"){    
+                                                       continue;
+                                                          }
+                                                        else{
+
+                                                      ?>
 
                                                         <option value="<?php  echo$cat->category_name; ?>"> <?php echo$cat->category_name; ?></option>
-                                                 <?php   }   ?>
+                                                 <?php   } }  ?>
                                                     
                                                   
                                                 </select>
                                                 </div>
                                 
 
-                                 </div>
-                        
+                                 </div>                       
 
                                     
 
