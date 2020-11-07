@@ -54,7 +54,7 @@ if($this->session->userdata('user_login') == 'yes'){ ?>
             <div class="col-md-4 col-12">
                 <div class="subscribe-content">
                     <form class="newsletter-form" data-toggle="validator" novalidate="true">
-                        <input type="text" class="input-newsletter" value="http://103.15.67.74/pro1/omgee/home/login_set/login?code=<?php echo base64_encode($refer); ?>" placeholder="Share Your OMGee Invite Link" name="copy" id="myInput"  autocomplete="off">
+                        <input type="text" class="input-newsletter" value="<?php echo base_url(); ?>home/login_set/login?code=<?php echo base64_encode($refer); ?>" placeholder="Share Your OMGee Invite Link" name="copy" id="myInput"  autocomplete="off">
                         <button type="button" class="default-btn disabled" onclick="myFunction()" style="pointer-events: all; cursor: pointer;">Copy</button>
                         <div id="validator-newsletter" class="form-result"></div>
                     </form>

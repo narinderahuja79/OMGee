@@ -692,6 +692,14 @@ class Vendor extends CI_Controller
             $this->db->delete('product');
             $this->crud_model->set_category_data(0);
             recache();
+
+        } elseif ($para1 == 'remove') {
+            $data['remove'] = "1";
+            $this->db->where('product_id', $para2);
+            $this->db->update('product', $data);
+            $this->crud_model->set_category_data(0);
+            recache();
+            
         } elseif ($para1 == 'list') {
             $this->db->order_by('product_id', 'desc');
             $this->db->where('added_by',json_encode(array('type'=>'vendor','id'=>$this->session->userdata('vendor_id'))));
@@ -721,6 +729,7 @@ class Vendor extends CI_Controller
             }
             $this->db->where('added_by',json_encode(array('type'=>'vendor','id'=>$this->session->userdata('vendor_id'))));
             $this->db->where('download=',NULL);
+            $this->db->where('remove','1');
             $products   = $this->db->get('product', $limit, $offset)->result_array();
             $data       = array();
             $time = date("H:i:s");
@@ -746,7 +755,38 @@ class Vendor extends CI_Controller
                 }
 
                 $res['image']  = '<img class="img-sm" style="height:auto !important; border:1px solid #ddd;padding:2px; border-radius:2px !important;" src="'.$first_image.'?time='.strtotime($time).'"  />';
-                $res['title']  = $row['title'];
+                
+                $res['title']  = ucwords($row['title']);
+
+                $s_cat_name = $this->db->get_where('sub_category',array('sub_category_id'=>$row['sub_category']))->row()->sub_category_name;
+                $res['sub-category'] = ucwords($s_cat_name);
+
+                $res['variety'] = ucwords($row['variety']);
+
+                $res['whlsale_gst'] = "-";
+
+                $res['whlsale_dmst'] = $row['wholesale'];
+  
+                $res['rrp_au'] = $row['sale_price_AU'];
+
+                $res['rrp_hk'] = $row['sale_price_HK'];
+
+                $res['rrp_jp'] = $row['sale_price_JP'];
+
+                $res['rrp_sg'] = $row['sale_price_SG'];
+
+                $res['limited_release'] = ucwords($row['limited_release']);
+
+                if($row['is_low_stock']){
+                    $res['low_stock'] = ucwords($row['is_low_stock']);
+                } 
+
+                if($row['remove']=='1'){
+                    $res['remove'] =  "<a onclick=\"remove_confirm('".$row['product_id']."','".translate('really_want_to_remove_this?')."')\" 
+                                            class=\"btn btn-danger btn-xs btn-labeled fa fa-trash\" data-toggle=\"tooltip\" data-original-title=\"Remove\" data-container=\"body\">
+                                        </a>";
+                } 
+
                 if($row['status'] == 'ok'){
                     $res['publish']  = '<input id="pub_'.$row['product_id'].'" class="sw1" type="checkbox" data-id="'.$row['product_id'].'" checked />';
                 } else {

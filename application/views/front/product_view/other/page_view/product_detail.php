@@ -565,23 +565,27 @@ z-index: 1 !important;
                             if($food_paring->food_name1 !=NULL)
                             {
                                $count_name1 = $food_paring->food_name1;
-                               $count1 = count($food_count['user_id'])+$count1;
+
+                               $count1++;
                             }
                             if($food_paring->food_name2 !=NULL)
                             {
                                 $count_name2 =$food_paring->food_name2;
-                                $count2 = count($food_count['user_id'])+$count2;
+
+                                $count2++;
 
                             }
                             if($food_paring->food_name3 !=NULL)
                             {
                                 $count_name3 =$food_paring->food_name3;
-                                $count3 = count($food_count['user_id'])+$count3;
+
+                                $count3++;
                             }
                             if($food_paring->food_name4 != NULL)
                             {
                                 $count_name4 =$food_paring->food_name4;
-                                $count4 = count($food_count['user_id'])+$count4;
+                                
+                                $count4++;
                             }
                     	}
                     	$arr1 = array(
