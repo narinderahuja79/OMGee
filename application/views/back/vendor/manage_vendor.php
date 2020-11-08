@@ -336,44 +336,19 @@
                                  <tr>
                                     <th>Name</th>
                                    
-                                    <th>Image</th>
+                                    <th>Category</th>
            
                                     <th>Action</th>
                                  </tr>
                                </thead>
-                                 <tbody>
+                         <tbody>
 
-                                  <tr>
-                                    <form id="user_form" method="post"enctype="multipart/form-data">
-                                     <td>
-                                       <div class="form-group">
+                                 
 
-                                        <input type="text"name="vendor_name" id="vendor_name"class="form-control"placeholder="Enter Vendor Name">
 
-                                       </div>  
 
-                                     </td> 
 
-                                  
-
-                                     <td>
-                                         
-                                     <div class="form-group">
-
-                                        <input type="file"name="vendor_image" id="vendor_image" class="form-control"placeholder="Enter Vendor Name">
-
-                                     </div>
-                                     </td>
-                                    
-                                      <td>  
-                                        <input type="hidden"value="<?php echo$this->session->userdata('vendor_id'); ?>"name="vendor_id">
-                                          
-                                       <input  type="submit" class="btn btn-info btn-lg"style="float:right;margin-right: 1%;height:30px;padding-top:1.5px"value="Add"name="action"id="vendoraction">
-                                      </td>
-                                  </form>
-                                  </tr>
-
-                                 </tbody>
+                       </tbody>
                              </table>   
                          </div>
 
@@ -859,9 +834,97 @@
 
 
 
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>  
-      <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>            
-      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
+  
+<script type="text/javascript" language="javascript" >
+$(document).ready(function(){  
+  
+  function load_data()
+  {
+
+    $.ajax({
+      url:"<?php echo base_url(); ?>live/load_data",
+      dataType:"JSON",
+      success:function(data){  
+        var html = '<tr>';
+        html += '<td id="first_name" contenteditable placeholder="Enter Vendor Brnad Name"></td>';
+
+         html += '<td><select class="form-control"style="background:transparent;border:none;"><option>Category</option><?php  $row=$this->db->get("brand_category"); foreach($row->result() as $cat){ ?> <option> <?php echo$cat->category_name; ?> </option> <?php }?>
+                                                    </select></td>';
+
+        
+         html += '<td><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span></button></td></tr>';
+        for(var count = 0; count < data.length; count++)
+        {
+          html += '<tr>';
+          html += '<td class="table_data" data-row_id="'+data[count].id+'" data-column_name="first_name" contenteditable>'+data[count].name+'</td>';
+
+          html += '<td></td>';
+
+          
+          html += '<td><button type="button" name="delete_btn" id="'+data[count].id+'" class="btn btn-xs btn-danger btn_delete"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+        }
+        $('tbody').html(html);
+      },
+      error:function(){
+
+        alert('error');
+      }
+    });
+  }
+
+  load_data();
+
+  $(document).on('click', '#btn_add', function(){
+    var vendor_name = $('#first_name').text();
+    
+    if(vendor_name == '')
+    {
+      alert('Enter Vendor Brand Name');
+      return false;
+    }
+  
+    $.ajax({
+      url:"<?php echo base_url(); ?>live/insert",
+      method:"POST",
+      data:{vendor_name:vendor_name},
+      success:function(data){
+        load_data();
+      }
+    })
+  });
+
+  $(document).on('blur', '.table_data', function(){
+    var id = $(this).data('row_id');
+    var table_column = $(this).data('column_name');
+    var value = $(this).text();
+    $.ajax({
+      url:"<?php echo base_url(); ?>live/update",
+      method:"POST",
+      data:{id:id, table_column:table_column, value:value},
+      success:function(data)
+      {
+        load_data();
+      }
+    })
+  });
+
+  $(document).on('click', '.btn_delete', function(){
+    var id = $(this).attr('id');
+    if(confirm("Are you sure you want to delete this?"))
+    {
+      $.ajax({
+        url:"<?php echo base_url(); ?>live/delete",
+        method:"POST",
+        data:{id:id},
+        success:function(data){
+          load_data();
+        }
+      })
+    }
+  });
+  
+});
+</script>
 
 
 
