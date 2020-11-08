@@ -210,6 +210,7 @@
                                     <!-- Other details -->
                                     <div id="other_details" class="tab-pane fade">
                                         <div class="form-group btm_border">
+                                            <h4 class="text-thin text-center"><?php echo translate('other_details'); ?></h4>                    
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >

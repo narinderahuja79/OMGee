@@ -2640,6 +2640,24 @@ class Crud_model extends CI_Model
         $return = implode(",", $images_arr);
         return $return;
     }
+
+
+    //------------------gokul code start--------------
+
+        public function getProductCategory($productid) {
+            $this->db->select('product.category,category.category_id,category.category_name');
+            $this->db->from('product');
+            $this->db->join('category','category.category_id=product.category', 'LEFT');
+            $this->db->where('product.product_id', $productid);
+            
+            $query=$this->db->get(); 
+            // echo $this->db->last_query();die;
+            $returnData = $query->result(); 
+
+            return $returnData;
+        }
+
+    //------------------gokul code end--------------
 }
 
 
