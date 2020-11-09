@@ -698,14 +698,17 @@ class Vendor extends CI_Controller
         if ($this->crud_model->get_type_name_by_id('general_settings','68','value') !== 'ok') {
             redirect(base_url() . 'admin');
         }
-        if ($para1 == 'do_add') {
+        if ($para1 == 'do_add') 
+        {
             $options = array();
-            $data['title']              = $this->input->post('title');
-            $data['product_type']       = $this->input->post('product_type');
-            $data['is_low_stock']       = $this->input->post('is_low_stock');
-            $data['variety']            = $this->input->post('variety');
-            $data['product_year']       = $this->input->post('product_year');
-            $data['regions']       = $this->input->post('regions');
+            $data['title']     = $this->input->post('title');
+            $data['title_ch']     = $this->input->post('title_ch');
+            $data['title_jp']     = $this->input->post('title_jp');
+            $data['product_type'] = $this->input->post('product_type');
+            $data['is_low_stock'] = $this->input->post('is_low_stock');
+            $data['variety']      = $this->input->post('variety');
+            $data['product_year'] = $this->input->post('product_year');
+            $data['regions']      = $this->input->post('regions');
             if($this->input->post('product_abv') <= 30)
             {
                 $data['product_abv']   = $this->input->post('product_abv');
@@ -716,12 +719,21 @@ class Vendor extends CI_Controller
             }
             
             $data['category']           = $this->input->post('category');
-            $data['description']        = $this->input->post('description');
+            $data['description_en']        = $this->input->post('description_en');
+            $data['description_ch']        = $this->input->post('description_ch');
+            $data['description_jp']        = $this->input->post('description_jp');
             $data['sub_category']       = $this->input->post('sub_category');
             $data['test_section']       = $this->input->post('test_section');
-            $data['test_title']         = $this->input->post('test_title');
-            $data['test_sumary_title']  = $this->input->post('test_sumary_title');
-            $data['test_sumary']        = $this->input->post('test_sumary');
+            $data['test_title_en']         = $this->input->post('test_title_en');
+            $data['test_title_ch']         = $this->input->post('test_title_ch');
+            $data['test_title_jp']         = $this->input->post('test_title_jp');
+            
+            $data['test_sumary_title_en']        = $this->input->post('test_sumary_title_en');
+            $data['test_sumary_title_ch']        = $this->input->post('test_sumary_title_ch');
+            $data['test_sumary_title_jp']        = $this->input->post('test_sumary_title_jp');
+            $data['test_sumary_en']         = $this->input->post('test_sumary_en');
+            $data['test_sumary_ch']         = $this->input->post('test_sumary_ch');
+            $data['test_sumary_jp']         = $this->input->post('test_sumary_jp');
             $data['test1_name']         = $this->input->post('test1_name');
             $data['test1_number']       = $this->input->post('test1_number');
             $data['test2_name']         = $this->input->post('test2_name');
@@ -743,6 +755,7 @@ class Vendor extends CI_Controller
             $data['test55_name']      = $this->input->post('test55_name');  
             $data['test55_number']      = $this->input->post('test55_number');  
             $data['wholesale']      = $this->input->post('wholesale');
+            $data['wholesale_EXCL_WET_GST'] = $this->input->post('wholesale_EXCL_WET_GST');
             $data['sale_price_AU']      = $this->input->post('sale_price_AU');
             $data['sale_price_HK']      = $this->input->post('sale_price_HK');
             $data['sale_price_JP']      = $this->input->post('sale_price_JP');
@@ -773,29 +786,25 @@ class Vendor extends CI_Controller
             $data['food_section']       = $this->input->post('food_section');
             $data['food_title']         = $this->input->post('food_title');
             $data['food_description']   = $this->input->post('food_description');
+
+            $data['food_preparation_1']         = $this->input->post('food_preparation_1');
+            $data['food_preparation_2']         = $this->input->post('food_preparation_2');
+            $data['food_preparation_3']         = $this->input->post('food_preparation_3');
+            $data['food_preparation_4']         = $this->input->post('food_preparation_4');
+
+            $data['food_origin_1']         = $this->input->post('food_origin_1');
+            $data['food_origin_2']         = $this->input->post('food_origin_2');
+            $data['food_origin_3']         = $this->input->post('food_origin_3');
+            $data['food_origin_4']         = $this->input->post('food_origin_4');
+
             $data['food_name1']         = $this->input->post('food_name1');
             $data['food_name2']         = $this->input->post('food_name2');
             $data['food_name3']         = $this->input->post('food_name3');
             $data['food_name4']         = $this->input->post('food_name4');
-
-            for ($food_img=1; $food_img <=4 ; $food_img++) 
-            {
-                if($_FILES["food_image$food_img"]["name"])
-                { 
-                    $file_name = $_FILES["food_image$food_img"]["name"];
-                    $file_tmp = $_FILES["food_image$food_img"]["tmp_name"];
-                    $ext=pathinfo($file_name,PATHINFO_EXTENSION);
-
-                    if(in_array($ext,$extension)) 
-                    {
-                        $filename = basename($file_name,$ext);
-                        $newFileName = $filename.time().".".$ext;
-                        $data["food_image$food_img"]  = $newFileName;
-                        move_uploaded_file($file_tmp,"uploads/product_image/".$newFileName);
-                    }
-                }    
-            }
-
+            $data['food_image1']         = $this->input->post('food_image1');
+            $data['food_image2']         = $this->input->post('food_image2');
+            $data['food_image3']         = $this->input->post('food_image3');
+            $data['food_image4']         = $this->input->post('food_image4');
             
             $total_img = $_FILES["images"];
             if ($this->db->get_where('business_settings',array('type' => 'commission_set'))->row()->value == 'no') 
@@ -804,6 +813,7 @@ class Vendor extends CI_Controller
                 {
                     $data["num_of_imgs"] = $this->crud_model->product_img_upload($total_img);
                     $this->db->insert('product', $data);
+                    echo $this->db->last_query();
                     $id = $this->db->insert_id();
                     $this->benchmark->mark_time();
                 }
@@ -835,23 +845,33 @@ class Vendor extends CI_Controller
             }
             $num                        = $this->crud_model->get_type_name_by_id('product', $para2, 'num_of_imgs');
             $download                   = $this->crud_model->get_type_name_by_id('product', $para2, 'download');
-            $data['title']              = $this->input->post('title');
-            $data['product_type']       = $this->input->post('product_type');
+            $data['title']     = $this->input->post('title');
+            $data['title_ch']     = $this->input->post('title_ch');
+            $data['title_jp']     = $this->input->post('title_jp');
             $data['variety']            = $this->input->post('variety');
             $data['is_low_stock']       = $this->input->post('is_low_stock');
             $data['product_year']       = $this->input->post('product_year');
             $data['regions']       = $this->input->post('regions');
             $data['product_abv']       = $this->input->post('product_abv');
             $data['category']           = $this->input->post('category');
-            $data['description']        = $this->input->post('description');
+             $data['description_en']        = $this->input->post('description_en');
+            $data['description_ch']        = $this->input->post('description_ch');
+            $data['description_jp']        = $this->input->post('description_jp');
             $data['sub_category']       = $this->input->post('sub_category');
             $data['unit']               = $this->input->post('unit');
             $data['limited_release']    = $this->input->post('limited_release');
             $data['tag']                = $this->input->post('tag');
             $data['test_section']       = $this->input->post('test_section');
-            $data['test_title']         = $this->input->post('test_title');
-            $data['test_sumary_title']  = $this->input->post('test_sumary_title');
-            $data['test_sumary']        = $this->input->post('test_sumary');
+           $data['test_title_en']         = $this->input->post('test_title_en');
+            $data['test_title_ch']         = $this->input->post('test_title_ch');
+            $data['test_title_jp']         = $this->input->post('test_title_jp');
+            
+            $data['test_sumary_title_en']        = $this->input->post('test_sumary_title_en');
+            $data['test_sumary_title_ch']        = $this->input->post('test_sumary_title_ch');
+            $data['test_sumary_title_jp']        = $this->input->post('test_sumary_title_jp');
+            $data['test_sumary_en']         = $this->input->post('test_sumary_en');
+            $data['test_sumary_ch']         = $this->input->post('test_sumary_ch');
+            $data['test_sumary_jp']         = $this->input->post('test_sumary_jp');
             $data['test1_name']         = $this->input->post('test1_name');
             $data['test1_number']       = $this->input->post('test1_number');
             $data['test2_name']         = $this->input->post('test2_name');
@@ -873,6 +893,7 @@ class Vendor extends CI_Controller
             $data['test55_name']      = $this->input->post('test55_name');  
             $data['test55_number']      = $this->input->post('test55_number');
             $data['wholesale']      = $this->input->post('wholesale'); 
+            $data['wholesale_EXCL_WET_GST'] = $this->input->post('wholesale_EXCL_WET_GST');
             $data['sale_price_AU']      = $this->input->post('sale_price_AU');
             $data['sale_price_HK']      = $this->input->post('sale_price_HK');
             $data['sale_price_JP']      = $this->input->post('sale_price_JP');
@@ -882,33 +903,24 @@ class Vendor extends CI_Controller
             $data['food_section']         = $this->input->post('food_section');
             $data['food_title']         = $this->input->post('food_title');
             $data['food_description']   = $this->input->post('food_description');
-            $data['food_name1']   = $this->input->post('food_name1');
-            $data['food_name2']   = $this->input->post('food_name2');
-            $data['food_name3']   = $this->input->post('food_name3');
-            $data['food_name4']   = $this->input->post('food_name4');
+            $data['food_preparation_1']         = $this->input->post('food_preparation_1');
+            $data['food_preparation_2']         = $this->input->post('food_preparation_2');
+            $data['food_preparation_3']         = $this->input->post('food_preparation_3');
+            $data['food_preparation_4']         = $this->input->post('food_preparation_4');
 
-            $extension = array("jpeg","jpg","png","gif");
-            for ($food_img=1; $food_img <=4 ; $food_img++) 
-            {
-                if($_FILES["food_image$food_img"]["name"])
-                { 
-                    $file_name = $_FILES["food_image$food_img"]["name"];
-                    $file_tmp = $_FILES["food_image$food_img"]["tmp_name"];
-                    $ext=pathinfo($file_name,PATHINFO_EXTENSION);
+            $data['food_origin_1']         = $this->input->post('food_origin_1');
+            $data['food_origin_2']         = $this->input->post('food_origin_2');
+            $data['food_origin_3']         = $this->input->post('food_origin_3');
+            $data['food_origin_4']         = $this->input->post('food_origin_4');
 
-                    if(in_array($ext,$extension)) 
-                    {
-                        $filename = basename($file_name,$ext);
-                        $newFileName = $filename.time().".".$ext;
-                        $data["food_image$food_img"]  = $newFileName;
-                        move_uploaded_file($file_tmp,"uploads/product_image/".$newFileName);
-                    }
-                    else
-                    {
-                        $data["food_image$food_img"]  = $this->input->post('last_food_image'.$food_img);
-                    }
-                }    
-            }
+            $data['food_name1']         = $this->input->post('food_name1');
+            $data['food_name2']         = $this->input->post('food_name2');
+            $data['food_name3']         = $this->input->post('food_name3');
+            $data['food_name4']         = $this->input->post('food_name4');
+            $data['food_image1']         = $this->input->post('food_image1');
+            $data['food_image2']         = $this->input->post('food_image2');
+            $data['food_image3']         = $this->input->post('food_image3');
+            $data['food_image4']         = $this->input->post('food_image4');
             
 
             $total_img = $_FILES["images"];
@@ -952,8 +964,10 @@ class Vendor extends CI_Controller
             $this->db->delete('product');
             $this->crud_model->set_category_data(0);
             recache();
+        }    
 
-        } elseif ($para1 == 'add_remove') {
+ 		elseif ($para1 == 'add_remove') {
+
             $data['product'] = $para2;
             $this->load->view('back/vendor/product_remove', $data);
             
@@ -995,7 +1009,6 @@ class Vendor extends CI_Controller
             }
             $this->db->where('added_by',json_encode(array('type'=>'vendor','id'=>$this->session->userdata('vendor_id'))));
             $this->db->where('download=',NULL);
-            $this->db->where('remove','1');
             $products   = $this->db->get('product', $limit, $offset)->result_array();
             $data       = array();
             $time = date("H:i:s");
@@ -1052,7 +1065,6 @@ class Vendor extends CI_Controller
                                             onclick=\"ajax_modal('add_remove','".translate('')."','".translate('remove_product!')."','add_remove','".$row['product_id']."')\" data-original-title=\"Edit\" data-container=\"body\">
                                         </a>";
                 } 
-
 
                 if($row['status'] == 'ok'){
                     $res['publish']  = '<input id="pub_'.$row['product_id'].'" class="sw1" type="checkbox" data-id="'.$row['product_id'].'" checked />';

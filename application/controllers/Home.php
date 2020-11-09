@@ -86,7 +86,7 @@ class Home extends CI_Controller
     /* FUNCTION: Loads Homepage*/
     public function index()
     {
-
+        
         //$this->output->enable_profiler(TRUE);
         //$page_data['min'] = $this->get_range_lvl('product_id !=', '', "min");
         //$page_data['max'] = $this->get_range_lvl('product_id !=', '', "max");
