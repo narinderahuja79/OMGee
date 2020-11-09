@@ -221,7 +221,7 @@
                             </div>
                             <!-- Test section -->
                             <div class="form-group btm_border">
-                                <label class="col-sm-4 control-label"><p>Taste Section</p></label>
+                                 <b class="pull-left"><?php echo "Taste Meter";?></b>
                                <div class="col-sm-6">  
                                     <input type="hidden" name="test_section" placeholder="<?php echo translate('test_section');?>" <?php if($row['test_section'] == 'yes') { echo "checked"; } ?>  value="yes">
                                </div>
@@ -580,18 +580,15 @@
                     <div class="col-sm-3">
                         <textarea type="text" name="test_sumary_jp" id="demo-hor-57" placeholder="<?php echo translate('test_sumary').' (Japanese)';?>" value="<?php echo $row['test_sumary_jp']; ?>" min="1" maxlength="250" class="form-control"></textarea>
                     </div>
-                </div>
-                            
-                           
-                            
-                            <!-- Food Section  -->
+                </div>            
+                <!-- Food Section  -->
                 <div class="form-group btm_border">
-                    <label class="col-sm-4 control-label" ><?php echo translate('food_section');?></label>
+                    <b class="pull-left"><?php echo "Food Pairing (Up to 4 Dishes)";?></b>
                     <div class="col-sm-6">
                         <input type="hidden" name="food_section" placeholder="<?php echo translate('food_section');?>" value="yes"  <?php if($row['food_section'] == 'yes') { echo "checked"; } ?>>
                     </div>
                 </div>
-                <div class="form-group btm_border hide_show_field">
+                <div style="display: none;" class="form-group btm_border hide_show_field">
                     <label class="col-sm-4 control-label" ><?php echo translate('food_title');?></label>
                     <div class="col-sm-6">
                         <input type="text" name="food_title" value="Food That Goes Well With This" placeholder="<?php echo translate('food_title');?>" value="<?php echo $row['food_title']; ?>" class="form-control">
