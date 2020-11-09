@@ -81,20 +81,20 @@
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-5">Volume (ml) </label>
                     <div class="col-sm-6">
-                        <input type="text" name="unit" id="demo-hor-5" placeholder="<?php echo translate('unit_(e.g._kg,_pc_etc.)'); ?>" class="form-control unit required">
+                        <input type="text" name="unit" id="demo-hor-5" placeholder="<?php echo translate('Volume (ml)'); ?>" class="form-control unit required">
                     </div>
                 </div>
                 <div class="form-group btm_border">
-                    <label class="col-sm-4 control-label" for="demo-hor-82"><?php echo translate('product_abv (%)');?></label>
+                    <label class="col-sm-4 control-label" for="demo-hor-82"><?php echo translate('product_abv').' (%)';?></label>
                     <div class="col-sm-6">
-                        <input type="number"   name="product_abv"  oninput="if(this.value.length==2) return false;" id="demo-hor-82" min="1" max="30" placeholder="<?php echo translate('_e.g._23%_per_bottle/can,_etc.'); ?>" class="form-control required product_abv">
+                        <input type="number"   name="product_abv"  oninput="if(this.value.length==2) return false;" id="demo-hor-82" min="1" max="30" placeholder="<?php echo translate('_e.g._23%'); ?>" class="form-control required product_abv">
                     </div>
                     <span id="product_abv_error"></span>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-11"><?php echo translate('tags');?></label>
                     <div class="col-sm-6">
-                        <input type="text" name="tag" data-role="tagsinput" placeholder="<?php echo translate('tags');?>" class="form-control">
+                        <input type="text" name="tag" data-role="tagsinput" placeholder="<?php echo "Awards, Certification, etc";?>" class="form-control">
                     </div>
                 </div>
                 <div class="form-group btm_border">
@@ -109,9 +109,20 @@
                 </div>
                 <div class="form-group btm_border" >
                     <label class="col-sm-4 control-label" for="demo-hor-4"><?php echo translate('brand');?></label>
-                    <div class="col-sm-6" >
-                        <?php echo $this->crud_model->select_html('vendorbrands','brand','name','add','demo-chosen-select ','',NULL); ?>  
-                    </div>
+                    <div class="col-sm-6">
+                    <select class="demo-chosen-select form-control" name="brand">
+                        <option value="">Select...</option>
+                        <?php
+                        $brands = $this->db->get_where('vendorbrands',array('user_id'=> $this->session->userdata('vendor_id')))->result_array();
+                        foreach ($brands as $key => $value) 
+                        {
+                            ?>
+                            <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-84"><?php echo translate('is_low_stock');?></label>
@@ -122,23 +133,23 @@
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description English</label>
                     <div class="col-sm-6">
-                        <textarea rows="9"  class="summernotes" data-height="200" data-name="description_en"></textarea>
+                        <textarea rows="5"  class="form-control" name="description_en"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description Chinese</label>
                     <div class="col-sm-6">
-                        <textarea rows="9"  class="summernotes" data-height="200" data-name="description_ch"></textarea>
+                        <textarea rows="5"  class="form-control" name="description_ch"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description Japanese</label>
                     <div class="col-sm-6">
-                        <textarea rows="9"  class="summernotes" data-height="200" data-name="description_jp"></textarea>
+                        <textarea rows="5"  class="form-control" name="description_jp"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border" >
-                    <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo translate('wholesale domestic');?></label>
+                    <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo translate('wholesale (INCL GST + WET)');?></label>
                     <div class="col-sm-6" >
                         <input type="number" min="1" name="wholesale" class="form-control ">
                     </div>
@@ -151,24 +162,24 @@
                 </div>
                 
                 <div class="form-group btm_border" >
-                    <label class="col-sm-1 control-label" for="demo-hor-5">AUD <?php echo translate('bundle_sale_price');?></label>
+                    <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (AUD)</label>
                     <div class="col-sm-2">
-                        <input type="number" min="1" name="sale_price_AU" class="form-control required">
+                        <input type="number" min="1" name="sale_price_AU" class="form-control required" placeholder="If applicable">
                     </div>
-                    <label class="col-sm-1 control-label" for="demo-hor-5">HKD <?php echo translate('bundle_sale_price');?></label>
+                    <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (HKD)</label>
                     <div class="col-sm-2">
-                        <input type="number" min="1" name="sale_price_HK" class="form-control">
+                        <input type="number" min="1" name="sale_price_HK" class="form-control" placeholder="If applicable">
                     </div>
-                    <label class="col-sm-1 control-label" for="demo-hor-5">JPY <?php echo translate('bundle_sale_price');?></label>
+                    <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (JP Yen)</label>
                     <div class="col-sm-2">
-                        <input type="number" min="1" name="sale_price_JP" class="form-control">
+                        <input type="number" min="1" name="sale_price_JP" class="form-control" placeholder="If applicable">
                     </div>
-                    <label class="col-sm-1 control-label" for="demo-hor-5">SGD <?php echo translate('bundle_sale_price');?></label>
+                    <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (SGD)</label>
                     <div class="col-sm-2">
-                        <input type="number" min="1" name="sale_price_SG" class="form-control">
+                        <input type="number" min="1" name="sale_price_SG" class="form-control" placeholder="If applicable">
                     </div>
                 </div>
-                <div class="form-group btm_border">
+                <div class="form-group btm_border" style="display: none;">
                     <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo translate('bundle_discount');?> (%)</label>
                     <div class="col-sm-6">
                         <input type="number" min="1" value="0" name="discount" class="form-control">
@@ -176,28 +187,18 @@
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label">
-                        <p><?php echo translate('test_section');?></p>
+                        <p><?php echo "Taste Meter";?></p>
                     </label>
                     <div class="col-sm-6">  
                         <input  name="test_section" type="checkbox" value="yes" >
                     </div>
                 </div>
-                <div class="form-group btm_border test_hide_show_field">
-                    <div class="col-sm-3">
-                        <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" class="form-control">
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" name="test_title_ch" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" name="test_title_jp" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
-                    </div>
-                </div>
+                
                 <!-- test Percentage -->
                 <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
                         <select name="test1_name" id="demo-hor-65"  class="form-control">
-                            <option value="">Select <?php echo translate('test1_name');?></option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -213,7 +214,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test1_number">
-                            <option value="">Select <?php echo translate('test1_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -228,7 +229,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="test11_name" id="demo-hor-67"   class="form-control">
-                            <option value="">Select <?php echo translate('test11_name');?>..</option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -244,7 +245,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test11_number">
-                            <option value="">Select <?php echo translate('test11_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -261,7 +262,7 @@
                 <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
                         <select name="test2_name" id="demo-hor-69"   class="form-control">
-                            <option value="">Select <?php echo translate('test2_name');?>..</option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -277,7 +278,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test2_number">
-                            <option value="">Select <?php echo translate('test2_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -292,7 +293,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="test22_name" id="demo-hor-71"   class="form-control">
-                            <option value="">Select <?php echo translate('test22_name');?>..</option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -308,7 +309,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test22_number">
-                            <option value="">Select <?php echo translate('test22_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -325,7 +326,7 @@
                 <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
                         <select name="test3_name" id="demo-hor-73"   class="form-control">
-                            <option value="">Select <?php echo translate('test3_name');?>..</option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -341,7 +342,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test3_number">
-                            <option value="">Select <?php echo translate('test3_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -356,7 +357,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="test33_name" id="demo-hor-75"   class="form-control">
-                            <option value="">Select <?php echo translate('test33_name');?>..</option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -372,7 +373,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test33_number">
-                            <option value="">Select <?php echo translate('test33_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -389,7 +390,7 @@
                 <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
                         <select name="test4_name" id="demo-hor-73"   class="form-control">
-                            <option value="">Select <?php echo translate('test4_name');?>..</option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -405,7 +406,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test4_number">
-                            <option value="">Select <?php echo translate('test4_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -420,7 +421,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="test44_name" id="demo-hor-73"   class="form-control">
-                            <option value="">Select <?php echo translate('test44_name');?>..</option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -436,7 +437,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test44_number">
-                            <option value="">Select <?php echo translate('test44_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -453,7 +454,7 @@
                 <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
                         <select name="test5_name" id="demo-hor-73"   class="form-control">
-                            <option value="">Select <?php echo translate('test5_name');?>..</option>
+                            <option value=""><?php echo translate('taste');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -469,7 +470,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test5_number">
-                            <option value="">Select <?php echo translate('test5_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -484,7 +485,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="test55_name" id="demo-hor-73"   class="form-control">
-                            <option value="">Select <?php echo translate('test55_name');?>..</option>
+                            <option value=""><?php echo translate('test55_name');?></option>
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
@@ -500,7 +501,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control" name="test55_number">
-                            <option value="">Select <?php echo translate('test55_number');?></option>
+                            <option value=""><?php echo translate('meter_level');?></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -512,6 +513,17 @@
                             <option value="8">8</option>
                             <option value="9">9</option>
                         </select>
+                    </div>
+                </div>
+                <div style="display: none;" class="form-group btm_border test_hide_show_field">
+                    <div class="col-sm-3">
+                        <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" name="test_title_ch" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" name="test_title_jp" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
                     </div>
                 </div>
                 <div class="form-group btm_border test_hide_show_field">
@@ -527,13 +539,13 @@
                 </div>
                 <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
-                        <textarea type="text" name="test_sumary_en" id="demo-hor-57" placeholder="<?php echo translate('test_sumary English');?>" min="1" maxlength="250" class="form-control"></textarea>
+                        <textarea type="text" name="test_sumary_en" id="demo-hor-57" placeholder="<?php echo translate('test_sumary').' (English)';?>" min="1" maxlength="250" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        <textarea type="text" name="test_sumary_ch" id="demo-hor-57" placeholder="<?php echo translate('test_sumary Chinese');?>" min="1" maxlength="250" class="form-control"></textarea>
+                        <textarea type="text" name="test_sumary_ch" id="demo-hor-57" placeholder="<?php echo translate('test_sumary').' (Chinese)';?>" min="1" maxlength="250" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        <textarea type="text" name="test_sumary_jp" id="demo-hor-57" placeholder="<?php echo translate('test_sumary Japanese');?>" min="1" maxlength="250" class="form-control"></textarea>
+                        <textarea type="text" name="test_sumary_jp" id="demo-hor-57" placeholder="<?php echo translate('test_sumary').' (Japanese)';?>" min="1" maxlength="250" class="form-control"></textarea>
                     </div>
                 </div>
                 <!-- Test section over -->
