@@ -223,7 +223,7 @@
                             <div class="form-group btm_border">
                                 <label class="col-sm-4 control-label"><p>Taste Section</p></label>
                                <div class="col-sm-6">  
-                                    <input type="checkbox" name="test_section" placeholder="<?php echo translate('test_section');?>" <?php if($row['test_section'] == 'yes') { echo "checked"; } ?>  value="yes">
+                                    <input type="hidden" name="test_section" placeholder="<?php echo translate('test_section');?>" <?php if($row['test_section'] == 'yes') { echo "checked"; } ?>  value="yes">
                                </div>
                             </div>
 
@@ -588,7 +588,7 @@
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" ><?php echo translate('food_section');?></label>
                     <div class="col-sm-6">
-                        <input type="checkbox" name="food_section" placeholder="<?php echo translate('food_section');?>" value="yes"  <?php if($row['food_section'] == 'yes') { echo "checked"; } ?>>
+                        <input type="hidden" name="food_section" placeholder="<?php echo translate('food_section');?>" value="yes"  <?php if($row['food_section'] == 'yes') { echo "checked"; } ?>>
                     </div>
                 </div>
                 <div class="form-group btm_border hide_show_field">
@@ -953,7 +953,7 @@ if($row['food_section'] != 'yes')
 {
     ?>
 <style type="text/css">
-    .hide_show_field
+    .xhide_show_field
     {
         display: none;
     }
@@ -967,7 +967,7 @@ if($row['test_section'] != 'yes')
 {
     ?>
      <style type="text/css">
-        .test_hide_show_field
+        .xtest_hide_show_field
         {
             display: none;
         }  
@@ -1655,8 +1655,11 @@ if($row['test_section'] != 'yes')
     show_image_funct(food_id=4,selected_paring="<?php echo $row['food_name4'] ?>",image_name="<?php echo $row['food_image4'] ?>");
     function show_image_funct(food_id,selected_paring,image_name)
     {
-        var images = '<span style="float:left;border:4px solid #303641;padding:5px;margin:5px;"><img style="height: 86px;width: 135px;" src="'+base_url+'uploads/food_paring/'+selected_paring+'/'+image_name+'"></span>';
-        $('.food_image'+food_id+'_preview').html(images);
+        if(image_name)
+        {
+            var images = '<span style="float:left;border:4px solid #303641;padding:5px;margin:5px;"><img style="height: 86px;width: 135px;" src="'+base_url+'uploads/food_paring/'+selected_paring+'/'+image_name+'"></span>';
+            $('.food_image'+food_id+'_preview').html(images);
+        }    
     }
 </script>
 <style>

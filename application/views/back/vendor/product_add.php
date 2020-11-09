@@ -191,7 +191,7 @@
                         <p><?php echo "Taste Meter";?></p>
                     </label>
                     <div class="col-sm-6">  
-                        <input  name="test_section" type="checkbox" value="yes" >
+                        <input  name="test_section" type="hidden" value="yes" >
                     </div>
                 </div>
                 
@@ -516,7 +516,7 @@
                         </select>
                     </div>
                 </div>
-                <div style="display: none;" class="form-group btm_border test_hide_show_field">
+                <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
                         <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" class="form-control">
                     </div>
@@ -554,7 +554,7 @@
                <!--  <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" ><?php echo translate('food_section');?></label>
                     <div class="col-sm-6">
-                        <input type="checkbox" name="food_section" placeholder="<?php echo translate('food_section');?>" value="yes">
+                        <input type="hidden" name="food_section" placeholder="<?php echo translate('food_section');?>" value="yes">
                     </div>
                 </div> -->
                <!--  <div class="form-group btm_border hide_show_field">
@@ -918,14 +918,14 @@
 <script src="<?php $this->benchmark->mark_time(); echo base_url(); ?>template/back/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
 <input type="hidden" id="option_count" value="-1">
 <style type="text/css">
-    .hide_show_field
+    /*.hide_show_field
     {
         display: none;
     }
     .test_hide_show_field
     {
         display: none;
-    }
+    }*/
 </style>
 <script>
     $("input[name = 'food_section']").click(function() {
