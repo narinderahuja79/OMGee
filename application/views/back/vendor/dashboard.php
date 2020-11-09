@@ -147,7 +147,7 @@
                 <div class="col-md-6 col-lg-6">
                     <div class="panel panel-bordered panel-purple">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "Total number of consumers"; ?></h3>
+                            <h3 class="panel-title"><?php echo "OMGee total number of consumers"; ?></h3>
                         </div>
                         <div class="panel-body">
                             <div class="text-center">
@@ -162,7 +162,7 @@
                 <div class="col-md-6 col-lg-6">
                     <div class="panel panel-bordered panel-success">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "OMGee Total sales per country"; ?></h3>
+                            <h3 class="panel-title"><?php echo "OMGee total sales per country"; ?></h3>
                         </div>
                         <div class="panel-body">
                             <div class="text-center">
@@ -200,7 +200,7 @@
 
                                     ?>
                                         <span class="label label-dark"> <?php echo $arr1['name']; ?> </span>
-                                        <span class="label label-success"> <?php echo $arr1['id']; ?></span>
+                                        <span class="label label-success"> <?php echo $arr1['id']; ?>%</span>
                                         <br><br>
                                     <?php
                                     }
@@ -242,7 +242,7 @@
                     </div>
                 </div> -->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">OMGee Top 5 Product sales volume (quantity) per Country</h1>
+                    <h1 class="page-header text-overflow">OMGee Top 5 Product sales per Country</h1>
                 </div><br><br>
 
 
@@ -266,16 +266,34 @@
                                                 <span class="label label-dark">
                                                     <?php echo $arr1['sub_category']; ?> </span>
                                                 <span class="label label-success">
-                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>
+                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
                                                 </span>
                                                 <br><br>
                                     <?php
                                             }
                                             $i++;
                                         }
-                                    }
+                                    }else{
                                     ?>
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10%</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Sparkling</span>
+                                        <span class="label label-success">8%</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Rum</span>
+                                        <span class="label label-success">5%</span>
+                                        <!-- <br><br>        
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10&</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10&</span>
+                                        <br><br>         -->
 
+                                    <?php
+                                        }
+                                    ?> 
 
                                     <!-- <span class="label label-black" style="display: none;"><?php echo currency('', 'def'); ?></span>
                                     <span class="label label-black">0</span> -->
@@ -303,16 +321,34 @@
                                                 <span class="label label-dark">
                                                     <?php echo $arr1['sub_category']; ?> </span>
                                                 <span class="label label-success">
-                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>
+                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
                                                 </span>
                                                 <br><br>
                                     <?php
                                             }
                                             $i++;
                                         }
-                                    }
+                                    }else{
                                     ?>
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10%</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Sparkling</span>
+                                        <span class="label label-success">8%</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Rum</span>
+                                        <span class="label label-success">5%</span>
+                                        <!-- <br><br>        
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10&</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10&</span>
+                                        <br><br>         -->
 
+                                    <?php
+                                        }
+                                    ?> 
                                 </p>
                             </div>
                         </div>
@@ -336,16 +372,34 @@
                                                 <span class="label label-dark">
                                                     <?php echo $arr1['sub_category']; ?> </span>
                                                 <span class="label label-success">
-                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>
+                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
                                                 </span>
                                                 <br><br>
                                     <?php
                                             }
                                             $i++;
                                         }
-                                    }
+                                    }else{
                                     ?>
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10%</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Sparkling</span>
+                                        <span class="label label-success">8%</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Rum</span>
+                                        <span class="label label-success">5%</span>
+                                        <!-- <br><br>        
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10&</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10&</span>
+                                        <br><br>         -->
 
+                                    <?php
+                                        }
+                                    ?> 
                                 </p>
                             </div>
                         </div>
@@ -369,15 +423,34 @@
                                                 <span class="label label-dark">
                                                     <?php echo $arr1['sub_category']; ?> </span>
                                                 <span class="label label-success">
-                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>
+                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
                                                 </span>
                                                 <br><br>
                                     <?php
                                             }
                                             $i++;
                                         }
-                                    }
+                                    }else{
                                     ?>
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10%</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Sparkling</span>
+                                        <span class="label label-success">8%</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Rum</span>
+                                        <span class="label label-success">5%</span>
+                                        <!-- <br><br>        
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10&</span>
+                                        <br><br>        
+                                        <span class="label label-dark">Rose</span>
+                                        <span class="label label-success">10&</span>
+                                        <br><br>         -->
+
+                                    <?php
+                                        }
+                                    ?> 
 
                                 </p>
                             </div>
@@ -388,7 +461,7 @@
                 <div class="col-md-4 col-lg-4">
                     <div class="panel panel-bordered panel-black">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "Total sales Quantity"; ?></h3>
+                            <h3 class="panel-title"><?php echo "Total sales quantity"; ?></h3>
                         </div>
                         <div class="panel-body">
                             <div class="text-center">
@@ -420,7 +493,7 @@
                 <div class="col-md-4 col-lg-4">
                     <div class="panel panel-bordered panel-success">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "Total sales Quantity  per country"; ?></h3>
+                            <h3 class="panel-title"><?php echo "Total sales quantity  per country"; ?></h3>
                         </div>
                         <div class="panel-body">
                             <div class="text-center">

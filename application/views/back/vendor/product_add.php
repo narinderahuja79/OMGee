@@ -538,28 +538,37 @@
                 </div>
                 <!-- Test section over -->
                 <!-- Food Section  -->
-                <div class="form-group btm_border">
+               <!--  <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" ><?php echo translate('food_section');?></label>
                     <div class="col-sm-6">
                         <input type="checkbox" name="food_section" placeholder="<?php echo translate('food_section');?>" value="yes">
                     </div>
-                </div>
-                <div class="form-group btm_border hide_show_field">
+                </div> -->
+               <!--  <div class="form-group btm_border hide_show_field">
                     <label class="col-sm-4 control-label" ><?php echo translate('food_title');?></label>
                     <div class="col-sm-6">
                         <input type="text" name="food_title" value="Food That Goes Well With This" placeholder="<?php echo translate('food_title');?>" class="form-control">
                     </div>
+                </div> -->
+
+               <!--   <div class="form-group btm_border">
+                    <label class="col-sm-6 control-label" ><?php echo "Describe dishes that pair nicely with your product";?>
+                    </label>
                 </div>
-                <div class="form-group btm_border hide_show_field">
-                    <label class="col-sm-4 control-label" ><?php echo translate('food_description');?></label>
-                    <div class="col-sm-6">
+ -->
+                <div class="form-group btm_border">
+                    <label class="col-sm-4 control-label" ><?php //echo('food_description');?></label>
+
+                    <div class="col-sm-6"> 
+                        <?php echo "Describe dishes that pair nicely with your product";?>
+                        <br><br>
                         <textarea name="food_description" maxlength="250" rows="3" placeholder="<?php echo translate('food_description');?>" class="form-control"></textarea>
                     </div>
                 </div>
-                <div class="form-group btm_border hide_show_field">
+                <div class="form-group btm_border"> 
                     <div class="col-sm-3">
                         <select name="food_preparation_1" class="form-control">
-                            <option value="">Select <?php echo translate('food_preparation_1');?>...</option>
+                            <option value=""><?php echo "Preparation 1" //translate('food_preparation_1');?>...</option>
                             <option value="Spicy">Spicy</option>
                             <option value="Grilled">Grilled</option>
                             <option value="Fried">Fried</option>
@@ -585,7 +594,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="food_origin_1" class="form-control">
-                            <option value="">Select <?php echo translate('food_origin_1');?>...</option>
+                            <option value=""><?php echo "Origin 1"; //translate('food_origin_1');?>...</option>
                             <option value="Chinese">Chinese</option>
                             <option value="Indonesian">Indonesian</option>
                             <option value="Malaysian">Malaysian</option>
@@ -605,7 +614,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="food_name1" class="form-control food_name" data-id="1">
-                            <option value="">Select <?php echo translate('food_pairing_1');?>...</option>
+                            <option value=""><?php echo "Pairing 1";//translate('food_pairing_1');?>...</option>
                                 <option value="Appetizer">Appetizers</option>
                                 <option value="Snacks">Snacks(peanuts,crackers)</option>
                                 <option value="Beef">Beef</option>
@@ -636,10 +645,10 @@
                     <div class="col-sm-3 food_image1_preview">
                     </div>
                 </div>
-                <div class="form-group btm_border hide_show_field">
+                <div class="form-group btm_border">
                     <div class="col-sm-3">
                         <select name="food_preparation_2" class="form-control">
-                            <option value="">Select <?php echo translate('food_preparation_2');?>...</option>
+                            <option value=""><?php echo "Preparation 2"; //translate('food_preparation_2');?>...</option>
                             <option value="Spicy">Spicy</option>
                             <option value="Grilled">Grilled</option>
                             <option value="Fried">Fried</option>
@@ -665,7 +674,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="food_origin_2" class="form-control">
-                            <option value="">Select <?php echo translate('food_origin_2');?>...</option>
+                            <option value=""><?php echo "Origin 2";//translate('food_origin_2');?>...</option>
                             <option value="Chinese">Chinese</option>
                             <option value="Indonesian">Indonesian</option>
                             <option value="Malaysian">Malaysian</option>
@@ -685,7 +694,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="food_name2" class="form-control food_name" data-id="2">
-                            <option value="">Select <?php echo translate('food_pairing_2');?>...</option>
+                            <option value=""><?php echo "Pairing 2"; //translate('food_pairing_2');?>...</option>
                             <option value="Appetizer">Appetizers</option>
                               <option value="Snacks">Snacks(peanuts,crackers)</option>
                               <option value="Beef">Beef</option>
@@ -716,10 +725,10 @@
                     <div class="col-sm-3 food_image2_preview">
                     </div>
                 </div>
-                <div class="form-group btm_border hide_show_field">
+                <div class="form-group btm_border">
                     <div class="col-sm-3">
                         <select name="food_preparation_3" class="form-control">
-                            <option value="">Select <?php echo translate('food_preparation_1');?>...</option>
+                            <option value=""><?php echo "Preparation 1"; //translate('food_preparation_1');?>...</option>
                             <option value="Spicy">Spicy</option>
                             <option value="Grilled">Grilled</option>
                             <option value="Fried">Fried</option>
@@ -745,7 +754,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="food_origin_3" class="form-control">
-                            <option value="">Select <?php echo translate('food_origin_1');?>...</option>
+                            <option value=""><?php echo "Origin 1"; //translate('food_origin_1');?>...</option>
                             <option value="Chinese">Chinese</option>
                             <option value="Indonesian">Indonesian</option>
                             <option value="Malaysian">Malaysian</option>
@@ -765,7 +774,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="food_name3" class="form-control food_name" data-id="3">
-                            <option value="">Select <?php echo translate('food_pairing_3');?>...</option>
+                            <option value=""><?php echo "Pairing 3"; //translate('food_pairing_3');?>...</option>
                             <option value="Appetizer">Appetizers</option>
                               <option value="Snacks">Snacks(peanuts,crackers)</option>
                               <option value="Beef">Beef</option>
@@ -796,10 +805,10 @@
                     <div class="col-sm-3 food_image3_preview">
                     </div>
                 </div>
-                <div class="form-group btm_border hide_show_field">
+                <div class="form-group btm_border">
                     <div class="col-sm-3">
                         <select name="food_preparation_4" class="form-control">
-                            <option value="">Select <?php echo translate('food_preparation_4');?>...</option>
+                            <option value=""><?php echo "Preparation 4"; //translate('food_preparation_4');?>...</option>
                             <option value="Spicy">Spicy</option>
                             <option value="Grilled">Grilled</option>
                             <option value="Fried">Fried</option>
@@ -825,7 +834,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="food_origin_4" class="form-control">
-                            <option value="">Select <?php echo translate('food_origin_4');?>...</option>
+                            <option value=""><?php echo "Preparation 4";//translate('food_origin_4');?>...</option>
                             <option value="Chinese">Chinese</option>
                             <option value="Indonesian">Indonesian</option>
                             <option value="Malaysian">Malaysian</option>
@@ -845,7 +854,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="food_name4" class="form-control food_name" data-id="4">
-                            <option value="">Select <?php echo translate('food_pairing_4');?>...</option>
+                            <option value=""><?php echo "Pairing 4";//translate('food_pairing_4');?>...</option>
                             <option value="Appetizer">Appetizers</option>
                               <option value="Snacks">Snacks(peanuts,crackers)</option>
                               <option value="Beef">Beef</option>
