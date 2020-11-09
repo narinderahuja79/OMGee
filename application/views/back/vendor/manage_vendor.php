@@ -54,38 +54,38 @@
                                         </div>
 
                                         <div class="form-group btm_border">
-										    <label class="col-sm-3 control-label" ><?php echo translate('company_logo');?> (Image PNG)</label>
-										    <div class="col-sm-6">
-										        <span class="pull-left btn btn-default btn-file"> <?php echo translate('choose_file');?>
-										            <input type="file" multiple name="company_image[]" onchange="preview(this);" id="demo-hor-inputpass" class="form-control">
-										            <input type="hidden"  name="last_images" value="<?php echo $row['company_image']; ?>">
-										        </span>
-										        <br><br>
-										        <span id="previewImg" ></span>
-										    </div>
-										</div>
-										
-											<div class="form-group btm_border">
-											    <label class="col-sm-3 control-label"></label>
-											    <div class="col-sm-6">
-											        <?php 
-											            $images = explode(",",$row['company_image']);
-											            // print_r($images);
-											            if($images){
-											                foreach ($images as $row1){
-											        ?>
-											            <div class="delete-div-wrap">
-											                <span class="close">&times;</span>
-											                <div class="inner-div">
-											                    <img class="img-responsive" width="100" src="<?php echo base_url(); ?>uploads/events_image/<?php echo $row1; ?> "alt="User_Image" >
-											                </div>
-											            </div>
-											        <?php 
-											                }
-											            } 
-											        ?>
-											    </div>
-											</div>
+                                            <label class="col-sm-3 control-label" ><?php echo translate('company_logo');?> (Image PNG)</label>
+                                            <div class="col-sm-6">
+                                                <span class="pull-left btn btn-default btn-file"> <?php echo translate('choose_file');?>
+                                                    <input type="file" multiple name="company_image[]" onchange="preview(this);" id="demo-hor-inputpass" class="form-control">
+                                                    <input type="hidden"  name="last_images" value="<?php echo $row['company_image']; ?>">
+                                                </span>
+                                                <br><br>
+                                                <span id="previewImg" ></span>
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="form-group btm_border">
+                                                <label class="col-sm-3 control-label"></label>
+                                                <div class="col-sm-6">
+                                                    <?php 
+                                                        $images = explode(",",$row['company_image']);
+                                                        // print_r($images);
+                                                        if($images){
+                                                            foreach ($images as $row1){
+                                                    ?>
+                                                        <div class="delete-div-wrap">
+                                                            <span class="close">&times;</span>
+                                                            <div class="inner-div">
+                                                                <img class="img-responsive" width="100" src="<?php echo base_url(); ?>uploads/events_image/<?php echo $row1; ?> "alt="User_Image" >
+                                                            </div>
+                                                        </div>
+                                                    <?php 
+                                                            }
+                                                        } 
+                                                    ?>
+                                                </div>
+                                            </div>
 
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
@@ -130,12 +130,12 @@
                                             <div class="col-sm-2">
                                                 <div class="select-wrapper">
                                                     <select name="phone_code" class="form-control">
-	                                                    <option value="<?php echo ucwords($row['phone_code']); ?>">+<?php echo ucwords($row['phone_code']); ?></option>
-	                                                    <option value="61">(+61) Australia</option>
-	                                                    <option value="81">(+81) Japan</option>
-	                                                    <option value="852">(+852) Hong Kong </option>
-	                                                    <option value="65">(+65) Singapore</option>
-                                               		</select>
+                                                        <option value="<?php echo ucwords($row['phone_code']); ?>">+<?php echo ucwords($row['phone_code']); ?></option>
+                                                        <option value="61">(+61) Australia</option>
+                                                        <option value="81">(+81) Japan</option>
+                                                        <option value="852">(+852) Hong Kong </option>
+                                                        <option value="65">(+65) Singapore</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
@@ -298,12 +298,12 @@
                                             <div class="col-sm-2">
                                                 <div class="select-wrapper">
                                                     <select name="direct_code" class="form-control">
-	                                                    <option value="<?php echo ucwords($row['direct_code']); ?>">+<?php echo ucwords($row['direct_code']); ?></option>
-	                                                    <option value="61">(+61) Australia</option>
-	                                                    <option value="81">(+81) Japan</option>
-	                                                    <option value="852">(+852) Hong Kong </option>
-	                                                    <option value="65">(+65) Singapore</option>
-                                               		</select>
+                                                        <option value="<?php echo ucwords($row['direct_code']); ?>">+<?php echo ucwords($row['direct_code']); ?></option>
+                                                        <option value="61">(+61) Australia</option>
+                                                        <option value="81">(+81) Japan</option>
+                                                        <option value="852">(+852) Hong Kong </option>
+                                                        <option value="65">(+65) Singapore</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
@@ -411,18 +411,18 @@
 
                         <br>
                         <div class="table-responsive">
-						    <table  id="user_data" class="table table-striped table-bordered">
-						        <thead>
-						            <tr>
-						                <th>Brand</th>
-						                <th>Logo (Image PNG)</th>
-						                <th>Category</th>
-						                <th>Action</th>
-						            </tr>
-						        </thead>
-						        <tbody>
-						            <tr>
-						                <?php
+                            <table  id="user_data" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Brand</th>
+                                        <th>Logo (Image PNG)</th>
+                                        <th>Category</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <?php
                                             // echo form_open(base_url() . 'vendor/manage_vendor/update_profile/', array(
                                             //     'class' => 'form-horizontal',
                                             //     'method' => 'post'
@@ -431,16 +431,16 @@
 
                                         <form class="form-horizontal" enctype="multipart/form-data" method="post" action="<?php echo base_url('vendor/add_brand');?>"> 
 
-						                    <td>
-						                        <div class="form-group">
+                                            <td>
+                                                <div class="form-group">
                                                     <input type="text" name="brands" placeholder="<?php echo translate('brand_name'); ?>"  value="<?php echo ucwords($row['brands']); ?>"  class="form-control ">
                                                 </div>
-						                    </td>
-						                    <td>
-						                        <div class="form-group">
-						                            <input type="file" name="brand_image" class="form-control">
-						                        </div>
-						                    </td>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="file" name="brand_image" class="form-control">
+                                                </div>
+                                            </td>
                                             <td>
                                                <div class="form-group">
                                                     <?php  $row=$this->db->get("category");?>
@@ -462,24 +462,24 @@
                                                     </select>
                                                 </div>
                                             </td>
-						                    <td>  
+                                            <td>  
                                                 <button type="submit" name="uploadimg">Update</button>
 
 
-<!-- 						                        <input type="hidden"value="<?php echo$this->session->userdata('vendor_id'); ?>"name="vendor_id"> -->
+<!--                                                <input type="hidden"value="<?php echo$this->session->userdata('vendor_id'); ?>"name="vendor_id"> -->
 
-						                        <!--  <span class="btn btn-info submitter enterer" data-ing='<?php echo translate('Saving..'); ?>' data-msg='<?php echo translate('Added!'); ?>'>
+                                                <!--  <span class="btn btn-info submitter enterer" data-ing='<?php echo translate('Saving..'); ?>' data-msg='<?php echo translate('Added!'); ?>'>
                                                     <?php //echo translate('Add');?>
                                                 </span>  -->
-						                    </td>
-						                </form>
-						            </tr>
-						        </tbody>
-						    </table>
-						</div>
-						<div class="panel-footer text-right">
-						    
-						</div>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer text-right">
+                            
+                        </div>
 
 
                         <!-- <div class="panel-heading">
@@ -956,97 +956,9 @@
 
 
 
-  
-<script type="text/javascript" language="javascript" >
-$(document).ready(function(){  
-  
-  function load_data()
-  {
-
-    $.ajax({
-      url:"<?php echo base_url(); ?>live/load_data",
-      dataType:"JSON",
-      success:function(data){  
-        var html = '<tr>';
-        html += '<td id="first_name" contenteditable placeholder="Enter Vendor Brnad Name"></td>';
-
-         html += '<td><select class="form-control"style="background:transparent;border:none;"><option>Category</option><?php  $row=$this->db->get("brand_category"); foreach($row->result() as $cat){ ?> <option> <?php echo$cat->category_name; ?> </option> <?php }?>
-                                                    </select></td>';
-
-        
-         html += '<td><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span></button></td></tr>';
-        for(var count = 0; count < data.length; count++)
-        {
-          html += '<tr>';
-          html += '<td class="table_data" data-row_id="'+data[count].id+'" data-column_name="first_name" contenteditable>'+data[count].name+'</td>';
-
-          html += '<td></td>';
-
-          
-          html += '<td><button type="button" name="delete_btn" id="'+data[count].id+'" class="btn btn-xs btn-danger btn_delete"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
-        }
-        $('tbody').html(html);
-      },
-      error:function(){
-
-        alert('error');
-      }
-    });
-  }
-
-  load_data();
-
-  $(document).on('click', '#btn_add', function(){
-    var vendor_name = $('#first_name').text();
-    
-    if(vendor_name == '')
-    {
-      alert('Enter Vendor Brand Name');
-      return false;
-    }
-  
-    $.ajax({
-      url:"<?php echo base_url(); ?>live/insert",
-      method:"POST",
-      data:{vendor_name:vendor_name},
-      success:function(data){
-        load_data();
-      }
-    })
-  });
-
-  $(document).on('blur', '.table_data', function(){
-    var id = $(this).data('row_id');
-    var table_column = $(this).data('column_name');
-    var value = $(this).text();
-    $.ajax({
-      url:"<?php echo base_url(); ?>live/update",
-      method:"POST",
-      data:{id:id, table_column:table_column, value:value},
-      success:function(data)
-      {
-        load_data();
-      }
-    })
-  });
-
-  $(document).on('click', '.btn_delete', function(){
-    var id = $(this).attr('id');
-    if(confirm("Are you sure you want to delete this?"))
-    {
-      $.ajax({
-        url:"<?php echo base_url(); ?>live/delete",
-        method:"POST",
-        data:{id:id},
-        success:function(data){
-          load_data();
-        }
-      })
-    }
-  });
-  
-});
-</script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>  
+      <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>            
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
 
 
 
