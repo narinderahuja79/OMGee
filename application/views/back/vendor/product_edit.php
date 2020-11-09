@@ -227,17 +227,7 @@
                                </div>
                             </div>
 
-                            <div class="form-group btm_border test_hide_show_field">
-                                <div class="col-sm-3">
-                                    <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" value="<?php echo $row['test_title_en']; ?>" class="form-control">
-                                </div>
-                                <div class="col-sm-3">
-                                    <input type="text" name="test_title_ch" id="demo-hor-55" value="<?php echo $row['test_title_ch']; ?>" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
-                                </div>
-                                <div class="col-sm-3">
-                                    <input type="text" name="test_title_jp" id="demo-hor-55"  value="<?php echo $row['test_title_jp']; ?>" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
-                                </div>
-                            </div>
+                            
                             <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
                         <select name="test1_name" id="demo-hor-65"  class="form-control">
@@ -558,14 +548,25 @@
                         </select>
                     </div>
                 </div>
-                <div style="display: none;" class="form-group btm_border test_hide_show_field">
-                    <div class="col-sm-3">
+                <div class="form-group btm_border test_hide_show_field">
+                                <div class="col-sm-3">
+                                    <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" value="<?php echo $row['test_title_en']; ?>" class="form-control">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" name="test_title_ch" id="demo-hor-55" value="<?php echo $row['test_title_ch']; ?>" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" name="test_title_jp" id="demo-hor-55"  value="<?php echo $row['test_title_jp']; ?>" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
+                                </div>
+                            </div>
+                <div  class="form-group btm_border test_hide_show_field">
+                    <div class="col-sm-3" style="display: none;">
                         <input type="text" name="test_sumary_title_en" id="demo-hor-56" placeholder="<?php echo translate('test_sumary_title ');?>" value="<?php echo $row['test_sumary_title_en']; ?>" min="1" max="100" class="form-control">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <input type="text" name="test_sumary_title_ch" id="demo-hor-56" placeholder="<?php echo translate('test_sumary_title Chinese');?>" value="<?php echo $row['test_sumary_title_ch']; ?>" min="1" max="100" class="form-control">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <input type="text" name="test_sumary_title_jp" id="demo-hor-56" placeholder="<?php echo translate('test_sumary_title Japanese');?>" value="<?php echo $row['test_sumary_title_jp']; ?>" min="1" max="100" class="form-control">
                     </div>
                 </div>
@@ -574,7 +575,7 @@
                         <textarea type="text" name="test_sumary_en" id="demo-hor-57" placeholder="<?php echo translate('test_sumary')." (English)";?>" value="<?php echo $row['test_sumary_en']; ?>" min="1" maxlength="250" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        <textarea type="text" name="test_sumary_ch" id="demo-hor-57" placeholder="<?php echo translate('test_sumary').' (Chinese)';?>" value="<?php echo $row['test_sumary_ch']; ?>" min="1" maxlength="250" class="form-control"></textarea>
+                        <textarea type="text" name="test_sumary_ch" id="demo-hor-57" placeholder="<?php echo translate('test_sumary').' (Simplified Chinese)';?>" value="<?php echo $row['test_sumary_ch']; ?>" min="1" maxlength="250" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
                         <textarea type="text" name="test_sumary_jp" id="demo-hor-57" placeholder="<?php echo translate('test_sumary').' (Japanese)';?>" value="<?php echo $row['test_sumary_jp']; ?>" min="1" maxlength="250" class="form-control"></textarea>

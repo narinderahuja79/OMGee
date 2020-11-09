@@ -60,10 +60,10 @@
                         <input type="text" name="title" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control required">English
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" name="title_ch" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control required">Chinese
+                        <input type="text" name="title_ch" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control">Chinese
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" name="title_jp" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control required">Japanese
+                        <input type="text" name="title_jp" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control">Japanese
                     </div>
                 </div>
                 <div class="form-group btm_border">
@@ -528,13 +528,13 @@
                     </div>
                 </div>
                 <div class="form-group btm_border test_hide_show_field">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3"  style="display: none;" >
                         <input type="text" name="test_sumary_title_en" id="demo-hor-56" placeholder="<?php echo translate('test_sumary_title English');?>" min="1" max="100" class="form-control">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3"  style="display: none;" >
                         <input type="text" name="test_sumary_title_ch" id="demo-hor-56" placeholder="<?php echo translate('test_sumary_title Chinese');?>" min="1" max="100" class="form-control">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3"  style="display: none;" >
                         <input type="text" name="test_sumary_title_jp" id="demo-hor-56" placeholder="<?php echo translate('test_sumary_title Japanese');?>" min="1" max="100" class="form-control">
                     </div>
                 </div>
