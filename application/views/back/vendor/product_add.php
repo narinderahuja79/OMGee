@@ -110,7 +110,7 @@
                 <div class="form-group btm_border" >
                     <label class="col-sm-4 control-label" for="demo-hor-4"><?php echo translate('brand');?></label>
                     <div class="col-sm-6" >
-                        <?php echo $this->crud_model->select_html('vendorbrands','brand','name','add','demo-chosen-select ','',NULL); ?>  
+                        <?php echo $this->crud_model->select_brand('vendorbrands','brand','name','add','demo-chosen-select ','',NULL); ?>  
                     </div>
                 </div>
                 <div class="form-group btm_border">
