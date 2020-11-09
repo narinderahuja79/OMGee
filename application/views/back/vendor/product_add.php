@@ -123,6 +123,7 @@
                         ?>
                     </select>
                 </div>
+                   
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-84"><?php echo translate('is_low_stock');?></label>

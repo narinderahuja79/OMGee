@@ -965,7 +965,9 @@ class Vendor extends CI_Controller
             $this->crud_model->set_category_data(0);
             recache();
         }    
+
  		elseif ($para1 == 'add_remove') {
+
             $data['product'] = $para2;
             $this->load->view('back/vendor/product_remove', $data);
             

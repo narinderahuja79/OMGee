@@ -383,6 +383,107 @@ class Crud_model extends CI_Model
         return $return;
     }
 
+
+ function select_brand($from, $name, $field, $type, $class, $e_match = '', $condition = '', $c_match = '', $onchange = '',$condition_type='single', $is_none = '')
+    {
+        $return = '';
+        $other  = '';
+        $multi  = 'no';
+        $phrase = 'Choose a ' . $name;
+
+        $vendor_id=$this->session->userdata('vendor_id');
+
+
+        if ($class == 'demo-cs-multiselect') {
+            $other = 'multiple';
+            $name  = $name . '[]';
+            if ($type == 'edit') {
+                $e_match = json_decode($e_match);
+                if ($e_match == NULL) {
+                    $e_match = array();
+                }
+                $multi = 'yes';
+            }
+        }
+        $return = '<select name="' . $name . '" onChange="' . $onchange . '(this.value,this)" class="' . $class . '" ' . $other . '  data-placeholder="' . $phrase . '" tabindex="2" data-hide-disabled="true" >';
+        if (!is_array($from)) {
+            if ($condition == '') {  
+
+
+             $this->db->where('user_id',$vendor_id);
+                $all = $this->db->get($from)->result_array();
+            } else if ($condition !== '') {
+                if($condition_type=='single'){
+                    $all = $this->db->get_where($from, array(
+                        $condition => $c_match
+                    ))->result_array();
+                }else if($condition_type=='multi'){
+                    $this->db->where_in($condition,$c_match);
+                    $all = $this->db->get($from)->result_array();
+                }
+            }
+            if ($is_none == 'none') {
+                $return .= '<option value="">Choose one</option>
+                            <option value="none">None/All Brands</option>';
+            } else {
+                $return .= '<option value="">Choose one</option>';
+            }
+            
+            foreach ($all as $row):
+                if ($type == 'add') {
+                    $return .= '<option value="' . $row[$from . '_id'] . '">' . $row[$field] . '</option>';
+                } else if ($type == 'edit') {
+                    $return .= '<option value="' . $row[$from . '_id'] . '" ';
+                    if ($multi == 'no') {
+                        if ($row[$from . '_id'] == $e_match) {
+                            $return .= 'selected=."selected"';
+                        }
+                    } else if ($multi == 'yes') {
+                        if (in_array($row[$from . '_id'], $e_match)) {
+                            $return .= 'selected=."selected"';
+                        }
+                    }
+                    $return .= '>' . $row[$field] . '</option>';
+                }
+            endforeach;
+        } else {
+            $all = $from;
+            if ($is_none == 'none') {
+                $return .= '<option value="">Choose one</option>
+                            <option value="none">None/All Brands</option>';
+            } else {
+                $return .= '<option value="">Choose one</option>';
+            }
+            foreach ($all as $row):
+                if ($type == 'add') {
+                    $return .= '<option value="' . $row . '">';
+                    if ($condition == '') {
+                        $return .= ucfirst(str_replace('_', ' ', $row));
+                    } else {
+                        $return .= $this->crud_model->get_type_name_by_id($condition, $row, $c_match);
+                    }
+                    $return .= '</option>';
+                } else if ($type == 'edit') {
+                    $return .= '<option value="' . $row . '" ';
+                    if ($row == $e_match) {
+                        $return .= 'selected=."selected"';
+                    }
+                    $return .= '>';
+                    
+                    if ($condition == '') {
+                        $return .= ucfirst(str_replace('_', ' ', $row));
+                    } else {
+                        $return .= $this->crud_model->get_type_name_by_id($condition, $row, $c_match);
+                    }
+                    
+                    $return .= '</option>';
+                }
+            endforeach;
+        }
+        $return .= '</select>';
+        return $return;
+    }
+
     /////////SELECT HTML/////////////
     function select_html($from, $name, $field, $type, $class, $e_match = '', $condition = '', $c_match = '', $onchange = '',$condition_type='single', $is_none = '')
     {
@@ -403,7 +504,10 @@ class Crud_model extends CI_Model
         }
         $return = '<select name="' . $name . '" onChange="' . $onchange . '(this.value,this)" class="' . $class . '" ' . $other . '  data-placeholder="' . $phrase . '" tabindex="2" data-hide-disabled="true" >';
         if (!is_array($from)) {
-            if ($condition == '') {
+            if ($condition == '') {  
+
+
+            //$this->db->where('user_id',$vendor_id);
                 $all = $this->db->get($from)->result_array();
             } else if ($condition !== '') {
                 if($condition_type=='single'){
