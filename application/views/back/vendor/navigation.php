@@ -22,12 +22,25 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                 </span>
                             </a>
                         </li><!--Menu list item-->
+
+
+
+                        <li <?php if($page_name=="manage_vendor"){?> class="active-link" <?php } ?> >
+                            <a href="<?php echo base_url(); ?>vendor/manage_vendor/">
+                                <i class="fa fa-lock"></i>
+                                <span class="menu-title">
+                                    <?php echo translate('manage_profile');?>
+                                </span>
+                            </a>
+                        </li>
+                        
+
                         <li <?php if($page_name=="product"){?> class="active-link" <?php } ?> 
                             style="border-top:1px solid rgba(69, 74, 84, 0.7);">
                             <a href="<?php echo base_url(); ?>vendor/product">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span class="menu-title">
-                                    <?php echo translate('all_products');?>
+                                    <?php echo "Products"; //translate('all_products');?>
                                 </span>
                             </a>
                         </li>
@@ -119,6 +132,10 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                 }
                             ?>
                             
+
+
+
+
                             <?php
                                 if($this->crud_model->vendor_permission('digital') ){
                             ?>
@@ -139,6 +156,17 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
 								}
 							}
 						?>
+
+
+                            <li  <?php if($page_name=="events"){?> class="active-link" <?php } ?> >
+                                <a href="<?php echo base_url(); ?>vendor/events">
+                                <i class="fa fa-file-video-o"></i>
+                                <span class="menu-title">
+                                    <?php echo translate('live_stream_event');;?>
+                                </span>
+                            </a>
+                        </li>  
+
                         <?php
 						if($physical_check == 'ok' && $digital_check !== 'ok'){  
                         	if( $this->crud_model->vendor_permission('product') || 
@@ -237,6 +265,9 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                         <?php
 							}
 						?> 
+
+                 
+
                           
                         <!--  Package Upgrade History -->
 						<?php
@@ -275,10 +306,10 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                         ?>
 						
                         <?php
-							if($this->crud_model->vendor_permission('report')){
+							//if($this->crud_model->vendor_permission('report')){
 						?>
                         <!--Menu list item-->
-                        <li <?php if($page_name=="report" || 
+                       <!--  <li <?php if($page_name=="report" || 
                                         $page_name=="report_stock" ||
                                             $page_name=="report_wish" ){?>
                                                      class="active-sub" 
@@ -291,7 +322,7 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                 		<i class="fa arrow"></i>
                             </a>
                             
-                            <!--REPORT-------------------->
+                           
                             <ul class="collapse <?php if($page_name=="report" || 
                                                             $page_name=="report_stock" ||
                                                                 $page_name=="report_wish" ){?>
@@ -322,9 +353,9 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <?php
-							}
+							//}
 						?>
                          
                         <?php
@@ -359,18 +390,18 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                         ?>
                         
                         <?php
-                            if($this->crud_model->vendor_permission('business_settings')){
+                            // if($this->crud_model->vendor_permission('business_settings')){
                         ?>
-                        <li <?php if($page_name=="business_settings"){?> class="active-link" <?php } ?> >
+                      <!--   <li <?php if($page_name=="business_settings"){?> class="active-link" <?php } ?> >
                             <a href="<?php echo base_url(); ?>vendor/business_settings/">
                                 <i class="fa fa-dollar"></i>
                                 <span class="menu-title">
                                     <?php echo translate('payment_settings');?>
                                 </span>
                             </a>
-                        </li>
+                        </li> -->
                         <?php
-                            }
+                            // }
                         ?>
                         
                         <?php
@@ -389,24 +420,8 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings','69',
                                 }
                             }
                         ?>
-                        
-                        <li <?php if($page_name=="manage_vendor"){?> class="active-link" <?php } ?> >
-                            <a href="<?php echo base_url(); ?>vendor/manage_vendor/">
-                                <i class="fa fa-lock"></i>
-                                <span class="menu-title">
-                                	<?php echo translate('manage_profile');?>
-                                </span>
-                            </a>
-                        </li>
-                        
-                        <li  <?php if($page_name=="events"){?> class="active-link" <?php } ?> >
-                            <a href="<?php echo base_url(); ?>vendor/events">
-                                <i class="fa fa-file-video-o"></i>
-                                <span class="menu-title">
-                                    <?php echo translate('live_stream_event');;?>
-                                </span>
-                            </a>
-                        </li>  
+                      
+                       
                         <li class="active-sub">
                             <a href="#">
                                 <i class="fa fa-file-text"></i>
