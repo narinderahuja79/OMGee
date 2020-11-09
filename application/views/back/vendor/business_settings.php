@@ -36,11 +36,23 @@
             $pum_set    = $this->db->get_where('vendor', array(
                 'vendor_id' => $this->session->userdata('vendor_id')
             ))->row()->pum_set;
+            $bank_name    = $this->db->get_where('vendor', array(
+                'vendor_id' => $this->session->userdata('vendor_id')
+            ))->row()->bank_name;
+            $bank_account_number    = $this->db->get_where('vendor', array(
+                'vendor_id' => $this->session->userdata('vendor_id')
+            ))->row()->bank_account_number;
+            $account_name    = $this->db->get_where('vendor', array(
+                'vendor_id' => $this->session->userdata('vendor_id')
+            ))->row()->account_name;
+            $bsb_number    = $this->db->get_where('vendor', array(
+                'vendor_id' => $this->session->userdata('vendor_id')
+            ))->row()->bsb_number;
         ?>
             <div class="col-sm-12">
             <div class="panel panel-bordered-dark">
                 <?php
-                    echo form_open(base_url() . 'vendor/business_settings/set/', array(
+                    echo form_open(base_url() . 'vendor/business_settings/bank_set/', array(
                         'class'     => 'form-horizontal',
                         'method'    => 'post',
                         'id'        => 'gen_set',
@@ -48,6 +60,39 @@
                     ));
                 ?>
                     <div class="panel-body">
+                         <div class="form-group">
+                            <label class="col-sm-3 control-label" for="demo-hor-55">
+                            <?php echo translate('bank_name');?>
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text"  name="bank_name" placeholder="<?php echo translate('bank_name'); ?>" value="<?php echo ucwords($bank_name); ?>" id="demo-hor-55" class="form-control">
+                            </div>                                             
+                        </div>
+                        <div class="form-group btm_border">
+                            <label class="col-sm-3 control-label" for="demo-hor-56">
+                            <?php echo translate('account_name');?>
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" name="account_name" placeholder="<?php echo translate('account_name'); ?>" value="<?php echo ucwords($account_name); ?>" id="demo-hor-56" class="form-control ">
+                            </div>                                             
+                        </div>
+                        <div class="form-group btm_border">
+                            <label class="col-sm-3 control-label" for="demo-hor-57">
+                            <?php echo translate('bank_account_number');?>
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" name="bank_account_number" placeholder="<?php echo translate('bank_account_number'); ?>" value="<?php echo $bank_account_number; ?>" id="demo-hor-57" class="form-control " onkeypress="isInputNumber(event)">
+                            </div>                                             
+                        </div>
+                        <div class="form-group btm_border">
+                            <label class="col-sm-3 control-label" for="demo-hor-58">
+                            <?php echo translate('bsb_number');?>
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" name="bsb_number"  placeholder="<?php echo translate('bsb_number'); ?>" value="<?php echo $bsb_number; ?>" id="demo-hor-58" class="form-control " onkeypress="isInputNumber(event)">
+                            </div>                                             
+                        </div>
+
                         <div class="form-group" style="display: none;" >
                             <label class="col-sm-3 control-label" for="demo-hor-inputemail"><?php echo translate('cash_payment');?></label>
                             <div class="col-sm-6">
@@ -73,7 +118,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;" >
                             <label class="col-sm-3 control-label" for="demo-hor-inputemail"><?php echo translate('stripe_payment');?></label>
                             <div class="col-sm-6">
                                 <div class="col-sm-">
@@ -82,14 +127,14 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;" >
                             <label class="col-sm-3 control-label"><?php echo translate('stripe_secret_key');?></label>
                             <div class="col-sm-6">
                                 <input type="text" name="stripe_secret" value="<?php echo $stripe_secret; ?>" class="form-control">
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;" >
                             <label class="col-sm-3 control-label"><?php echo translate('stripe_publishable_key');?></label>
                             <div class="col-sm-6">
                                 <input type="text" name="stripe_publishable" value="<?php echo $stripe_publishable; ?>" class="form-control">
@@ -195,3 +240,12 @@
 
 </script>
 <script src="<?php echo base_url(); ?>template/back/js/custom/business.js"></script>
+
+<script>
+    function isInputNumber(evt){
+        var ch = String.fromCharCode(evt.which);
+        if(!(/[0-9]/.test(ch))){
+            evt.preventDefault();
+        }
+    }
+</script>

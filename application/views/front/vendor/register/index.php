@@ -294,7 +294,7 @@
                                  </div>
 
 
-                                 <div class="col-sm-6 selectpro">
+                                 <div class="col-sm-6 selectpro custom_vendor_sel">
                                      
                                                <?php  $row=$this->db->get("category");
                                                     
@@ -304,8 +304,8 @@
 
                              <!--  Brand category -->       
                             <div class="select-wrapper" id="select-wrapper">
-                                 <select name="brandcategory[]" multiple="multiple"size="1">
-                                    
+                                 <select  name="brandcategory[]" multiple="multiple"size="1">
+                                     
                                                    <option value="wine">Wine</option>
                                                     <?php foreach($row->result() as $cat){
 
@@ -323,7 +323,27 @@
                                                 </select>
                                                 </div>
                                 
-
+<style type="text/css">
+  .custom_vendor_sel .select2-container--default .select2-selection--single {
+        width: 100%;
+    font-size: 1em;
+    padding: 13px 10px;
+    margin-top: 0.2em;
+    margin-bottom: 0.4em;
+    border-radius: 10px;
+    border: 1px solid #e2e2e2;
+    background: #fff;
+    outline: none;
+    height: 44px;
+  }
+  .custom_vendor_sel .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px;
+    position: absolute;
+    top: 10px;
+    right: 1px;
+    width: 35px;
+}
+</style>
                                  </div>                       
 
                                     
