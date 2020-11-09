@@ -16,10 +16,10 @@
                     <?php echo translate('variety');?>
                 </th>
                 <th data-field="whlsale_gst" data-align="center" data-sortable="true">
-                    <?php echo translate('wholesale');?><br> (EXCL WET $ GST)
+                    <?php echo translate('wholesale');?><br> (EXCL WET & GST)
                 </th>
                 <th data-field="whlsale_dmst" data-align="center" data-sortable="true">
-                    <?php echo translate('wholesale');?><br> (Domestic)
+                    <?php echo translate('wholesale');?><br> (INCL GST + WET)
                 </th>
                 <th data-field="rrp_au" data-align="center" data-sortable="true">
                     <?php echo translate('r_r_p');?> <br> (AUD) 
@@ -31,7 +31,7 @@
                     <?php echo translate('r_r_p');?> <br> (JP Yen)
                 </th>
                 <th data-field="rrp_sg" data-align="center" data-sortable="true">
-                    <?php echo translate('r_r_p');?> <br> (S GD)
+                    <?php echo translate('r_r_p');?> <br> (SGD)
                 </th>
                 <th data-field="limited_release" data-sortable="true">
                     <?php echo translate('limited');?><br> release
@@ -39,12 +39,12 @@
                  <th data-field="low_stock" data-sortable="true">
                     <?php echo translate('low_stock');?>
                 </th>
-                 <th data-field="remove" data-sortable="true">
+               <!--   <th  data-field="remove" data-sortable="true">
                     <?php echo translate('remove');?>
                 </th>
                 <th data-field="publish" data-sortable="false">
                     <?php echo translate('publish');?>
-                </th>
+                </th> -->
                 <th data-field="options" data-sortable="false" data-align="right">
                     <?php echo translate('options');?>
                 </th>

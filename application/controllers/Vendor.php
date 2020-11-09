@@ -930,7 +930,7 @@ class Vendor extends CI_Controller
 
             $this->db->where('product_id', $para2);
             $this->db->update('product', $data);
-           
+           echo $this->db->last_query();
             $this->crud_model->set_category_data(0);
             recache();
         } 
@@ -1084,19 +1084,19 @@ class Vendor extends CI_Controller
                 }
 
                 //add html for action
-                $res['options'] = "  <a class=\"btn btn-info btn-xs btn-labeled fa fa-location-arrow\" data-toggle=\"tooltip\" 
+                $res['options'] = "  <a  class=\"btn btn-info btn-xs btn-labeled fa fa-location-arrow\" data-toggle=\"tooltip\" 
                                 onclick=\"ajax_set_full('view','".translate('view_product')."','".translate('successfully_viewed!')."','product_view','".$row['product_id']."');proceed('to_list');\" data-original-title=\"View\" data-container=\"body\">
                                     ".translate('view')."
                             </a>
-                            <a class=\"btn btn-purple btn-xs btn-labeled fa fa-tag\" data-toggle=\"tooltip\"
+                            <a style='display:none;' class=\"btn btn-purple btn-xs btn-labeled fa fa-tag\" data-toggle=\"tooltip\"
                                 onclick=\"ajax_modal('add_discount','".translate('view_discount')."','".translate('viewing_discount!')."','add_discount','".$row['product_id']."')\" data-original-title=\"Edit\" data-container=\"body\">
                                     ".translate('discount')."
                             </a>
-                            <a class=\"btn btn-mint btn-xs btn-labeled fa fa-plus-square\" data-toggle=\"tooltip\" 
+                            <a style='display:none;' class=\"btn btn-mint btn-xs btn-labeled fa fa-plus-square\" data-toggle=\"tooltip\" 
                                 onclick=\"ajax_modal('add_stock','".translate('add_product_quantity')."','".translate('quantity_added!')."','stock_add','".$row['product_id']."')\" data-original-title=\"Edit\" data-container=\"body\">
                                     ".translate('stock')."
                             </a>
-                            <a  class=\"btn btn-dark btn-xs btn-labeled fa fa-minus-square\" data-toggle=\"tooltip\" 
+                            <a style='display:none;' class=\"btn btn-dark btn-xs btn-labeled fa fa-minus-square\" data-toggle=\"tooltip\" 
                                 onclick=\"ajax_modal('destroy_stock','".translate('reduce_product_quantity')."','".translate('quantity_reduced!')."','destroy_stock','".$row['product_id']."')\" data-original-title=\"Edit\" data-container=\"body\">
                                     ".translate('destroy')."
                             </a>
@@ -1106,10 +1106,15 @@ class Vendor extends CI_Controller
                                     ".translate('edit')."
                             </a>
                             
-                            <a onclick=\"delete_confirm('".$row['product_id']."','".translate('really_want_to_delete_this?')."')\" 
+                            <a style='display:none;' onclick=\"delete_confirm('".$row['product_id']."','".translate('really_want_to_delete_this?')."')\" 
                                 class=\"btn btn-danger btn-xs btn-labeled fa fa-trash\" data-toggle=\"tooltip\" data-original-title=\"Delete\" data-container=\"body\">
                                     ".translate('delete')."
-                            </a>";
+                            </a>
+                            <a class=\"btn btn-danger btn-xs btn-labeled fa fa-close\" data-toggle=\"tooltip\"
+                                            onclick=\"ajax_modal('add_remove','".translate('')."','".translate('remove_product!')."','add_remove','".$row['product_id']."')\" data-original-title=\"Edit\" data-container=\"body\">
+                                        </a>
+
+                            ";
                 $data[] = $res;
             }
             $result = array(
