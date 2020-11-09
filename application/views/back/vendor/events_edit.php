@@ -467,7 +467,7 @@
                     {
                         var discount_value = "$"+discount.discount_value;
                     }
-                    $('.show_promocode').html('<br>Name : '+str+'<br>Code : '+response.code+'<br>Start  Date : '+response.from+'<br>End Date : '+response.till+'<br>Discount : '+discount_value);
+                    $('.show_promocode').html('Date : '+response.till+'<br>Discount : '+discount_value);
                 }
                 else
                 {
