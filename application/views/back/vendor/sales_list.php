@@ -3,20 +3,19 @@
 
         <thead>
             <tr>
-                <th style="width:4ex"><?php echo translate('ID');?></th>
-                <th><?php echo translate('Product');?><br>Name</th>
+                <th style="width:4ex"><?php echo translate('#');?></th>
+                <th><?php echo translate('order');?><br>Id</th>
                 <th><?php echo translate('Customer');?><br>Id</th>
                 <th><?php echo translate('Country');?></th>
-                <th><?php echo translate('wholesale');?><br>(DOMESTIC OR<br>EXCL WET & GST)</th>
+                <th><?php echo translate('wholesale');?></th>
                 <th><?php echo translate('Shipping');?></th> 
                 <th><?php echo translate('QTY');?></th> 
 
-                <th><?php echo translate('Order');?><br>Received</th> 
+                <th><?php echo translate('Order');?><br>Placed</th> 
                 <th><?php echo translate('Tracking');?><br>ID </th>
                 <th><?php echo translate('Dispatch');?><br>Date</th> 
                 <th><?php echo translate('Arrived');?><br>Date</th> 
                 <th><?php echo translate('payment');?></th> 
-                <th><?php echo translate('payment');?><br>(Currency)</th> 
                 <th><?php echo translate('Release');?><br>Date</th> 
 
                 <th class="text-right"><?php echo translate('options');?></th> 
@@ -33,7 +32,7 @@
         ?>
         <tr class="<?php if($row['viewed'] !== 'ok'){ echo 'pending'; } ?>" >
             <td><?php echo $i; ?></td>
-            <td><?php echo $row['title'];?></td>
+            <td><?php echo $row['sale_id'];?></td>
             <td><?php echo $row['buyer']; ?></td>
             <td>
                 <?php
@@ -58,16 +57,10 @@
             <td>
                 <?php 
                     if($row['wholesale']){
-                        echo "(".$whole_d = round($row['wholesale']/$row['qty'],2);
+                        echo $whole_d = round($row['wholesale']/$row['qty'],2);
                     }
                     else{
-                        echo "(0";
-                    }
-                    if($row['wholesaleEXCLWETGST']){
-                        echo ",".$whole_gst = round($row['wholesaleEXCLWETGST']/$row['qty'],2).")";
-                    }
-                    else{
-                        echo ",0)";
+                        echo "0";
                     }     
 
                 ?>
@@ -75,30 +68,29 @@
 
             <td><?php echo currency($row['shipping_cost']); ?></td>
             <td><?php echo $row['qty']; ?></td>
-            <td></td>
+            <td><?php echo date('d M y H:i A',$row['sale_datetime']); ?></td>
             <td><?php echo $row['sale_code']; ?></td>
             <td></td>
-            <td><?php echo date('d M y H:i A',$row['sale_datetime']); ?></td>
-            <td><?php echo currency($row['grand_total']); ?></td>
-            <td><?php echo $row['country'] ?></td>
+            <td></td>
+            <td><?php echo currency(($row['wholesale']*$row['qty'])+$row['shipping_cost']); ?></td>
             <td></td>
             <td class="text-right">
 
                 <a class="btn btn-info btn-xs btn-labeled fa fa-file-text" data-toggle="tooltip" 
                     onclick="ajax_set_full('view','<?php echo translate('title'); ?>','<?php echo translate('successfully_edited!'); ?>','sales_view','<?php echo $row['sale_id']; ?>')" 
-                        data-original-title="Edit" data-container="body"><?php echo translate('full_invoice'); ?>
+                        data-original-title="Edit" data-container="body"><?php echo translate('view'); ?>
                 </a>
                 
                 <a class="btn btn-success btn-xs btn-labeled fa fa-usd" data-toggle="tooltip" 
                     onclick="ajax_modal('delivery_payment','<?php echo translate('delivery_payment'); ?>','<?php echo translate('successfully_edited!'); ?>','delivery_payment','<?php echo $row['sale_id']; ?>')" 
                         data-original-title="Edit" data-container="body">
-                            <?php echo translate('delivery_status'); ?>
+                            <?php echo translate('update'); ?>
                 </a>
                 
-                <a onclick="delete_confirm('<?php echo $row['sale_id']; ?>','<?php echo translate('really_want_to_delete_this?'); ?>')" 
+                <!-- <a onclick="delete_confirm('<?php echo $row['sale_id']; ?>','<?php echo translate('really_want_to_delete_this?'); ?>')" 
                     class="btn btn-danger btn-xs btn-labeled fa fa-trash" data-toggle="tooltip" 
                         data-original-title="Delete" data-container="body"><?php echo translate('delete'); ?>
-                </a>
+                </a> -->
             </td> 
         </tr>
         <?php

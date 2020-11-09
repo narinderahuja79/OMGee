@@ -2257,6 +2257,7 @@ class Vendor extends CI_Controller
                                 $saleArr['country'] = $country;
                                 $saleArr['buyer'] = !empty($val->buyer) ?$val->buyer: "";
                                 $saleArr['sale_code'] = !empty($val->sale_code) ?$val->sale_code: "";
+                                $saleArr['sale_id'] = !empty($val->sale_id) ?$val->sale_id: "";
                                 $saleArr['grand_total'] = !empty($val->grand_total) ?$val->grand_total: "";
                                 $saleArr['sale_datetime'] = !empty($val->sale_datetime) ?$val->sale_datetime: "";
                                 $saleArr['qty'] = $data->qty;
@@ -3529,8 +3530,7 @@ class Vendor extends CI_Controller
     
 
     /* Manage vendor Settings */
-    function manage_vendor($para1 = "")
-    {
+    function manage_vendor($para1 = ""){
         if ($this->session->userdata('vendor_login') != 'yes') {
             redirect(base_url() . 'vendor');
         }
@@ -3552,51 +3552,177 @@ class Vendor extends CI_Controller
                 }
             }
         } else if ($para1 == 'update_profile') {
-            $this->db->where('vendor_id', $this->session->userdata('vendor_id'));
-            $this->db->update('vendor', array(
-                'name' => $this->input->post('name'),
-                'email' => $this->input->post('email'),
-                'address1' => $this->input->post('address1'),
-                'address2' => $this->input->post('address2'),
-                'company' => $this->input->post('company'),
-                'city' => $this->input->post('city'),
-                'state' => $this->input->post('state'),
-                'country' => $this->input->post('country'),
-                'zip' => $this->input->post('zip'),
+                $images_arr = array();  
+                $extension = array("jpeg","jpg","png","gif");
+                for($img=0; $img <=count($_FILES["company_image"]['name']); $img++) 
+                { 
+                    $file_name = $_FILES["company_image"]["name"][$img];
+                    $file_tmp = $_FILES["company_image"]["tmp_name"][$img];
+                    $ext=pathinfo($file_name,PATHINFO_EXTENSION);
 
-                'bank_name' => $this->input->post('bank_name'),
-                'account_name' => $this->input->post('account_name'),
-                'bank_account_number' => $this->input->post('bank_account_number'),
-                'bsb_number' => $this->input->post('bsb_number'),
-                'acn_and_abn' => $this->input->post('acn_and_abn'),
-                'trading_name' => $this->input->post('trading_name'),
-                'license_number' => $this->input->post('license_number'),
+                    if(in_array($ext,$extension)) 
+                    {
+                        $filename = basename($file_name,$ext);
+                        $newFileName = $filename.time().".".$ext;
+                        $images_arr[] =  $newFileName; 
+                        move_uploaded_file($file_tmp,"uploads/events_image/".$newFileName);
+                    }   
+                }
+                $data["company_image"] = (count($images_arr)>0) ? implode(",", $images_arr) : $this->input->post('last_images');  
 
-                'contact_person' => $this->input->post('contact_person'),
-                'direct_number' => $this->input->post('direct_number'),
-                'mobile_number' => $this->input->post('mobile_number'),
-                'direct_email' => $this->input->post('direct_email'),
+                // $data['name'] = $this->input->post('name');
+                $data['first_name'] = $this->input->post('first_name');
+                $data['last_name'] = $this->input->post('last_name');
+                $data['email'] = $this->input->post('email');
+                $data['phone_code'] = $this->input->post('phone_code');
+                $data['direct_code'] = $this->input->post('direct_code');
+                $data['address1'] = $this->input->post('address1');
+                // $data['address2'] = $this->input->post('address2');
+                $data['company'] = $this->input->post('company');
+                $data['city'] = $this->input->post('city');
+                $data['state'] = $this->input->post('state');
+                // ['country'] = $this->input->post('country');
+                $data['zip'] = $this->input->post('zip');
+                $data['website'] = $this->input->post('website');
 
-                'brands' => $this->input->post('brands'),
-                'category' => $this->input->post('category'),
-                'minimum_tick' => $this->input->post('minimum_tick'),
-                'free_delivery' => $this->input->post('free_delivery'),
-                'delivery_fee' => $this->input->post('delivery_fee'),
-                'c_d_english' => $this->input->post('c_d_english'),
-                'c_d_chinese' => $this->input->post('c_d_chinese'),
-                'c_d_japanese' => $this->input->post('c_d_japanese'),
+                $data['bank_name'] = $this->input->post('bank_name');
+                $data['account_name'] = $this->input->post('account_name');
+                $data['bank_account_number'] = $this->input->post('bank_account_number');
+                $data['bsb_number'] = $this->input->post('bsb_number');
+                $data['acn_and_abn'] = $this->input->post('acn_and_abn');
+                $data['trading_name'] = $this->input->post('trading_name');
+                $data['license_number'] = $this->input->post('license_number');
+
+                $data['contact_person'] = $this->input->post('contact_person');
+                $data['direct_number'] = $this->input->post('direct_number');
+                $data['mobile_number'] = $this->input->post('mobile_number');
+                $data['direct_email'] = $this->input->post('direct_email');
+
+                $data['brands'] = $this->input->post('brands');
+                $data['category'] = $this->input->post('category');
+                $data['minimum_tick'] = $this->input->post('minimum_tick');
+                $data['free_delivery'] = $this->input->post('free_delivery');
+                $data['delivery_fee'] = $this->input->post('delivery_fee');
+                $data['c_d_english'] = $this->input->post('c_d_english');
+                $data['c_d_chinese'] = $this->input->post('c_d_chinese');
+                $data['c_d_japanese'] = $this->input->post('c_d_japanese');
                 
-                'details' => $this->input->post('details'),
-                'phone' => $this->input->post('phone'),
-                'lat_lang' => $this->input->post('lat_lang')
-            ));
-          
+                $data['details'] = $this->input->post('details');
+                $data['phone'] = $this->input->post('phone');
+                $data['lat_lang'] = $this->input->post('lat_lang');
+
+
+                $this->db->where('vendor_id', $this->session->userdata('vendor_id'));
+                $this->db->update('vendor',$data);
+                //upload single image
+
 
         } else {
             $page_data['page_name'] = "manage_vendor";
             $this->load->view('back/index', $page_data);
         }
     }
+
+    public function add_brand(){
+        $images_arr = array();  
+        $extension = array("jpeg","jpg","png","gif");
+        $dirPath = 'uploads/brand_image';
+        if (isset($_FILES["brand_image"]["name"]) && $_FILES["brand_image"]["name"]!="") {
+             $file_name = $_FILES["brand_image"]["name"];
+                $file_tmp = $_FILES["brand_image"]["tmp_name"];
+                $ext=pathinfo($file_name,PATHINFO_EXTENSION);
+                if(in_array($ext,$extension)) {
+                    $filename = basename($file_name,$ext);
+                    $newFileName = $filename.time().".".$ext;
+                    $images_arr[] =  $newFileName; 
+                    move_uploaded_file($file_tmp,"uploads/brand_image".$newFileName);
+                }   
+
+
+
+             // $response=$this->uploadProfileImage("brnad",$dirPath,"brand_image");
+             // echo "<pre>"; print_r($response);echo "<pre>";die;
+            // if (!empty($response) && $response['status']=="error") {
+            //      // redirect(base_url('admin/profile')); 
+            //     } else if(!empty($response) && $response['status']=="success") {
+            //     $data1['image']=$response['imageName'];
+            // }
+        }
+
+    $data1["image"] = (count($images_arr)>0) ? implode(",", $images_arr) : $this->input->post('brand_image');  
+
+    $data1['name'] = $this->input->post('brands');
+    $data1['category'] = $this->input->post('category');
+    // echo "<pre>"; print_r($data1);die;
+    
+    $this->db->where('user_id', $this->session->userdata('vendor_id'));
+    $this->db->update('vendorbrands',$data1);
+    $page_data['page_name'] = "manage_vendor";
+    redirect(base_url('vendor/manage_vendor/'));
+    echo $this->db->last_query();
+    }
+
+
+       public function uploadProfileImage($name,$dirPath,$fileName) {
+        // echo $fileName;die;
+        $data = array();
+        $response=array();
+        if (isset($_FILES[$fileName]["name"]) && $_FILES[$fileName]["name"]!="") {
+            $cdate= date("dmyHis");
+            $imageName = str_replace(" ","-",$name).'-'.$cdate;
+            $this->load->library('upload');
+            $this->upload->initialize($this->set_upload_options($dirPath,'jpg|JPEG|PNG|png|jpeg',$imageName));
+            
+            $cscx=$this->upload->do_upload($fileName);
+            // echo "<pre>"; print_r($cscx);die;
+            if($this->upload->display_errors()){
+                // $this->messages->setMessageFront($this->upload->display_errors(),'error');  
+                return array("status" => 'error');
+            }else{
+                $data=$this->upload->data();
+    //          if(($data['image_width']<'100') || ($data['image_height']<'40')) {
+                //      $this->messages->setMessageFront('The image you are attempting to upload should be greater than 100*40','error');   
+                //      return array("status" => 'error');
+                // } else {
+                    $file_path=$dirPath.$data['file_name'];
+                    
+                    //$file_path=$restMenuFolderName.$data['file_name'];
+                    $this->load->library('image_lib');
+                    // clear config array
+                    $config = array();
+                    $config['image_library']    = 'gd2';
+                    $config['source_image']     = $file_path;
+                    $config['maintain_ratio']   = TRUE;
+                    $config['create_thumb']     = FALSE;
+                    $response = array(
+                        "status" => 'success',
+                        "imageName" => $data['file_name'],
+                        "width" => $data['image_width'],
+                        "height" => $data['image_height']
+                    );
+                // }
+            }
+        }
+        return $response;
+    }
+
+    //single image upload
+        function set_upload_options($dirPath,$allowedTypes,$fileName="") {   
+           //  upload an image and document options
+            $config = array();
+            $config['upload_path'] = $dirPath;
+            $config['allowed_types'] = $allowedTypes;
+            $config['overwrite'] = FALSE;
+            
+            if($fileName!=""){
+                 $config['file_name'] = $fileName;
+            }
+            
+            return $config;
+        }
+
+
+
 
     /* Manage General Settings */
     function general_settings($para1 = "", $para2 = "")

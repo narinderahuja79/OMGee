@@ -44,22 +44,105 @@
                                             <h4 class="text-thin text-center"><?php echo translate('details'); ?></h4>                            
                                         </div>
 
-                                        <div class="form-group btm_border">
-                                            <label class="col-sm-3 control-label" for="demo-hor-1">
-                                            <?php echo translate('name');?>
-                                            </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="name" value="<?php echo ucwords($row['name']); ?>" id="demo-hor-1" class="form-control required">
-                                            </div>
-                                        </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-1">
-                                            <?php echo translate('company');?>
+                                            <?php echo translate('company_name');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="company" value="<?php echo ucwords($row['company']); ?>" id="demo-hor-1" class="form-control required">
                                             </div>
                                         </div>
+
+                                        <div class="form-group btm_border">
+										    <label class="col-sm-3 control-label" ><?php echo translate('company_logo');?> (Image PNG)</label>
+										    <div class="col-sm-6">
+										        <span class="pull-left btn btn-default btn-file"> <?php echo translate('choose_file');?>
+										            <input type="file" multiple name="company_image[]" onchange="preview(this);" id="demo-hor-inputpass" class="form-control">
+										            <input type="hidden"  name="last_images" value="<?php echo $row['company_image']; ?>">
+										        </span>
+										        <br><br>
+										        <span id="previewImg" ></span>
+										    </div>
+										</div>
+										
+											<div class="form-group btm_border">
+											    <label class="col-sm-3 control-label"></label>
+											    <div class="col-sm-6">
+											        <?php 
+											            $images = explode(",",$row['company_image']);
+											            // print_r($images);
+											            if($images){
+											                foreach ($images as $row1){
+											        ?>
+											            <div class="delete-div-wrap">
+											                <span class="close">&times;</span>
+											                <div class="inner-div">
+											                    <img class="img-responsive" width="100" src="<?php echo base_url(); ?>uploads/events_image/<?php echo $row1; ?> "alt="User_Image" >
+											                </div>
+											            </div>
+											        <?php 
+											                }
+											            } 
+											        ?>
+											    </div>
+											</div>
+
+                                        <div class="form-group btm_border">
+                                            <label class="col-sm-3 control-label" >
+                                            <?php echo translate('trading_name');?>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="trading_name" placeholder="<?php echo translate('trading_name'); ?>" value="<?php echo ucwords($row['trading_name']); ?>" class="form-control ">
+                                            </div>                                             
+                                        </div>
+                                        
+                                        <div class="form-group btm_border">
+                                            <label class="col-sm-3 control-label" for="demo-hor-1">
+                                            <?php echo translate('website');?>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="website" value="<?php echo ucwords($row['website']); ?>" id="demo-hor-1" class="form-control required">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group btm_border">
+                                            <label class="col-sm-3 control-label">
+                                            <?php echo "ACN / ABN";?>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="acn_and_abn" placeholder="<?php echo translate('ACN / ABN'); ?>"  value="<?php echo ucwords($row['acn_and_abn']); ?>"  class="form-control" onkeypress="isInputNumber(event)">
+                                            </div>                                             
+                                        </div>
+
+                                        <div class="form-group btm_border">
+                                            <label class="col-sm-3 control-label" >
+                                            <?php echo translate('license_number');?>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="license_number" placeholder="<?php echo translate('license_number'); ?>"  value="<?php echo ucwords($row['license_number']); ?>" id="demo-hor-57" class="form-control ">
+                                            </div>                                             
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label" for="demo-hor-3">
+                                            <?php echo translate('phone (area_code)');?>
+                                            </label>
+                                            <div class="col-sm-2">
+                                                <div class="select-wrapper">
+                                                    <select name="phone_code" class="form-control">
+	                                                    <option value="<?php echo ucwords($row['phone_code']); ?>">+<?php echo ucwords($row['phone_code']); ?></option>
+	                                                    <option value="61">(+61) Australia</option>
+	                                                    <option value="81">(+81) Japan</option>
+	                                                    <option value="852">(+852) Hong Kong </option>
+	                                                    <option value="65">(+65) Singapore</option>
+                                               		</select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="text" name="phone" value="<?php echo $row['phone']; ?>" id="demo-hor-3" class="form-control" onkeypress="isInputNumber(event)">
+                                            </div>
+                                        </div>
+
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-2">
                                             <?php echo translate('email');?>
@@ -68,30 +151,25 @@
                                                 <input type="email" name="email" value="<?php echo $row['email']; ?>" id="demo-hor-2" class="form-control required">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label" for="demo-hor-3">
-                                            <?php echo translate('phone');?>
-                                            </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="phone" value="<?php echo $row['phone']; ?>" id="demo-hor-3" class="form-control" onkeypress="isInputNumber(event)">
-                                            </div>
-                                        </div>
+                                        
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
-                                            <?php echo translate('address_line_1');?>
+                                            <?php echo translate('registered_address');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="address1" value="<?php echo ucwords($row['address1']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+
+                                        <!-- <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('address_line_2');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="address2" value="<?php echo ucwords($row['address2']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
-                                        </div>
+                                        </div> -->
+
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('suburb');?>
@@ -100,6 +178,7 @@
                                                 <input type="text" name="city" value="<?php echo ucwords($row['city']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
                                         </div>
+
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('state');?>
@@ -108,17 +187,19 @@
                                                 <input type="text" name="state" value="<?php echo ucwords($row['state']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
                                         </div>
-                                        <div class="form-group" style="display: none;">
+
+                                       <!--  <div class="form-group" style="display: none;">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('country');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="country" value="<?php echo ucwords($row['country']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
-                                        </div>
+                                        </div> -->
+
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
-                                            <?php echo translate('postal_code');?>
+                                            <?php echo translate('postalcode');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="zip" value="<?php echo $row['zip']; ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
@@ -180,54 +261,56 @@
                                             </div>                                             
                                         </div>
                                         <!-- Additional Fields -->
-                                        <div class="form-group btm_border">
-                                            <label class="col-sm-3 control-label">
-                                            <?php echo "ACN / ABN";?>
-                                            </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="acn_and_abn" placeholder="<?php echo translate('ACN / ABN'); ?>"  value="<?php echo ucwords($row['acn_and_abn']); ?>"  class="form-control" onkeypress="isInputNumber(event)">
-                                            </div>                                             
-                                        </div>
-                                        <div class="form-group btm_border">
-                                            <label class="col-sm-3 control-label" >
-                                            <?php echo translate('trading_name');?>
-                                            </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="trading_name" placeholder="<?php echo translate('trading_name'); ?>" value="<?php echo ucwords($row['trading_name']); ?>" class="form-control ">
-                                            </div>                                             
-                                        </div>
-                                        <div class="form-group btm_border">
-                                            <label class="col-sm-3 control-label" >
-                                            <?php echo translate('license_number');?>
-                                            </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="license_number" placeholder="<?php echo translate('license_number'); ?>"  value="<?php echo ucwords($row['license_number']); ?>" id="demo-hor-57" class="form-control ">
-                                            </div>                                             
-                                        </div>
+                                        
+                                        
+                                        
                                     </div>
                                     <!-- End Account Details  -->
 
                                     <!-- Other details -->
                                     <div id="other_details" class="tab-pane fade">
                                         <div class="form-group btm_border">
-                                            <h4 class="text-thin text-center"><?php echo translate('other_details'); ?></h4>                    
+                                            <h4 class="text-thin text-center"><?php echo translate('other_details'); ?></h4>                   
                                         </div>
+
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
-                                            <?php echo translate('representative_/_contact_person_full_name');?>
+                                            <?php echo translate('first_name');?>
                                             </label>
                                             <div class="col-sm-6">
-                                                <input type="text" name="contact_person" placeholder="<?php echo translate('representative_/_contact_person_full_name'); ?>" value="<?php echo ucwords($row['contact_person']); ?>" id="demo-hor-58" class="form-control ">
+                                                <input type="text" name="first_name" placeholder="<?php echo translate('first_name'); ?>" value="<?php echo ucwords($row['first_name']); ?>"  class="form-control ">
                                             </div>                                             
                                         </div>
+
+                                        <div class="form-group btm_border">
+                                            <label class="col-sm-3 control-label" >
+                                            <?php echo translate('last_name');?>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="last_name" placeholder="<?php echo translate('last_name'); ?>" value="<?php echo ucwords($row['last_name']); ?>"  class="form-control ">
+                                            </div>                                             
+                                        </div>
+
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('direct_number');?>
                                             </label>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-2">
+                                                <div class="select-wrapper">
+                                                    <select name="direct_code" class="form-control">
+	                                                    <option value="<?php echo ucwords($row['direct_code']); ?>">+<?php echo ucwords($row['direct_code']); ?></option>
+	                                                    <option value="61">(+61) Australia</option>
+	                                                    <option value="81">(+81) Japan</option>
+	                                                    <option value="852">(+852) Hong Kong </option>
+	                                                    <option value="65">(+65) Singapore</option>
+                                               		</select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
                                                 <input type="text" name="direct_number" placeholder="<?php echo translate('direct_number'); ?>" value="<?php echo $row['direct_number']; ?>"  class="form-control" onkeypress="isInputNumber(event)">
                                             </div>                                             
                                         </div>
+
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('mobile_number');?>
@@ -236,6 +319,7 @@
                                                 <input type="text" name="mobile_number" placeholder="<?php echo translate('mobile_number'); ?>" value="<?php echo $row['mobile_number']; ?>"  class="form-control" onkeypress="isInputNumber(event)">
                                             </div>                                             
                                         </div>
+
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('direct_email');?>
@@ -244,14 +328,8 @@
                                                 <input type="email" name="direct_email" placeholder="<?php echo translate('direct_email'); ?>" value="<?php echo $row['direct_email']; ?>"  class="form-control" >
                                             </div>                                             
                                         </div>
-                                        <div class="form-group btm_border">
-                                            <label class="col-sm-3 control-label" >
-                                            <?php echo translate('Brands');?>
-                                            </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="brands" placeholder="<?php echo translate('Brands'); ?>"  value="<?php echo ucwords($row['brands']); ?>"  class="form-control ">
-                                            </div>                                             
-                                        </div>
+
+                                       
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('category');?>
@@ -259,15 +337,20 @@
                                             <div class="col-sm-6">
                                                 <input type="text" name="category" placeholder="<?php echo translate('category'); ?>" value="<?php echo ucwords($row['category']); ?>"  class="form-control">
                                             </div>                                             
-                                        </div>
+                                        </div> -->
+
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
-                                            <?php echo translate('minimum (_tick_boxes )');?>
+                                            <?php echo translate('minimum_wholesale_value_for_free_delivery_to_banksmeadow_NSW_2019');?>
                                             </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="minimum_tick" placeholder="<?php echo translate('minimum (_tick_boxes )'); ?>" value="<?php echo ucwords($row['minimum_tick']); ?>"  class="form-control">
-                                            </div>                                             
+                                            <div class="col-sm-4">
+                                                <input type="text" name="minimum_tick" placeholder="<?php echo translate('minimum (_tick_boxes )'); ?>" value="<?php echo ucwords($row['minimum_tick']); ?>" <?php echo " $" ?> class="form-control">
+                                            </div>  
+                                            <div class="col-sm-2">
+                                                <input type="text" value=" $" class="form-control" readonly>
+                                            </div>                                            
                                         </div>
+
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('minimum_mix_quantity_for_free_delivery_to_banksmeadow_NSW_2019');?>
@@ -280,8 +363,11 @@
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met');?>
                                             </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="delivery_fee" placeholder="<?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met'); ?>" value="<?php echo $row['delivery_fee']; ?>"  class="form-control " onkeypress="isInputNumber(event)">
+                                            <div class="col-sm-4">
+                                                <input type="text" name="delivery_fee" placeholder="<?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met'); ?>" $ value="<?php echo $row['delivery_fee']; ?>"  class="form-control " onkeypress="isInputNumber(event)">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" value=" $" class="form-control" readonly>
                                             </div>                                             
                                         </div>
                                         <div class="form-group btm_border">
@@ -297,12 +383,12 @@
                                             <?php echo translate('company_desciption (_simplified_chinese-_if_any )');?>
                                             </label>
                                             <div class="col-sm-6">
-                                                <input type="text" name="c_d_chinese" placeholder="<?php echo translate('company_desciption (_simplified_chinese-_if_any )'); ?>" value="<?php echo ucwords($row['c_d_chinese']); ?>"  class="form-control" >
+                                                <input type="text" name="c_d_chinese" placeholder="<?php echo translate('company_desciption(simplified_chinese-_if_any )'); ?>" value="<?php echo ucwords($row['c_d_chinese']); ?>"  class="form-control" >
                                             </div>                                             
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
-                                            <?php echo translate('company_desciption (_simplified_japanese-_if_any )');?>
+                                            <?php echo translate('company_desciption (_japanese-_if_any )');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="c_d_japanese" placeholder="<?php echo translate('company_desciption (_simplified_japanese-_if_any )'); ?>" value="<?php echo ucwords($row['c_d_japanese']); ?>"  class="form-control" >
@@ -323,70 +409,80 @@
                         </div>
                         </form>
 
+                        <br>
+                        <div class="table-responsive">
+						    <table  id="user_data" class="table table-striped table-bordered">
+						        <thead>
+						            <tr>
+						                <th>Brand</th>
+						                <th>Logo (Image PNG)</th>
+						                <th>Category</th>
+						                <th>Action</th>
+						            </tr>
+						        </thead>
+						        <tbody>
+						            <tr>
+						                <?php
+                                            // echo form_open(base_url() . 'vendor/manage_vendor/update_profile/', array(
+                                            //     'class' => 'form-horizontal',
+                                            //     'method' => 'post'
+                                            // ));
+                                        ?>
 
-                       <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo translate('Add Vendors Brand');?></h3>
-                        </div>
+                                        <form class="form-horizontal" enctype="multipart/form-data" method="post" action="<?php echo base_url('vendor/add_brand');?>"> 
 
-                         <div class="table-responsive">
-
-                               <br /><br />
-                                     <br />
-                              <table  id="user_data" class="table table-striped table-bordered">
-                                       <thead>
-                                 <tr>
-                                    <th>Name</th>
-                                   
-                                    <th>Image</th>
-           
-                                    <th>Action</th>
-                                 </tr>
-                               </thead>
-                                 <tbody>
-
-                                  <tr>
-                                    <form id="user_form" method="post"enctype="multipart/form-data">
-                                     <td>
-                                       <div class="form-group">
-
-                                        <input type="text"name="vendor_name" id="vendor_name"class="form-control"placeholder="Enter Vendor Name">
-
-                                       </div>  
-
-                                     </td> 
-
-                                  
-
-                                     <td>
-                                         
-                                     <div class="form-group">
-
-                                        <input type="file"name="vendor_image" id="vendor_image" class="form-control"placeholder="Enter Vendor Name">
-
-                                     </div>
-                                     </td>
-                                    
-                                      <td>  
-                                        <input type="hidden"value="<?php echo$this->session->userdata('vendor_id'); ?>"name="vendor_id">
-                                          
-                                       <input  type="submit" class="btn btn-info btn-lg"style="float:right;margin-right: 1%;height:30px;padding-top:1.5px"value="Add"name="action"id="vendoraction">
-                                      </td>
-                                  </form>
-                                  </tr>
-
-                                 </tbody>
-                             </table>   
-                         </div>
-
-
-                         <div class="panel-footer text-right">
-                            <span class="btn btn-info submitter enterer" data-ing='<?php echo translate('Saving..'); ?>' data-msg='<?php echo translate('Vendors Added!'); ?>'>
-                            <?php echo translate('Save Vendors');?>
-                            </span>
-                        </div>
+						                    <td>
+						                        <div class="form-group">
+                                                    <input type="text" name="brands" placeholder="<?php echo translate('brand_name'); ?>"  value="<?php echo ucwords($row['brands']); ?>"  class="form-control ">
+                                                </div>
+						                    </td>
+						                    <td>
+						                        <div class="form-group">
+						                            <input type="file" name="brand_image" class="form-control">
+						                        </div>
+						                    </td>
+                                            <td>
+                                               <div class="form-group">
+                                                    <?php  $row=$this->db->get("category");?>
+                                                    <select name="category" class="form-control">
+                                                        <option value="wine">Wine</option>
+                                                            <?php 
+                                                                foreach($row->result() as $cat)
+                                                                {
+                                                                    if($cat->category_name=="Wine")
+                                                                    {    
+                                                                       continue;
+                                                                    }
+                                                                    else{
+                                                                      ?>
+                                                                        <option value="<?php  echo$cat->category_name; ?>"> <?php echo $cat->category_name; ?></option>
+                                                                <?php   } 
+                                                                }  
+                                                            ?>
+                                                    </select>
+                                                </div>
+                                            </td>
+						                    <td>  
+                                                <button type="submit" name="uploadimg">Update</button>
 
 
-                        <div class="panel-heading">
+<!-- 						                        <input type="hidden"value="<?php echo$this->session->userdata('vendor_id'); ?>"name="vendor_id"> -->
+
+						                        <!--  <span class="btn btn-info submitter enterer" data-ing='<?php echo translate('Saving..'); ?>' data-msg='<?php echo translate('Added!'); ?>'>
+                                                    <?php //echo translate('Add');?>
+                                                </span>  -->
+						                    </td>
+						                </form>
+						            </tr>
+						        </tbody>
+						    </table>
+						</div>
+						<div class="panel-footer text-right">
+						    
+						</div>
+
+
+                        <!-- <div class="panel-heading">
                             <h3 class="panel-title"><?php echo translate('change_password');?></h3>
                         </div>
                         <?php
@@ -431,7 +527,7 @@
                         </form>
                         <?php
                             }
-                            ?>
+                            ?> -->
                     </div>
                 </div>
             </div>
@@ -871,6 +967,19 @@
         var ch = String.fromCharCode(evt.which);
         if(!(/[0-9]/.test(ch))){
             evt.preventDefault();
+        }
+    }
+    
+    window.preview = function (input) {
+        if (input.files && input.files[0]) {
+            $("#previewImg").html('');
+            $(input.files).each(function () {
+                var reader = new FileReader();
+                reader.readAsDataURL(this);
+                reader.onload = function (e) {
+                    $("#previewImg").append("<div style='float:left;border:4px solid #303641;padding:5px;margin:5px;'><img height='80' src='" + e.target.result + "'></div>");
+                }
+            });
         }
     }
 </script>
