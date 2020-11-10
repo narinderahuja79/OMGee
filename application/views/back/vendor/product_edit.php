@@ -4,13 +4,13 @@
 <div class="row">
     <div class="col-md-12">
         <?php
-			echo form_open(base_url() . 'vendor/product/update/' . $row['product_id'], array(
-				'class' => 'form-horizontal',
-				'method' => 'post',
-				'id' => 'product_edit',
-				'enctype' => 'multipart/form-data'
-			));
-		?>
+            echo form_open(base_url() . 'vendor/product/update/' . $row['product_id'], array(
+                'class' => 'form-horizontal',
+                'method' => 'post',
+                'id' => 'product_edit',
+                'enctype' => 'multipart/form-data'
+            ));
+        ?>
             <!--Panel heading-->
             <div class="panel-heading">
                 <div class="panel-control" style="float: left;">
@@ -595,7 +595,6 @@
                     </div>
                 </div>
                 <div class="form-group btm_border hide_show_field">
-                    <label class="col-sm-4 control-label" ><?php echo translate('food_description');?></label>
                     <div class="col-sm-6">
                         <textarea name="food_description" maxlength="250" rows="3" placeholder="<?php echo translate('food_description');?>" class="form-control"><?php echo $row['food_description']; ?></textarea>
                     </div>
@@ -927,12 +926,12 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-md-11">
-                    	<span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn pull-right" 
+                        <span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn pull-right" 
                             onclick="ajax_set_full('edit','<?php echo translate('edit_product'); ?>','<?php echo translate('successfully_edited!'); ?>','product_edit','<?php echo $row['product_id']; ?>') "><?php echo translate('reset');?>
                         </span>
                      </div>
                      <div class="col-md-1">
-                     	<span class="btn btn-success btn-md btn-labeled fa fa-wrench pull-right enterer" onclick="form_submit('product_edit','<?php echo translate('successfully_edited!'); ?>');proceed('to_add');" ><?php echo translate('edit');?></span> 
+                        <span class="btn btn-success btn-md btn-labeled fa fa-wrench pull-right enterer" onclick="form_submit('product_edit','<?php echo translate('successfully_edited!'); ?>');proceed('to_add');" ><?php echo translate('edit');?></span> 
                      </div>
                 </div>
             </div>
@@ -1044,24 +1043,24 @@ if($row['test_section'] != 'yes')
         
 
     function other_forms(){}
-	
-	function set_summer(){
+    
+    function set_summer(){
         $('.summernotes').each(function() {
             var now = $(this);
             var h = now.data('height');
             var n = now.data('name');
-			if(now.closest('div').find('.val').length == 0){
-            	now.closest('div').append('<input type="hidden" class="val" name="'+n+'">');
-			}
+            if(now.closest('div').find('.val').length == 0){
+                now.closest('div').append('<input type="hidden" class="val" name="'+n+'">');
+            }
             now.summernote({
                 height: h,
                 onChange: function() {
                     now.closest('div').find('.val').val(now.code());
                 }
             });
-			now.closest('div').find('.val').val(now.code());
+            now.closest('div').find('.val').val(now.code());
         });
-	}
+    }
 
     function option_count(type){
         var count = $('#option_count').val();
@@ -1091,11 +1090,11 @@ if($row['test_section'] != 'yes')
         $('#sub').show('slow');
     }
     function get_cat(id){
-		$('#brn').hide('slow');
+        $('#brn').hide('slow');
         $('#sub').hide('slow');
         ajax_load(base_url+'vendor/product/sub_by_cat/'+id,'sub_cat','other');
     }
-	function get_brnd(id){
+    function get_brnd(id){
         $('#brn').hide('slow');
         ajax_load(base_url+'vendor/product/brand_by_sub/'+id,'brand','other');
         $('#brn').show('slow');
@@ -1106,15 +1105,15 @@ if($row['test_section'] != 'yes')
     $(".unit").on('keyup',function(){
         $(".unit_set").html($(".unit").val());
     });
-	
-	function createColorpickers() {
-	
-		$('.demo2').colorpicker({
-			format: 'rgba'
-		});
-		
-	}
-	
+    
+    function createColorpickers() {
+    
+        $('.demo2').colorpicker({
+            format: 'rgba'
+        });
+        
+    }
+    
     
     $("#more_btn").click(function(){
         $("#more_additional_fields").append(''
@@ -1242,18 +1241,18 @@ if($row['test_section'] != 'yes')
         $(this).parent().parent().remove();
     });
 
-	
+    
     function delete_row(e)
     {
         e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode);
     }    
-	
-	
-	$(document).ready(function() {
-		$("form").submit(function(e){
-			event.preventDefault();
-		});
-	});
+    
+    
+    $(document).ready(function() {
+        $("form").submit(function(e){
+            event.preventDefault();
+        });
+    });
     $('.food_name').change(function()
     {
         var id = $(this).attr('data-id');
@@ -1660,9 +1659,9 @@ if($row['test_section'] != 'yes')
     }
 </script>
 <style>
-	.btm_border{
-		border-bottom: 1px solid #ebebeb;
-		padding-bottom: 15px;	
-	}
+    .btm_border{
+        border-bottom: 1px solid #ebebeb;
+        padding-bottom: 15px;   
+    }
 </style>
 

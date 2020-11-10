@@ -328,7 +328,7 @@
                     {
                         var discount_value = "$"+discount.discount_value;
                     }
-                    $('.show_promocode').html('Date : '+response.till+'<br>Discount : '+discount_value);
+                    $('.show_promocode').html('<br>Date : '+response.till+'<br>Discount : '+discount_value);
                 }
                 else
                 {
