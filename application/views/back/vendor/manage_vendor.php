@@ -56,7 +56,7 @@
                                             <div class="col-sm-6">
                                                 <span class="pull-left btn btn-default btn-file"> <?php echo translate('choose_file');?>
                                                 <input type="file" name="images" onchange="previewcompany(this);" id="demo-hor-inputpass0" class="form-control">
-                                                 <input type="hidden"  name="last_images" value="<?php echo $row['image']; ?>">
+                                                 <input type="hidden"  name="last_images" value="<?php echo $row['company_image']; ?>">
                                                 </span>
                                                 <br><br>
                                                 <span id="previewcompanyImg" ></span>
@@ -79,7 +79,7 @@
                                                             </div>
                                                         </div>
                                                     <?php 
-                                                       } 
+                                                        } 
                                                     } 
                                                     ?>
                                             </div>
@@ -205,46 +205,91 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Add Brand and category -->
-                                        <div class="form-group">
-                                            <div class="col-sm-3">
-                                                <input type="text" multiple name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control ">
-                                            </div>
-
-                                            <div class="col-sm-3">
-                                                <div class="col-sm-12">
-                                                    <input type="file" name="brand_image[]" onchange="previewbrand(this);" id="demo-hor-inputpass0" class="form-control">
-                                                    </span>
-                                                    <br><br>
-                                                    <span id="previewbrandImg" ></span>
-                                                </div>
-                                            </div>
-                                            <!-- <span id="brandImg"></span> -->
-                                            
-                                            <div class="col-sm-3">
-                                                <?php
-                                                    $categories = $this->db->get('category')->result_array();
-                                                ?>
-                                                <select name="category[]" class="form-control">
-                                                <?php
-                                                    foreach ($categories as $cat) {
-                                                        ?>  
-
-                                                            <option value="<?php echo $cat['category_name'] ?>"><?php echo $cat['category_name'] ?></option>
-                                                        <?php
-                                                    }
-                                                ?>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-sm-3">
-                                                <div id="more_btn" class="btn btn-mint btn-labeled fa fa-plus pull-right">
-                                                <?php echo translate('add_more');?></div> 
-                                            </div>
+                                        <div class="form-group btm_border">
+                                            <h4 class="text-thin "><?php echo translate('add_brands'); ?></h4>
+                                        </div>
+                                        <div class="col-sm-12">
+                                                    <div id="more_btn" class="btn btn-mint btn-labeled fa fa-plus pull-right">
+                                                    <?php echo translate('add_more');?></div> 
                                         </div>
                                         <div id="more_additional_fields"></div>
-                                           
+                                        <?php
+                                        $vendor_brands = $this->db->get_where('vendorbrands',array('user_id' => $this->session->userdata('vendor_id')))->result_array();
+                                        if(count($vendor_brands) < 0 )
+                                        {
+                                            ?>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    
+                                                    <input type="text" multiple name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control" >
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="col-sm-13">
+                                                        <input type="file" name="brand_image[]" onchange="previewbrand(this);" id="demo-hor-inputpass0" class="form-control">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <?php
+                                                        $categories = $this->db->get('category')->result_array();
+                                                    ?>
+                                                    <select name="category[]" class="form-control" multiple="multiple">
+                                                    <?php
+                                                        foreach ($categories as $cat) {
+                                                            ?>  
+                                                            <option value="<?php echo $cat['category_id'] ?>"><?php echo $cat['category_name'] ?></option>
+                                                            <?php
+                                                        }
+                                                    ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                         <?php
+                                        }
+                                        foreach($vendor_brands as $val)
+                                        {
+                                            ?>
+                                            <div class="remove<?php echo $val['id']; ?>">
+                                                <div class="form-group">
+                                                    <div class="col-sm-3">
+                                                        <input type="text" multiple name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control brands_name<?php echo $val['id']; ?>" value="<?php echo $val['name']; ?>">
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="col-sm-13">
+                                                            <input type="file" name="brand_image[]" onchange="previewbrand(this);" id="demo-hor-inputpass0" class="form-control brand_image<?php echo $val['id']; ?>">
+                                                            <input type="hidden" name="last_brand_image[]" class="last_brand_image<?php echo $val['id']; ?>" value="<?php echo $val['image']; ?>">
+                                                            </span>
+                                                            <br><br>
+                                                            <?php if($val['image']) { ?>
+                                                             <div style='float:left;border:4px solid #303641;padding:5px;margin:5px;'><img height='80' src='<?php echo base_url('uploads/brand_image').'/'.$val['image']; ?>'></div>
+                                                            <?php } ?>
+                                                            <span class="previewbrandImg" ></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <?php
+                                                            $categories = $this->db->get('category')->result_array();
+                                                        ?>
+                                                        <select name="category[]" class="form-control category_name<?php echo $val['id']; ?>" multiple="multiple">
+                                                        <?php
+                                                            foreach ($categories as $cat) {
+                                                                ?>  
+                                                                    <option <?php if(in_array($cat['category_id'],explode(",",$val['category']))) { echo "selected"; }  ?> value="<?php echo $cat['category_id'] ?>"><?php echo $cat['category_name'] ?></option>
+                                                                <?php
+                                                            }
+                                                        ?>
+                                                        </select>
+                                                    </div>
+                                                     <div class="col-sm-2">
+                                                         <div brand_id="<?php echo $val['id']; ?>" class="btn btn-mint update_brand"><?php echo translate('update');?></div> 
+                                                        <span class="remove_it_v rms btn btn-danger btn-icon btn-circle icon-lg fa fa-times" onclick="delete_added_row(<?php echo $val['id']; ?>)"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         <?php
+                                         }
+                                         ?>  
+
                                     </div>
                                     <!-- End Manage Detail -->
                                     <!-- Start Account Details -->
@@ -833,7 +878,8 @@
                $('.modal-title').text("Edit User");  
                $('#user_id').val(user_id);  
                $('#user_uploaded_image').html(data.image);  
-               $('#action').val("Edit");  
+               $('#action').val("Edit"); 
+               window.location.reload(); 
           }  
      })  
     });  
@@ -866,21 +912,22 @@
         }
     }
 
-    window.previewbrand = function (input) 
+    /*window.previewbrand = function (input) 
     {
+        console.log(input);
         if (input.files && input.files[0]) 
         {
-            $("#previewbrandImg").html('');
+            $(".previewbrandImg").html('');
             $(input.files).each(function () 
             {
                 var reader = new FileReader();
                 reader.readAsDataURL(this);
                 reader.onload = function (e) {
-                    $("#previewbrandImg").append("<div style='float:left;border:4px solid #303641;padding:5px;margin:5px;'><img height='80' src='" + e.target.result + "'></div>");
+                    $(".previewbrandImg").append("<div style='float:left;border:4px solid #303641;padding:5px;margin:5px;'><img height='80' src='" + e.target.result + "'></div>");
                 }
             });
         }
-    }
+    }*/
 
     var x=0;
     $("#more_btn").click(function(){
@@ -894,7 +941,7 @@
             +'        <input type="file" name="brand_image[]" class="form-control">'
             +'    </div>'
             +'    <div class="col-sm-3">'
-            +'        <select name="category[]" class="form-control">  <?php  foreach ($categories as $cat) { ?> <option value="<?php echo $cat['category_name'] ?>"><?php echo $cat['category_name'] ?></option>  <?php } ?></select>'
+            +'        <select name="category[]" class="form-control" multiple="multiple">  <?php  foreach ($categories as $cat) { ?> <option value="<?php echo $cat['category_id'] ?>"><?php echo $cat['category_name'] ?></option>  <?php } ?></select>'
             +'    </div>'
 
             +'    <div class="col-sm-2">'
@@ -909,7 +956,86 @@
     {
         $('.remove'+x).empty();
     }
+    function delete_added_row(brand_id)
+    {
+            msg = 'Really want to delete this brand?'; 
+            bootbox.confirm(msg, function(result) {
+            if (result) 
+            { 
+                $.ajax({ 
+                        url: base_url+''+user_type+'/manage_vendor/dlt_brands/'+brand_id, 
+                        cache: false, 
+                        success: function(data) { 
+                            $('.remove'+brand_id).empty();
+                            $.activeitNoty({ 
+                                type: 'success', 
+                                icon : 'fa fa-check', 
+                                message : 'Deleted Successfully', 
+                                container : 'floating', 
+                                timer : 3000 
+                            }); 
+                            setTimeout(function(){ window.location.reload(); }, 3000); 
+                        } 
+                    });
+            }
+            else
+            {
+                $.activeitNoty({ 
+                    type: 'danger', 
+                    icon : 'fa fa-minus', 
+                    message : 'Cancelled', 
+                    container : 'floating', 
+                    timer : 3000 
+                }); 
+            }
+        });             
+    }
+    $('.update_brand').click(function()
+    {
+        var here = $(this);
+        var brand_id = here.attr('brand_id');
+        var name = $('.brands_name'+brand_id).val();
+        var last_brand_image = $('.last_brand_image'+brand_id).val();
+        var selected=[];
+        $('.category_name'+brand_id+' :selected').each(function()
+        {
+            if($(this).val()  > 0)
+            {
+                selected.push($(this).val());
+            }
+        });
 
+        var files = $('.brand_image'+brand_id)[0].files[0];
+        
+        var fd = new FormData();
+        fd.append('brand_id',brand_id);
+        fd.append('name',name);
+        fd.append('category',selected);
+        fd.append('brand_image',files);
+        fd.append('last_brand_image',last_brand_image);
+
+        $.ajax({ 
+            url: base_url+user_type+'/manage_vendor/update_brand/', 
+            data : fd,
+            method : 'post',
+            contentType: false,
+            processData: false,
+            success: function(data)
+            { 
+                $.activeitNoty({ 
+                    type: 'success', 
+                    icon : 'fa fa-check', 
+                    message : 'Brand update Successfully', 
+                    container : 'floating', 
+                    timer : 3000 
+                });
+                setTimeout(function(){ window.location.reload(); }, 3000);
+ 
+            } 
+        }); 
+           
+
+    });
     $('.delete-div-wrap .delete-events-img').on('click', function() { 
         var pid = $(this).closest('.delete-div-wrap').find('img').data('id'); 
         var here = $(this); 
