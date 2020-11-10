@@ -147,8 +147,7 @@
       }
     }
 
-    function is_wished($product_id,$user_id)
-    {
+    function is_wished($product_id,$user_id){
       // if ($this->session->userdata('user_login') == 'yes') {
       if ($user_id > 0) {
           // $user = $this->session->userdata('user_id');
@@ -161,11 +160,17 @@
                   '0'
               );
           }
-          if (in_array($product_id, $wished)) {
+          if(!empty($wished)){
+            if (in_array($product_id, $wished)) {
               return 'yes';
-          } else {
-              return 'no';
+            } else {
+                return 'no';
+            }  
+          }else{
+            return 'no';
           }
+          // echo "<pre>"; print_r($wished);die;
+          
       } else {
         echo "logged out";die();
           return 'no';
@@ -467,7 +472,6 @@
 
 
     function searchProduct($search='',$filter="",$brand_id){
-      // echo $brand_id;die;
       //$filter = newArrival,highToLow,lowToHigh,brands,atoz,ztoa,yearWine,abv,cashback,promotion
       $this->db->select('product.*,brand.brand_id,brand.name as brand_name');
       $this->db->from('product');
@@ -483,7 +487,7 @@
 
       
       if(!empty($filter)){
-        if($filter=="newarrival"){
+        if($filter=="NewArrivals"){
           $newarrival="`product`.`created_date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY AND `created_date` < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY";
 
           $this->db->where($newarrival);     

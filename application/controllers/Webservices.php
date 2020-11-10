@@ -40,7 +40,13 @@
                     $result['country'] = !empty($data1['country']) ? $data1['country'] : "";
                     // $result['titlename'] = $data1['titlename'];
                     $result['email'] = $data1['email'];
-                    $result['profile_image'] = base_url().$path.$data1['profile_image'];
+
+                    if(!empty($data1['profile_image'])){
+                        $result['profile_image'] = base_url().$path.$data1['profile_image'];
+                    }else{
+                        $result['profile_image'] = "";
+                    }
+                    
                     $result['dob'] = !empty($data1['dob']) ? $data1['dob'] : '';
                     // $result['is_verify'] = $data1['is_verify'];
                     $result['full_name'] = $data1['username'].' '.$data1['surname'];
@@ -110,6 +116,8 @@
           }
           return $res;
         }
+
+
 
 
 
@@ -225,7 +233,12 @@
                 $result['phone']   = $userData['phone'];
                 $result['countrycode']  = $userData['countrycode'];
                 $result['country']  = $userData['country'];
-                $result['profile_image_url'] = base_url('uploads/user_image/'.$userData['profile_image']);
+                if(!empty($userData['profile_image'])){
+                    $result['profile_image_url'] = base_url('uploads/user_image/'.$userData['profile_image']);    
+                }else{
+                    $result['profile_image_url'] ="";
+                }
+                
                 $result['user']   = $userData['email'];
                 $result['dob'] = !empty($userData['dob']) ? $userData['dob'] : '';
 
@@ -252,6 +265,8 @@
     /* http://103.15.67.74/pro1/teleboutik/webservices/profile_update */
 
     public function profile_update(){
+         // echo "<pre>"; print_r($_POST);echo "<pre>";
+         // echo "<pre>"; print_r($_FILES);echo "<pre>";die;
         $user_id = $this->input->post('user_id');
         $title   = "Mr/Mrs";
         $full_name = $this->input->post('full_name');
@@ -306,12 +321,24 @@
                     $res['message'] = 'Data Updated Succesfully';
                     $res['data'] = $data; 
                 }
-            }
-            else
-            {
+            }else{
+                // echo "<pre>"; print_r($data);die;
                 $this->Webservice_model->update_data('user',$data, $where);
 
-                // echo "<pre>"; print_r($data);die;
+                // $check = $this->db->select('*')->from('user')->get()->result();
+                // $where = array('user_id'=>$user_id,'password'=>$old_password);
+                // $check = $this->Webservice_model->getNumRows('user',$where);
+                $check =  $this->Webservice_model->get_data_where('user', $where);
+                $check = !empty($check) ? $check[0] : "";
+                $profile_image = !empty($check) ? $check['profile_image'] : "";
+                if(!empty($profile_image)){
+                    $data['profile_image_url'] = base_url('uploads/user_image/'.$profile_image);
+                }else{
+                    $data['profile_image_url'] = "";
+                }
+                
+                // $data['profile_image_url']="";
+                // echo "<pre>"; print_r($check);die;
                 $res['status'] = 1;
                 $res['message'] = 'Data Updated Succesfully';
                 $res['data'] = $data; 
@@ -446,28 +473,40 @@
     public function product_detail() {
         $results_array = array();
         $productId = $this->input->post('product_id');
+        $user_id = $this->input->post('user_id');
 
          // $productInfo=$this->Webservice_model->getDataFromTabel('product', '*', array('product_id'=>$productId));
         // $row = !empty($productInfo) ? $productInfo[0] : "";
         $row = $this->db->get_where('product',array('product_id' => $productId))->row();
         
-        // echo "<pre>"; print_r($productInfo);die;
+        
         if (!empty($row)) {
             $res = array();
             $results_array['product_id'] = $row->product_id;
 
-            // $results_array['food_section'] = $row->food_section;
-            // $results_array['food_title'] = !empty($row->food_title) ? $row->food_title : "";
-            // $results_array['food_description'] = !empty($row->food_description) ? $row->food_description : "";
-            // $results_array['food_image1'] = !empty($row->food_image1) ? base_url('uploads/product_image/'.$row->food_image1 : "";
-            // $results_array['food_image2'] = !empty($row->food_name2) ? $base_url('uploads/product_image/'.$row->food_name2 : "";
-            // $results_array['food_image3'] = !empty($row->food_image3) ? base_url('uploads/product_image/'.$row->food_image3 : "";
-            // $results_array['food_image4'] = !empty($row->food_image4) ? base_url('uploads/product_image/'.$row->food_image4 : "";
+            $results_array['food_section'] = $row->food_section;
+            $results_array['food_title'] = !empty($row->food_title) ? $row->food_title : "";
+            $results_array['food_description'] = !empty($row->food_description) ? $row->food_description : "";
+            $results_array['food_image1'] = !empty($row->food_image1) ? base_url('uploads/product_image/'.$row->food_image1) : "";
+            $results_array['food_image2'] = !empty($row->food_name2) ? base_url('uploads/product_image/'.$row->food_name2) : "";
+            $results_array['food_image3'] = !empty($row->food_image3) ? base_url('uploads/product_image/'.$row->food_image3) : "";
+            $results_array['food_image4'] = !empty($row->food_image4) ? base_url('uploads/product_image/'.$row->food_image4) : "";
 
 
             $results_array['title'] = !empty($row->title) ? $row->title : "";
             $results_array['decription'] = !empty($row->decription) ? $row->decription : "";
-            $results_array['images'] = base_url('uploads/product_image/').$row->num_of_imgs;
+            // $results_array['images'] = base_url('uploads/product_image/').$row->num_of_imgs;
+
+
+             if($row->num_of_imgs !=NULL){
+                $num_of_img = explode(",", $row->num_of_imgs); 
+
+                $results_array['images'] = base_url('uploads/product_image/'.$num_of_img[0]);
+            }else{
+                $results_array['images'] = base_url('uploads/product_image/default.jpg');
+            }
+
+
 
             $max_stock = 72;
             $coupon_price = 0;
@@ -494,9 +533,9 @@
             }
 
 
-
+            $results_array['orp'] = $row->bundle_sale1;
             $rrp = $row->bundle_sale1;
-        
+            
             $wholesale = $row->wholesale;
             $discount = ($row->bundle_discount1) ? ($row->bundle_discount1/100) : 0;
             
@@ -542,6 +581,7 @@
                 array('id'=>$row->test55_number,'name'=>$row->test55_name)
             );
 
+
             $arr2 = $this->array_msort($arr1, array('id'=>SORT_DESC));
 
             $newarr2 = array();
@@ -556,18 +596,26 @@
 
             $results_array['wine_test'] = $newarr2;
 
-
-             $food_paring = array();
-            if($row->food_section == 'yes'){
-                // $food_paring['food_title']=$row->food_title;
-                $food_paring['food_description']=$row->food_description;
-                $food_paring['food_image1']= base_url('uploads/product_image/'.$row->food_image1); 
-                $food_paring['food_image2']= base_url('uploads/product_image/'.$row->food_name2); 
-                $food_paring['food_image3']= base_url('uploads/product_image/'.$row->food_image3); 
-                $food_paring['food_image4']= base_url('uploads/product_image/'.$row->food_image4); 
+            $wish = $this->Webservice_model->is_wished($row->product_id,$user_id); 
+            if(!empty($wish)){
+                $is_wished='1';
+            }else{
+                $is_wished='0';
             }
+
+            $results_array['orp']=$this->get_orp($row->bundle_sale1,$wholesale,$row->bundle_discount1,$row->limited_release);
+            
+            //  $food_paring = array();
+            // if($row->food_section == 'yes'){
+            //     // $food_paring['food_title']=$row->food_title;
+            //     $food_paring['food_description']=$row->food_description;
+            //     $food_paring['food_image1']= base_url('uploads/product_image/'.$row->food_image1); 
+            //     $food_paring['food_image2']= base_url('uploads/product_image/'.$row->food_name2); 
+            //     $food_paring['food_image3']= base_url('uploads/product_image/'.$row->food_image3); 
+            //     $food_paring['food_image4']= base_url('uploads/product_image/'.$row->food_image4); 
+            // }
                 
-             $results_array['food_paring'] = $food_paring;
+            //  $results_array['food_paring'] = $food_paring;
 
             $likesArr = array();
             $you_also_likes = $this->db->get_where('product',array('added_by'=>$row->added_by))->result_array();
@@ -575,12 +623,55 @@
             if(!empty($you_also_likes)){
                 foreach ($you_also_likes as $pkey) {
                     $resp = array();
+                    $resp['discount'] = ($pkey->bundle_discount1) ? ($pkey->bundle_discount1/100) : 0;
+                    $resp['rrp'] = $pkey['bundle_sale1'];
+                    $resp['orp'] = $this->get_orp($pkey['bundle_sale1'],$pkey->wholesale,$pkey->bundle_discount1,$pkey->limited_release);
                     $resp['product_id'] = $pkey['product_id'];
                     $resp['title'] = $pkey['title'];
-                    $resp['product_image'] = base_url('uploads/product_image/'.$pkey['main_image']);                    
+
+
+                    if($pdtvalue['num_of_imgs'] !=NULL){
+                        $num_of_img = explode(",", $pkey['num_of_imgs']); 
+                        $resp['product_image'] = base_url('uploads/product_image/'.$num_of_img[0]);
+                        
+                    }else{
+                        $resp['product_image'] = base_url('uploads/product_image/default.jpg');
+                    }
+
+                    // $resp['product_image'] = base_url('uploads/product_image/'.$pkey['main_image']);                    
                     $resp['sale_price'] = $pkey['bundle_sale1'];
                     $resp['purchase_price'] = $pkey['purchase_price'];
                     $resp['discount'] = !empty($pkey['bundle_discount1']) ? $pkey['bundle_discount1'] : "";
+
+
+                    if($pkey['bundle_discount1'] > 0){
+                        $resp['off'] = '1';
+                    }else{
+                        // $community_arr['product_price'] = $row['bundle_discount1'];
+                        $resp['off'] = '0';
+                    }    
+                    
+
+                    $productKey = $this->searchArrayKeyVal("productid", $pkey['product_id'], $already_add_product_arr);
+
+                    if($productKey!==false) {
+                        $resp['cashback'] = '1';
+                        $resp['discount_value'] = $already_add_product_arr[$productKey]['discount_value'];
+                        $resp['discount_type'] = $already_add_product_arr[$productKey]['discount_type'];
+                    }else{
+                        $resp['cashback'] = '0';
+                        $resp['discount_value'] = "";
+                        $resp['discount_type'] = "";
+                    }
+
+                    $wish = $this->Webservice_model->is_wished($pkey['product_id'],$user_id); 
+                    if(!empty($wish)){
+                        $is_wished='1';
+                    }else{
+                        $is_wished='0';
+                    }
+
+                    $resp['is_wished'] = $is_wished;
                     $likesArr[]  =$resp;;
                 }    
             }
@@ -634,20 +725,22 @@
     public function search(){
         $results_array = array();
         $product_search = $this->input->post('product_search');
-        $data = $this->Webservice_model->searchProduct($product_search);
+        $filter = $this->input->post('search_by_filter');
+        $brand_id = $this->input->post('brand_id');
+        $data = $this->Webservice_model->searchProduct($product_search,$filter,$brand_id);
         // echo "<pre>"; print_r($data);die;
         if(!empty($data)){
             foreach ($data as $key) {
                 $respo = array();
-                $respo['product_id']   = $key['product_id'];
-                $respo['title']   = $key['title'];
-                $respo['description'] = $key['description'];
-                $respo['sale_price'] = $key['bundle_sale1'];
+                $respo['product_id']   = $key->product_id;
+                $respo['title']   = $key->title;
+                $respo['description'] = $key->description;
+                $respo['sale_price'] = $key->bundle_sale1;
                 $respo['rating'] = '4';
-                $respo['orp_price'] = $this->get_orp($key['bundle_sale1'],$key['wholesale'],$key['bundle_discount1'],$key['limited_release']);
+                $respo['orp_price'] = $this->get_orp($key->bundle_sale1,$key->wholesale,$key->bundle_discount1,$key->limited_release);
 
-                if(!empty($key['num_of_imgs'])){
-                    $respo['image'] = base_url('uploads/product_image/'.$key['num_of_imgs']);
+                if(!empty($key->num_of_imgs)){
+                    $respo['image'] = base_url('uploads/product_image/'.$key->num_of_imgs);
                 }else{
                     $respo['image'] = base_url('uploads/product_image/default.jpg');
                 }
@@ -666,8 +759,17 @@
 
 
 
+//is_wished
+// rrp
+// orp
+// off
+// cashback
+// title
+// product_image
+
 
     public function dashboard() {
+        $user_id = $this->input->post('user_id');
         $results_array = array();
         // $events_array = array();
         $slider_array = array();
@@ -786,13 +888,56 @@
                 $cateArr['category_name'] = 'Popular';        
                 $cateArr['category_id'] = '';        
                 $cateArr['category_image']= base_url('template/omgee/images/iconfindericon/popular.png');
-                $cateArr['sub_category']=array();
+                
+                $brandArray = array();
+                $brands = $this->db->limit(12)->get_where('brand')->result_array();
+                foreach ($brands as $brandsvalue) {
+                    $brand_arr = array();
+                    if($brandsvalue['logo'] !=NULL){
+                        $num_of_img = explode(",", $brandsvalue['logo']); 
+                        $brand_arr['category_image'] = base_url('uploads/brand_image/'.$num_of_img[0]);
+                        $brand_arr['sub_category_name'] = $brandsvalue['name'];
+                        $brand_arr['sub_category_id'] = $brandsvalue['brand_id'];
+                    }else{
+                        $brand_arr['category_image'] = base_url('uploads/product_image/default.jpg');
+                        $brand_arr['sub_category_name'] = $brandsvalue['name'];
+                        $brand_arr['sub_category_id'] = $brandsvalue['brand_id'];
+                        
+                    }
+                    $brandArray[]  = $brand_arr;
+                }
+                // $results_array['brand'] = $brandArray;                            
+                
+                $cateArr['sub_category']=$brandArray;
+
 
             }if($cat_count=='1'){
                 $cateArr['category_name'] = 'Top Deals';        
                 $cateArr['category_id'] = '';        
                 $cateArr['category_image']= base_url('template/omgee/images/iconfindericon/topdeals.png');
-                 $cateArr['sub_category']=array();
+
+
+                $topdeal_array = array();                                    
+                $topdeal_products = $this->db->limit(12)->get_where('product',array('deal'=>'ok','status'=>'ok'))->result_array();
+                foreach ($topdeal_products as $pdtvalue) {
+                    $topdeal_arr  = array();
+                    if($pdtvalue['num_of_imgs'] !=NULL){
+                        $num_of_img = explode(",", $pdtvalue['num_of_imgs']); 
+                        $topdeal_arr['category_image'] = base_url('uploads/product_image/'.$num_of_img[0]);
+                        $topdeal_arr['sub_category_name'] = $pdtvalue['title'];
+                        $topdeal_arr['sub_category_id'] = $pdtvalue['product_id'];
+                    }else{
+                        
+                        $topdeal_arr['sub_category_name'] = $pdtvalue['title'];
+                        $topdeal_arr['category_image'] = base_url('uploads/product_image/default.jpg');
+                        $topdeal_arr['sub_category_id'] = $pdtvalue['product_id'];
+                      
+                    }
+                    $topdeal_array[] = $topdeal_arr;
+                }
+                // $results_array['topdeal_product'] = $topdeal_array;     
+
+                $cateArr['sub_category']=$topdeal_array;
             }
             if( ($cat_count!='0' && $cat_count!='1') && ($catvalue['category_id']=='23' || $catvalue['category_id']=='17' || $catvalue['category_id'] == '16' )){
                 $cateArr['category_name'] = $catvalue['category_name'];        
@@ -898,66 +1043,49 @@
         // }
         // $results_array['publish_category'] = $category_array;
 
-        // $brandArray = array();
-        // $brands = $this->db->limit(12)->get_where('brand')->result_array();
-        // foreach ($brands as $brandsvalue) {
-        //     $brand_arr = array();
-        //     if($brandsvalue['logo'] !=NULL){
-        //         $num_of_img = explode(",", $brandsvalue['logo']); 
-        //         $brand_arr['brand_image'] = base_url('uploads/brand_image/'.$num_of_img[0]);
-        //         $brand_arr['brand_name'] = $brandsvalue['name'];
-        //         $brand_arr['brand_id'] = $brandsvalue['brand_id'];
-        //     }else{
-        //         $brand_arr['brand_image'] = base_url('uploads/product_image/default.jpg');
-        //         $brand_arr['brand_name'] = $brandsvalue['name'];
-        //         $brand_arr['brand_id'] = $brandsvalue['brand_id'];
-                
-        //     }
-        //     $brandArray[]  = $brand_arr;
-        // }
-        // $results_array['brand'] = $brandArray;                            
-        
-        // $topdeal_array = array();                                    
-        // $topdeal_products = $this->db->limit(12)->get_where('product',array('deal'=>'ok','status'=>'ok'))->result_array();
-        // foreach ($topdeal_products as $pdtvalue) {
-        //     $topdeal_arr  = array();
-        //     if($pdtvalue['num_of_imgs'] !=NULL){
-        //         $num_of_img = explode(",", $pdtvalue['num_of_imgs']); 
-        //         $topdeal_arr['topdeal_image'] = base_url('uploads/product_image/'.$num_of_img[0]);
-        //         $topdeal_arr['title'] = $pdtvalue['title'];
-        //         $topdeal_arr['product_id'] = $pdtvalue['product_id'];
-        //     }else{
-        //         $topdeal_arr['topdeal_image'] = base_url('uploads/product_image/default.jpg');
-        //         $topdeal_arr['title'] = $pdtvalue['title'];
-        //         $topdeal_arr['topdeal_image'] = base_url('uploads/product_image/default.jpg');
-        //         $topdeal_arr['product_id'] = $pdtvalue['product_id'];
-              
-        //     }
-        //     $topdeal_array[] = $topdeal_arr;
-        // }
-        // $results_array['topdeal_product'] = $topdeal_array;                            
-                                          
-
-
-        
         
         $lastWeekproduct = array();                  
         $latest =$this->Webservice_model->lastOneWeekproduct();
+        
         $total_latest = count($latest);
         foreach($latest as $row){ 
-
+            // echo "<pre>";print_r($row);die;
             $latestPro = array();
             $latestPro['discount'] = $row['bundle_discount1'];
-               
+            
+
+            if($row['bundle_discount1'] > 0){
+                $latestPro['off'] = '1';
+            }else{
+                // $community_arr['product_price'] = $row['bundle_discount1'];
+                $latestPro['off'] = '0';
+            }    
+            
+
             $productKey = $this->searchArrayKeyVal("productid", $row['product_id'], $already_add_product_arr);
 
             if($productKey!==false) {
+                $latestPro['cashback']='1';
                 $latestPro['discount_value'] = $already_add_product_arr[$productKey]['discount_value'];
                 $latestPro['discount_type'] = $already_add_product_arr[$productKey]['discount_type'];
             }else{
+                $latestPro['cashback']='0';
                 $latestPro['discount_value'] = "";
                 $latestPro['discount_type'] = "";
             }
+
+            $wish = $this->Webservice_model->is_wished($row['product_id'],$user_id); 
+            
+            if(!empty($wish)){
+                $is_wished='1';
+            }else{
+                $is_wished='0';
+            }
+            // if($wish == 'yes')
+            // echo $row['bundle_sale1'];die;
+            $latestPro['rrp'] = $row['bundle_sale1'];
+            $latestPro['orp'] = $this->get_orp($row['bundle_sale1'],$row['wholesale'],$row['bundle_discount1'],$row['limited_release']);
+            $latestPro['is_wished']= $is_wished;
                 
             $latestPro['product_id'] =$row['product_id'];
             $latestPro['title'] =$row['title'];
@@ -986,10 +1114,20 @@
             if($row['bundle_discount1'] > 0){
                 $community_arr['product_price'] = $row['bundle_discount1'];
                 $community_arr['off'] = '1';
-                    
+            }else{
+                // $community_arr['product_price'] = $row['bundle_discount1'];
+                $community_arr['off'] = '0';
             }    
-        
-                           
+            $wish = $this->Webservice_model->is_wished($row['product_id'],$user_id); 
+            // $wish = $this->crud_model->is_wished($row['product_id']); 
+            if(!empty($wish)){
+                $is_wished='1';
+            }else{
+                $is_wished='0';
+            }
+            // if($wish == 'yes')
+
+            $community_arr['is_wished']= $is_wished;
             $productKey = $this->searchArrayKeyVal("productid", $row['product_id'], $already_add_product_arr);
 
             
@@ -1003,6 +1141,11 @@
                 $community_arr['discount_value'] = $already_add_product_arr[$productKey]['discount_value'];
                 $community_arr['discount_type'] = $already_add_product_arr[$productKey]['discount_type'];
             
+            }else{
+                $community_arr['cashback'] = '0';
+                
+                $community_arr['discount_value'] = "";
+                $community_arr['discount_type'] = "";    
             }
 
             if(!empty($row['num_of_imgs'])){
@@ -1013,7 +1156,7 @@
             }
             $community_arr['product_image'] = $product_image;
             $community_arr['title'] = $row['title'];
-             
+            $community_arr['rrp'] = $row['bundle_sale1'];
                                 
             if($row['bundle_qty1']){
                 $rrp = $row['bundle_sale1'];
@@ -1043,6 +1186,7 @@
                 $lat_sale_price2 = $total_orp*6;
                 $lat_sale_price3 = $total_orp*12;
 
+                $community_arr['discount'] = (string)$discount;
                 $community_arr['Each'] = currency($orp *1);
                 $community_arr['Six'] = currency($orp *6); 
                 $community_arr['Twelve'] = currency($orp *12);
@@ -1061,6 +1205,58 @@
 
         // echo "<pre>"; print_r($results_array);die;
     }
+
+
+
+
+    //brand list
+    public function brandList(){
+        $brand = $this->Webservice_model->getDataFromTabel('brand','*');
+        // echo "<pre>";print_r($brand);die();  
+        $response = array();
+        if(!empty($brand)){
+            $res['status'] = 1;
+            $res['message'] = 'Brand fetched';
+            $res['data'] =  $brand;     
+        }else{
+            $res['status'] = 0;
+            $res['message'] = 'No record found';
+        }
+        
+        exit(json_encode($res));
+    }
+
+
+    
+
+
+
+// $brandArray = array();
+//                 $brands = $this->db->limit(12)->get_where('brand')->result_array();
+//                 foreach ($brands as $brandsvalue) {
+//                     $brand_arr = array();
+//                     if($brandsvalue['logo'] !=NULL){
+//                         $num_of_img = explode(",", $brandsvalue['logo']); 
+//                         $brand_arr['category_image'] = base_url('uploads/brand_image/'.$num_of_img[0]);
+//                         $brand_arr['sub_category_name'] = $brandsvalue['name'];
+//                         $brand_arr['sub_category_id'] = $brandsvalue['brand_id'];
+//                     }else{
+//                         $brand_arr['category_image'] = base_url('uploads/product_image/default.jpg');
+//                         $brand_arr['sub_category_name'] = $brandsvalue['name'];
+//                         $brand_arr['sub_category_id'] = $brandsvalue['brand_id'];
+                        
+//                     }
+//                     $brandArray[]  = $brand_arr;
+//                 }
+//                 // $results_array['brand'] = $brandArray;                            
+                
+//                 $cateArr['sub_category']=$brandArray;
+
+
+
+
+
+
 
 
 
@@ -1097,6 +1293,7 @@
                         $respo['order_date'] = date("d-m-Y",$orderData[$key]['sale_datetime']);
 
                         if(!empty($productInfo[0]->num_of_imgs)){
+                            // $num_of_img = explode(",", $row['num_of_imgs']); 
                             $respo['num_of_imgs'] = base_url('uploads/product_image/'.$productInfo[0]->num_of_imgs);
                         }else{
                             $respo['num_of_imgs'] = base_url('uploads/product_image/default.jpg');
@@ -1196,6 +1393,7 @@
 
     public function delete_wish_list_item(){
         $user_id =  $this->input->post('user_id');
+        
         $product_id = $this->input->post('product_id');
 
         $this->Webservice_model->remove_wish($product_id,$user_id);
@@ -1450,6 +1648,7 @@
 
 
     public function add_address(){
+        // echo "<pre>"; print_r($_POST);die;
         $addressArr1 = array();
         $addressArr2 = array();
         $user_id=$this->input->post('user_id');
@@ -1688,7 +1887,7 @@
                     // echo "<br>";
                     $customer = (array) $customer;
                     $charge = (array) $charge; 
-
+                    $data['buyer']  = $user_id;
                     $data['product_details']   = $product_details;
                     $data['shipping_address']  = "";
                     $data['vat']               = !empty($vat) ? $vat : 0;
