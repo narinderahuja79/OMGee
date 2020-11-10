@@ -8,7 +8,7 @@
 		));
 	?>
             <input type="hidden" name="product_id" value="<?php echo $product; ?>" >
-            <input type="hidden" name="remove" value="0" >
+            <input type="hidden" name="remove" value="1" >
             <h3><?php echo translate('do_you_really_want_to_remove_this_product!'); ?></h3>
     </form>
 

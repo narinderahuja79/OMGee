@@ -443,6 +443,42 @@ $digital_check = $this->crud_model->get_type_name_by_id('general_settings', '69'
                             }
                         }
                         ?>
+                         <li style="display: none;" class="active-sub">
+                            <a href="#">
+                                <i class="fa fa-file-text"></i>
+                                    <span class="menu-title">
+                                        Download CSV
+                                    </span>
+                                <i class="fa arrow"></i>
+                            </a>
+                            <!--REPORT-------------------->
+                            <ul class="collapse">
+                                <li>
+                                    <a href="<?php echo base_url(); ?>vendor/cat_export_csv">
+                                        <i class="fa fa-circle fs_i"></i>
+                                            <?php echo "Category";?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>vendor/sub_cat_export_csv">
+                                        <i class="fa fa-circle fs_i"></i>
+                                            <?php echo "Sub Category";?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>vendor/brands_export_csv">
+                                        <i class="fa fa-circle fs_i"></i>
+                                            <?php echo "Brands";?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>uploads/product_sample.csv" download>
+                                        <i class="fa fa-circle fs_i"></i>
+                                            <?php echo "Sample Product CSV";?>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                 </div>
             </div>
         </div>

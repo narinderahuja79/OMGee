@@ -3,6 +3,8 @@
         <meta name="keywords" content="<?php echo $keywords; if($page_name == 'vendor_home'){ echo ', '.$this->db->get_where('vendor',array('vendor_id'=>$vendor))->row()->keywords; }  if($page_name == 'others/custom_page'){ echo ', '.$tags; } ?>">
         <meta name="author" content="<?php echo $author; ?>">
         <meta name="revisit-after" content="<?php echo $revisit_after; ?> days">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <?php
