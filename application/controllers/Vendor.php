@@ -3542,7 +3542,8 @@ class Vendor extends CI_Controller
     
 
     /* Manage vendor Settings */
-    function manage_vendor($para1 = ""){
+    function manage_vendor($para1 = "",$para2 = "")
+    {
         if ($this->session->userdata('vendor_login') != 'yes') {
             redirect(base_url() . 'vendor');
         }
@@ -3578,7 +3579,7 @@ class Vendor extends CI_Controller
                     $images_arr[] =  $newFileName; 
                     move_uploaded_file($file_tmp,"uploads/events_image/".$newFileName);
                 }   
-                $data["company_image"] = (count($images_arr)>0) ? implode(",", $images_arr) : $this->input->post('last_images');  
+                $data["company_image"] = (count($images_arr)>0) ? implode(",",$images_arr) : $this->input->post('last_images');  
 
                 // $data['name'] = $this->input->post('name');
                 $data['first_name'] = $this->input->post('first_name');
@@ -3624,10 +3625,8 @@ class Vendor extends CI_Controller
 
                 $this->db->where('vendor_id', $this->session->userdata('vendor_id'));
                 $this->db->update('vendor',$data);
-                //echo $this->db->last_query();
-                //redirect(base_url('vendor/manage_vendor'));
-                //upload single image
-  
+               
+               
                 $images_arr = array();  
                 $extension = array("jpeg","jpg","png","gif");
                 for($img=0; $img <=1; $img++) 
@@ -3647,29 +3646,67 @@ class Vendor extends CI_Controller
                     } 
                 }
 
-                $brand_arr[] = $this->input->post('brands');
-                $cat_arr[] = $this->input->post('category');
-
-                $data1["image"] = implode(",",$images_arr);  
+                $brand_arr = $this->input->post('brands');
+                $cat_arr = $this->input->post('category');  
+                $brand_id_arr = $this->input->post('brand_id');   
                 
                 $data1['user_id'] =  $this->session->userdata('vendor_id');
-                foreach($brand_arr as $br) 
+    
+                foreach($brand_arr as $key => $br) 
                 {
-                    $data1['name'] =  implode(",",$br);
-                }
-                foreach($cat_arr as $cat) 
-                {
-                    $data1['category'] =  implode(",",$cat);
-                }
-                
-                if($brand_arr &&  $cat_arr && $images_arr)
-                {
-                    $this->db->where('user_id', $this->session->userdata('vendor_id'));
-                    $this->db->insert('vendorbrands',$data1);
-                    redirect(base_url('vendor/manage_vendor'));
-                }                  
+                    $data1['name'] = $br;
 
-        } else {
+                    if(!$this->db->get_where('vendorbrands',array('name' =>$br))->row()->name)
+                    {
+                        $data1['category'] = implode(",",$cat_arr[$key]);
+                        $this->db->insert('vendorbrands',$data1);
+                        echo $this->db->last_query();
+                        if($this->db->insert_id() > 0)
+                        {
+                            $this->db->where('id', $this->db->insert_id());
+                            $this->db->update('vendorbrands', array('image'=>$images_arr[$key]));
+                        }
+                    }
+                }               
+        }
+        elseif($para1 == 'update_brand') 
+        {
+                   
+            $images_arr = array();  
+            $extension = array("jpeg","jpg","png","gif");
+
+            $file_name = $_FILES["brand_image"]["name"];
+            $file_tmp = $_FILES["brand_image"]["tmp_name"];
+            $ext=pathinfo($file_name,PATHINFO_EXTENSION);
+
+            if(in_array($ext,$extension)) 
+            {
+                $filename = basename($file_name,$ext);
+                $newFileName = $filename.time().".".$ext; 
+                move_uploaded_file($file_tmp,"uploads/brand_image/".$newFileName);
+            } 
+             
+
+            if($newFileName)
+            {
+                $change_image = $newFileName;
+            }
+            else
+            {
+                $change_image = $this->input->post('last_brand_image');
+            }
+
+            $this->db->where('id',$this->input->post('brand_id'));
+            $this->db->where('user_id',$this->session->userdata('vendor_id'));
+            $this->db->update('vendorbrands', array('name'=>$this->input->post('name'),'category'=>$this->input->post('category'),'image'=>$change_image));
+            echo 'success';      
+        } 
+        elseif($para1 == 'dlt_brands')
+        {
+            $this->db->where('id', $para2);
+            $this->db->delete('vendorbrands');
+        }
+        else {
             $page_data['page_name'] = "manage_vendor";
             $this->load->view('back/index', $page_data);
         }
