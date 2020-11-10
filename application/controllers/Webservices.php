@@ -746,7 +746,8 @@
                 $respo['orp_price'] = $this->get_orp($bundle_sale1,$wholesale,$bundle_discount1,$limited_release);
 
                 if(!empty($key->num_of_imgs)){
-                    $respo['image'] = base_url('uploads/product_image/'.$key->num_of_imgs);
+                    $num_of_imgs = explode(",", $key->num_of_imgs); 
+                    $respo['image'] = base_url('uploads/product_image/'.$num_of_imgs);
                 }else{
                     $respo['image'] = base_url('uploads/product_image/default.jpg');
                 }
