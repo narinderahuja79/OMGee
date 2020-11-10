@@ -737,7 +737,13 @@
                 $respo['description'] = $key->description;
                 $respo['sale_price'] = $key->bundle_sale1;
                 $respo['rating'] = '4';
-                $respo['orp_price'] = $this->get_orp($key->bundle_sale1,$key->wholesale,$key->bundle_discount1,$key->limited_release);
+
+                $bundle_sale1=!empty($key->bundle_sale1)?$key->bundle_sale1:0;
+                $wholesale=!empty($key->wholesale)?$key->wholesale:0;
+                $bundle_discount1=!empty($key->bundle_discount1)?$key->bundle_discount1:0;
+                $limited_release=!empty($key->limited_release)?$key->limited_release:0;
+                
+                $respo['orp_price'] = $this->get_orp($bundle_sale1,$wholesale,$bundle_discount1,$limited_release);
 
                 if(!empty($key->num_of_imgs)){
                     $respo['image'] = base_url('uploads/product_image/'.$key->num_of_imgs);
