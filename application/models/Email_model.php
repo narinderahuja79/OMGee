@@ -670,12 +670,10 @@ class Email_model extends CI_Model
         if($this->email->send()){
             return true;
         }else{
-            //echo $this->email->print_debugger();
+            // echo $this->email->print_debugger();
             return false;
         }
         //echo $this->email->print_debugger();
     }
-    
-    
     
 }

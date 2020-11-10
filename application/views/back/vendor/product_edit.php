@@ -30,8 +30,9 @@
                                 <label class="col-sm-4 control-label" for="demo-hor-12"><?php echo translate('images');?></label>
                                 <div class="col-sm-6">
                                     <span class="pull-left btn btn-default btn-file"> <?php echo translate('choose_file');?>
-                                        <input type="file"  multiple name="images[]" onchange="preview(this);" id="demo-hor-inputpass" class="form-control">
+                                        <input type="file"  multiple name="images[]" onchange="preview(this);" id="demo-hor-inputpass" class="form-control <?php if($row['num_of_imgs']=="NULL"){echo "required"; } ?> ">
                                     </span>
+
                                     <br><br>
                                     <span id="previewImg" ></span>
                                 </div>
@@ -116,7 +117,7 @@
                             <div   class="form-group btm_border">
                                 <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo "Volume (ml)";?></label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="unit" id="demo-hor-5" value="<?php echo $row['unit']; ?>" placeholder="<?php echo translate('Volume (ml)'); ?>" class="form-control unit required">
+                                    <input type="text" name="unit" id="demo-hor-5" value="<?php echo $row['unit']; ?>" placeholder="<?php echo translate('Volume (ml)'); ?>" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group btm_border">
@@ -167,7 +168,7 @@
                             <div class="form-group btm_border">
                                 <label class="col-sm-4 control-label" for="demo-hor-13">Product Description English</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="5"  class="form-control"  name="description_en"><?php echo $row['description_en']; ?></textarea>
+                                    <textarea rows="5"  class="form-control required"  name="description_en"><?php echo $row['description_en']; ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group btm_border">
@@ -185,13 +186,13 @@
                             <div class="form-group btm_border" >
                                 <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo translate('wholesale (INCL GST + WET)');?></label>
                                 <div class="col-sm-6" >
-                                    <input type="number" min="1" name="wholesale" class="form-control" value="<?php echo $row['wholesale']; ?>" >
+                                    <input type="number" min="1" name="wholesale" class="form-control required" value="<?php echo $row['wholesale']; ?>" >
                                 </div>                                
                             </div>
                             <div class="form-group btm_border" >
                                 <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo translate('wholesale_EXCL_WET_GST');?></label>
                                 <div class="col-sm-6" >
-                                    <input type="number" min="1" name="wholesale_EXCL_WET_GST" class="form-control" value="<?php echo $row['wholesale_EXCL_WET_GST']; ?>" >
+                                    <input type="number" min="1" name="wholesale_EXCL_WET_GST" class="form-control required" value="<?php echo $row['wholesale_EXCL_WET_GST']; ?>" >
                                 </div>                                
                             </div>
                             
