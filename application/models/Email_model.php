@@ -68,6 +68,11 @@ class Email_model extends CI_Model
     function status_email($account_type = '', $id = '')
     {
         //$this->load->database();
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.base_url().'uploads/logo_image/facebook_logo.png"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.base_url().'uploads/logo_image/instagram_logo.png"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.base_url().'uploads/logo_image/linkdin_logo.png"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
         if($protocol == 'smtp'){
@@ -97,6 +102,10 @@ class Email_model extends CI_Model
                 $status = "Postponed";
             }
 			$email_body      = $this->db->get_where('email_template', array('email_template_id' => 2))->row()->body;
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+             $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
 			$email_body      = str_replace('[[to]]',$to_name,$email_body);
 			$email_body      = str_replace('[[account_type]]',$account_type,$email_body);
             $email_body      = str_replace('[[email]]',$to,$email_body);
@@ -276,7 +285,11 @@ class Email_model extends CI_Model
     function account_opening($account_type = '', $email = '', $pass = '', $verification_key = '')
     {
         //$this->load->database();
-        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_email_logo.png">';
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.base_url().'uploads/logo_image/facebook_logo.png"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.base_url().'uploads/logo_image/instagram_logo.png"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.base_url().'uploads/logo_image/linkdin_logo.png"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+
 
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -316,6 +329,9 @@ class Email_model extends CI_Model
             
             $email_body      = str_replace('[[to]]',ucwords($to_name),$email_body);
             $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
             $email_body      = str_replace('[[sitename]]',$from_name,$email_body);
             $email_body      = str_replace('[[account_type]]',$account_type,$email_body);
             $email_body      = str_replace('[[email]]',$to,$email_body);
