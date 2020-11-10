@@ -276,6 +276,8 @@ class Email_model extends CI_Model
     function account_opening($account_type = '', $email = '', $pass = '', $verification_key = '')
     {
         //$this->load->database();
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_email_logo.png">';
+
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
         if($protocol == 'smtp'){
@@ -313,6 +315,7 @@ class Email_model extends CI_Model
 			}
             
             $email_body      = str_replace('[[to]]',ucwords($to_name),$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
             $email_body      = str_replace('[[sitename]]',$from_name,$email_body);
             $email_body      = str_replace('[[account_type]]',$account_type,$email_body);
             $email_body      = str_replace('[[email]]',$to,$email_body);
