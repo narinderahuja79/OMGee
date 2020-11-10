@@ -160,6 +160,7 @@
                 // $data['titlename']      = $titlename;
                 // $data['user_type']       = $this->input->post('user_type');
                 $data['email']          = $email;
+                $data['verification_key'] = uniqid();
                 $data['countrycode']  = $countrycode;
                 // $data['dob']            = $dob;
                 $data['is_verify']      = 0;
