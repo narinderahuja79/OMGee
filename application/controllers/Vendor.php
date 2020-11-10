@@ -3663,7 +3663,7 @@ class Vendor extends CI_Controller
 
                     if(!$this->db->get_where('vendorbrands',array('name' =>$br))->row()->name)
                     {
-                        $data1['category'] = implode(",",$cat_arr[$key]);
+                        $data1['category'] = $cat_arr[$key];
                         $this->db->insert('vendorbrands',$data1);
                         echo $this->db->last_query();
                         if($this->db->insert_id() > 0)

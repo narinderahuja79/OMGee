@@ -26,6 +26,9 @@
                                     <li>
                                         <a data-toggle="tab" href="#other_details"><?php echo translate('other_details'); ?></a>
                                     </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#agreement"><?php echo translate('vendor agreement'); ?></a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -212,13 +215,7 @@
                                                     <div id="more_btn" class="btn btn-mint btn-labeled fa fa-plus pull-right">
                                                     <?php echo translate('add_more');?></div> 
                                         </div>
-                                        <div id="more_additional_fields"></div>
-                                        <?php
-                                        $vendor_brands = $this->db->get_where('vendorbrands',array('user_id' => $this->session->userdata('vendor_id')))->result_array();
-                                        if(count($vendor_brands) < 0 )
-                                        {
-                                            ?>
-                                            <div class="form-group">
+                                          <div class="form-group">
                                                 <div class="col-sm-3">
                                                     
                                                     <input type="text" multiple name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control" >
@@ -233,7 +230,7 @@
                                                     <?php
                                                         $categories = $this->db->get('category')->result_array();
                                                     ?>
-                                                    <select name="category[]" class="form-control" multiple="multiple">
+                                                    <select name="category[]" class="form-control">
                                                     <?php
                                                         foreach ($categories as $cat) {
                                                             ?>  
@@ -244,8 +241,10 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                         <?php
-                                        }
+                                        <div id="more_additional_fields"></div>
+                                        <?php
+                                        $vendor_brands = $this->db->get_where('vendorbrands',array('user_id' => $this->session->userdata('vendor_id')))->result_array();
+                                       
                                         foreach($vendor_brands as $val)
                                         {
                                             ?>
@@ -456,6 +455,12 @@
                                         </div>
                                     </div>
                                     <!-- other details_end -->
+
+                                     <div id="agreement" class="tab-pane fade">
+                                            <p><?php echo date('h:m:s m-d-Y',$row['create_timestamp']); ?> You Have accepted vendor agreement <input type="checkbox" checked="checked" disabled="disabled"></p>
+                                    </div>
+                                    <!-- other details_end -->
+                                    
                                 </div>
                             </div>
                         </div>
