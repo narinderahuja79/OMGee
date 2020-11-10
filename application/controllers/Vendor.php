@@ -389,6 +389,7 @@ class Vendor extends CI_Controller
                     $data['password'] = sha1($password);
                     $this->db->where('vendor_id', $vendor_id);
                     $this->db->update('vendor', $data);
+                    
                     if ($this->email_model->password_reset_email('vendor', $vendor_id, $password)) {
                         echo 'email_sent';
                     } else {
@@ -943,9 +944,7 @@ class Vendor extends CI_Controller
             $this->load->view('back/vendor/product_edit', $page_data);
         }
         else if ($para1 == 'view') {
-            $page_data['product_data'] = $this->db->get_where('product', array(
-                'product_id' => $para2
-            ))->result_array();
+            $page_data['product_data'] = $this->db->get_where('product', array('product_id' => $para2))->result_array();
             $this->load->view('back/vendor/product_view', $page_data);
         } 
         elseif ($para1 == 'delete_food') 
@@ -1422,7 +1421,7 @@ class Vendor extends CI_Controller
             }
             $this->db->where('added_by',json_encode(array('type'=>'vendor','id'=>$this->session->userdata('vendor_id'))));
             $this->db->where('download=',NULL);
-            $this->db->where('remove','0');
+            $this->db->where('remove','1');
             $products   = $this->db->get('product', $limit, $offset)->result_array();
             $data       = array();
             $time = date("H:i:s");
@@ -1472,7 +1471,7 @@ class Vendor extends CI_Controller
                     $res['low_stock'] = ucwords($row['is_low_stock']);
                 } 
 
-                if($row['remove']=='0'){
+                if($row['remove']=='1'){
                     $res['remove'] =    "<a class=\"btn btn-success btn-xs btn-labeled fa fa-check\" data-toggle=\"tooltip\"
                                             onclick=\"ajax_modal('add_revert','".translate('')."','".translate('revert_product!')."','add_revert','".$row['product_id']."')\" data-original-title=\"Edit\" data-container=\"body\">
                                         </a>";
@@ -3615,8 +3614,8 @@ class Vendor extends CI_Controller
                 $data['mobile_number'] = $this->input->post('mobile_number');
                 $data['direct_email'] = $this->input->post('direct_email');
 
-                $data['brands'] = $this->input->post('brands');
-                $data['category'] = $this->input->post('category');
+                //$data['brands'] = $this->input->post('brands');
+                //$data['category'] = $this->input->post('category');
                 $data['minimum_tick'] = $this->input->post('minimum_tick');
                 $data['free_delivery'] = $this->input->post('free_delivery');
                 $data['delivery_fee'] = $this->input->post('delivery_fee');
@@ -3631,6 +3630,7 @@ class Vendor extends CI_Controller
 
                 $this->db->where('vendor_id', $this->session->userdata('vendor_id'));
                 $this->db->update('vendor',$data);
+                echo $this->db->last_query();
                 //upload single image
 
 

@@ -23,8 +23,11 @@
                                     <li>
                                         <a data-toggle="tab" href="#account_details"><?php echo translate('account_details'); ?></a>
                                     </li>
-                                     <li>
+                                    <li>
                                         <a data-toggle="tab" href="#other_details"><?php echo translate('other_details'); ?></a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#vendor_agreement"><?php echo translate('vendor_agreement'); ?></a>
                                     </li>
                                 </ul>
                             </div>
@@ -38,6 +41,11 @@
                         <div class="panel-body">
                             <div class="tab-base">                   
                                 <div class="tab-content">
+                                    <div  id="vendor_agreement" class="tab-pane fade">
+                                        <label>
+                                           <?php echo date('D M Y H:i A',$row['create_timestamp'])." ";?> You have Accepted Vendor Aggrement <input type="checkbox" name="agreement" checked disabled> 
+                                        </label>
+                                    </div>
                                     <!-- Start Manage Detail -->
                                     <div  id="details" class="tab-pane fade active in">
                                         <div class="form-group btm_border">
@@ -330,23 +338,23 @@
                                         </div>
 
                                        
-                                        <div class="form-group btm_border">
+                                        <div style="display: none;" class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('category');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="category" placeholder="<?php echo translate('category'); ?>" value="<?php echo ucwords($row['category']); ?>"  class="form-control">
                                             </div>                                             
-                                        </div> -->
+                                        </div> 
 
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('minimum_wholesale_value_for_free_delivery_to_banksmeadow_NSW_2019');?>
                                             </label>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <input type="text" name="minimum_tick" placeholder="<?php echo translate('minimum (_tick_boxes )'); ?>" value="<?php echo ucwords($row['minimum_tick']); ?>" <?php echo " $" ?> class="form-control">
                                             </div>  
-                                            <div class="col-sm-2">
+                                            <div style="display: none;" class="col-sm-2">
                                                 <input type="text" value=" $" class="form-control" readonly>
                                             </div>                                            
                                         </div>
@@ -363,10 +371,10 @@
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met');?>
                                             </label>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <input type="text" name="delivery_fee" placeholder="<?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met'); ?>" $ value="<?php echo $row['delivery_fee']; ?>"  class="form-control " onkeypress="isInputNumber(event)">
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div style="display: none;" class="col-sm-2">
                                                 <input type="text" value=" $" class="form-control" readonly>
                                             </div>                                             
                                         </div>

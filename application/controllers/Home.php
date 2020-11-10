@@ -2639,7 +2639,7 @@ class Home extends CI_Controller
                             $data['approve_timestamp']  = 0;
                             $data['approve_timestamp']  = 0;
                             $data['membership']         = 0;
-                            $data['status']             = 'pending';
+                            $data['status']             = 'complete';
                             $data['vendor_status']             = 'pending';
                             $data['verification_key'] = uniqid();
 
@@ -2728,7 +2728,7 @@ class Home extends CI_Controller
                         $data['approve_timestamp']  = 0;
                         $data['membership']         = 0;
                         $data['vendor_status']             = 'pending';
-                        $data['status']             = 'pending';
+                        $data['status']             = 'complete';
                         $data['verification_key'] = uniqid();
                         
                         if ($this->input->post('password1') == $this->input->post('password2')) {
@@ -3238,6 +3238,7 @@ class Home extends CI_Controller
                             $data['country']       = $this->input->post('country');
                             $data['titlename']     = $this->input->post('titlename');
                             $data['langlat']       = '';
+                            $data['status']             = 'complete';
                             $data['wishlist']      = '[]';
                             $data['package_info']  = '[]';
                             $data['product_upload']= $this->db->get_where('package', array('package_id' => 1))->row()->upload_amount;
@@ -3298,6 +3299,7 @@ class Home extends CI_Controller
                         $data['titlename']     = $this->input->post('titlename');
                         $data['langlat']       = '';
                         $data['wishlist']      = '[]';
+                        $data['status']             = 'complete';
                         $data['package_info']  = '[]';
                         $data['user_type']     = 'buyer';
                         $data['product_upload']= $this->db->get_where('package', array('package_id' => 1))->row()->upload_amount;

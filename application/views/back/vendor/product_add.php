@@ -81,13 +81,13 @@
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-5">Volume (ml) </label>
                     <div class="col-sm-6">
-                        <input type="text" name="unit" id="demo-hor-5" placeholder="<?php echo translate('Volume (ml)'); ?>" class="form-control unit required">
+                        <input type="text" name="unit" id="demo-hor-5" placeholder="<?php echo translate('Volume (ml)'); ?>" class="form-control ">
                     </div>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-82"><?php echo translate('product_abv').' (%)';?></label>
                     <div class="col-sm-6">
-                        <input type="number"   name="product_abv"  oninput="if(this.value.length==2) return false;" id="demo-hor-82" min="1" max="30" placeholder="<?php echo translate('_e.g._23%'); ?>" class="form-control required product_abv">
+                        <input type="number"   name="product_abv"  oninput="if(this.value.length==2) return false;" id="demo-hor-82" min="1" max="30" placeholder="<?php echo translate('_e.g._23%'); ?>" class="form-control">
                     </div>
                     <span id="product_abv_error"></span>
                 </div>
@@ -134,7 +134,7 @@
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description English</label>
                     <div class="col-sm-6">
-                        <textarea rows="5"  class="form-control" name="description_en"></textarea>
+                        <textarea rows="5"  class="form-control required" name="description_en"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border">
@@ -152,13 +152,13 @@
                 <div class="form-group btm_border" >
                     <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo translate('wholesale (INCL GST + WET)');?></label>
                     <div class="col-sm-6" >
-                        <input type="number" min="1" name="wholesale" class="form-control ">
+                        <input type="number" min="1" name="wholesale" class="form-control required">
                     </div>
                 </div>
                 <div class="form-group btm_border" >
                     <label class="col-sm-4 control-label" for="demo-hor-5">Wholesale (EXCL WET & GST)</label>
                     <div class="col-sm-6" >
-                        <input type="number" min="1" name="wholesale_EXCL_WET_GST" class="form-control ">
+                        <input type="number" min="1" name="wholesale_EXCL_WET_GST" class="form-control required">
                     </div>
                 </div>
                 
@@ -551,11 +551,15 @@
                 </div>
                 <!-- Test section over -->
                 <!-- Food Section  -->
-               
-                <div class="form-group btm_border hide_show_field">
-                    <label class="col-sm-4 control-label" ><?php echo "Describe dishes that pair nicely with your product";?></label>
+               <!-- Food Section  -->
+                <div class="form-group btm_border">
+                    <b class="pull-left"><?php echo "Food Pairing (Up to 4 Dishes)";?></b>
                     <div class="col-sm-6">
-
+                        <input type="hidden" name="food_section" placeholder="<?php echo translate('food_section');?>" value="yes">
+                    </div>
+                </div>
+                <div class="form-group btm_border hide_show_field">
+                    <div class="col-sm-6">
                         <textarea name="food_description" maxlength="250" rows="3" placeholder="<?php echo translate('food_description');?>" class="form-control"></textarea>
                     </div>
                 </div>
