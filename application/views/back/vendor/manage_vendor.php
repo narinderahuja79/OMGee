@@ -23,7 +23,7 @@
                                     <li>
                                         <a data-toggle="tab" href="#account_details"><?php echo translate('account_details'); ?></a>
                                     </li>
-                                     <li>
+                                    <li>
                                         <a data-toggle="tab" href="#other_details"><?php echo translate('other_details'); ?></a>
                                     </li>
                                 </ul>
@@ -36,14 +36,13 @@
                             ));
                             ?>
                         <div class="panel-body">
-                            <div class="tab-base">                   
+                            <div class="tab-base">
                                 <div class="tab-content">
                                     <!-- Start Manage Detail -->
                                     <div  id="details" class="tab-pane fade active in">
                                         <div class="form-group btm_border">
-                                            <h4 class="text-thin text-center"><?php echo translate('details'); ?></h4>                            
+                                            <h4 class="text-thin text-center"><?php echo translate('details'); ?></h4>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-1">
                                             <?php echo translate('company_name');?>
@@ -52,50 +51,47 @@
                                                 <input type="text" name="company" value="<?php echo ucwords($row['company']); ?>" id="demo-hor-1" class="form-control required">
                                             </div>
                                         </div>
-
                                         <div class="form-group btm_border">
-                                            <label class="col-sm-3 control-label" ><?php echo translate('company_logo');?> (Image PNG)</label>
+                                            <label class="col-sm-3 control-label" for="demo-hor-12"><?php echo translate('company_Logo (Image PNG)');?></label>
                                             <div class="col-sm-6">
                                                 <span class="pull-left btn btn-default btn-file"> <?php echo translate('choose_file');?>
-                                                    <input type="file" multiple name="company_image[]" onchange="preview(this);" id="demo-hor-inputpass" class="form-control">
-                                                    <input type="hidden"  name="last_images" value="<?php echo $row['company_image']; ?>">
+                                                <input type="file" name="images" onchange="previewcompany(this);" id="demo-hor-inputpass0" class="form-control">
+                                                 <input type="hidden"  name="last_images" value="<?php echo $row['image']; ?>">
                                                 </span>
                                                 <br><br>
-                                                <span id="previewImg" ></span>
+                                                <span id="previewcompanyImg" ></span>
                                             </div>
                                         </div>
-                                        
-                                            <div class="form-group btm_border">
-                                                <label class="col-sm-3 control-label"></label>
-                                                <div class="col-sm-6">
-                                                    <?php 
-                                                        $images = explode(",",$row['company_image']);
-                                                        // print_r($images);
-                                                        if($images){
-                                                            foreach ($images as $row1){
+                                        <div class="form-group btm_border">
+                                            <label class="col-sm-3 control-label"></label>
+                                            <div class="col-sm-6">
+                                                <?php 
+                                                    $images = explode(",",$row['company_image']);
+                                                    if($images)
+                                                    {
+                                                        foreach ($images as $row1)
+                                                        {
                                                     ?>
                                                         <div class="delete-div-wrap">
-                                                            <span class="close">&times;</span>
+                                                            <span class="close" >&times;</span>
                                                             <div class="inner-div">
-                                                                <img class="img-responsive" width="100" src="<?php echo base_url(); ?>uploads/events_image/<?php echo $row1; ?> "alt="User_Image" >
+                                                                <img class="img-responsive" width="100" src="<?php echo base_url(); ?>uploads/events_image/<?php echo $row1; ?> "alt="User_Image">
                                                             </div>
                                                         </div>
                                                     <?php 
-                                                            }
-                                                        } 
+                                                       } 
+                                                    } 
                                                     ?>
-                                                </div>
                                             </div>
-
+                                        </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('trading_name');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="trading_name" placeholder="<?php echo translate('trading_name'); ?>" value="<?php echo ucwords($row['trading_name']); ?>" class="form-control ">
-                                            </div>                                             
+                                            </div>
                                         </div>
-                                        
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" for="demo-hor-1">
                                             <?php echo translate('website');?>
@@ -104,25 +100,22 @@
                                                 <input type="text" name="website" value="<?php echo ucwords($row['website']); ?>" id="demo-hor-1" class="form-control required">
                                             </div>
                                         </div>
-
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo "ACN / ABN";?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="acn_and_abn" placeholder="<?php echo translate('ACN / ABN'); ?>"  value="<?php echo ucwords($row['acn_and_abn']); ?>"  class="form-control" onkeypress="isInputNumber(event)">
-                                            </div>                                             
+                                            </div>
                                         </div>
-
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('license_number');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="license_number" placeholder="<?php echo translate('license_number'); ?>"  value="<?php echo ucwords($row['license_number']); ?>" id="demo-hor-57" class="form-control ">
-                                            </div>                                             
+                                            </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-3">
                                             <?php echo translate('phone (area_code)');?>
@@ -142,7 +135,6 @@
                                                 <input type="text" name="phone" value="<?php echo $row['phone']; ?>" id="demo-hor-3" class="form-control" onkeypress="isInputNumber(event)">
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-2">
                                             <?php echo translate('email');?>
@@ -151,7 +143,6 @@
                                                 <input type="email" name="email" value="<?php echo $row['email']; ?>" id="demo-hor-2" class="form-control required">
                                             </div>
                                         </div>
-                                        
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('registered_address');?>
@@ -160,7 +151,6 @@
                                                 <input type="text" name="address1" value="<?php echo ucwords($row['address1']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
                                         </div>
-
                                         <!-- <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('address_line_2');?>
@@ -168,8 +158,7 @@
                                             <div class="col-sm-6">
                                                 <input type="text" name="address2" value="<?php echo ucwords($row['address2']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
-                                        </div> -->
-
+                                            </div> -->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('suburb');?>
@@ -178,7 +167,6 @@
                                                 <input type="text" name="city" value="<?php echo ucwords($row['city']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('state');?>
@@ -187,16 +175,14 @@
                                                 <input type="text" name="state" value="<?php echo ucwords($row['state']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
                                         </div>
-
-                                       <!--  <div class="form-group" style="display: none;">
+                                        <!--  <div class="form-group" style="display: none;">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('country');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="country" value="<?php echo ucwords($row['country']); ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
                                             </div>
-                                        </div> -->
-
+                                            </div> -->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
                                             <?php echo translate('postalcode');?>
@@ -219,14 +205,52 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
+                                        <!-- Add Brand and category -->
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <input type="text" multiple name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control ">
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="col-sm-12">
+                                                    <input type="file" name="brand_image[]" onchange="previewbrand(this);" id="demo-hor-inputpass0" class="form-control">
+                                                    </span>
+                                                    <br><br>
+                                                    <span id="previewbrandImg" ></span>
+                                                </div>
+                                            </div>
+                                            <!-- <span id="brandImg"></span> -->
+                                            
+                                            <div class="col-sm-3">
+                                                <?php
+                                                    $categories = $this->db->get('category')->result_array();
+                                                ?>
+                                                <select name="category[]" class="form-control">
+                                                <?php
+                                                    foreach ($categories as $cat) {
+                                                        ?>  
+
+                                                            <option value="<?php echo $cat['category_name'] ?>"><?php echo $cat['category_name'] ?></option>
+                                                        <?php
+                                                    }
+                                                ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div id="more_btn" class="btn btn-mint btn-labeled fa fa-plus pull-right">
+                                                <?php echo translate('add_more');?></div> 
+                                            </div>
+                                        </div>
+                                        <div id="more_additional_fields"></div>
+                                           
                                     </div>
                                     <!-- End Manage Detail -->
-
                                     <!-- Start Account Details -->
                                     <div id="account_details" class="tab-pane fade">
                                         <div class="form-group btm_border">
-                                            <h4 class="text-thin text-center"><?php echo translate('account_details'); ?></h4>                    
+                                            <h4 class="text-thin text-center"><?php echo translate('account_details'); ?></h4>
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" for="demo-hor-55">
@@ -234,7 +258,7 @@
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="bank_name" placeholder="<?php echo translate('bank_name'); ?>" value="<?php echo ucwords($row['bank_name']); ?>" id="demo-hor-55" class="form-control">
-                                            </div>                                             
+                                            </div>
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" for="demo-hor-56">
@@ -242,7 +266,7 @@
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="account_name" placeholder="<?php echo translate('account_name'); ?>" value="<?php echo ucwords($row['account_name']); ?>" id="demo-hor-56" class="form-control ">
-                                            </div>                                             
+                                            </div>
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" for="demo-hor-57">
@@ -250,7 +274,7 @@
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="bank_account_number" placeholder="<?php echo translate('bank_account_number'); ?>" value="<?php echo $row['bank_account_number']; ?>" id="demo-hor-57" class="form-control " onkeypress="isInputNumber(event)">
-                                            </div>                                             
+                                            </div>
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" for="demo-hor-58">
@@ -258,39 +282,34 @@
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="bsb_number"  placeholder="<?php echo translate('bsb_number'); ?>" value="<?php echo $row['bsb_number']; ?>" id="demo-hor-58" class="form-control " onkeypress="isInputNumber(event)">
-                                            </div>                                             
+                                            </div>
                                         </div>
                                         <!-- Additional Fields -->
                                         
-                                        
-                                        
+
                                     </div>
                                     <!-- End Account Details  -->
-
                                     <!-- Other details -->
                                     <div id="other_details" class="tab-pane fade">
                                         <div class="form-group btm_border">
-                                            <h4 class="text-thin text-center"><?php echo translate('other_details'); ?></h4>                   
+                                            <h4 class="text-thin text-center"><?php echo translate('other_details'); ?></h4>
                                         </div>
-
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('first_name');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="first_name" placeholder="<?php echo translate('first_name'); ?>" value="<?php echo ucwords($row['first_name']); ?>"  class="form-control ">
-                                            </div>                                             
+                                            </div>
                                         </div>
-
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('last_name');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="last_name" placeholder="<?php echo translate('last_name'); ?>" value="<?php echo ucwords($row['last_name']); ?>"  class="form-control ">
-                                            </div>                                             
+                                            </div>
                                         </div>
-
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('direct_number');?>
@@ -308,56 +327,52 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <input type="text" name="direct_number" placeholder="<?php echo translate('direct_number'); ?>" value="<?php echo $row['direct_number']; ?>"  class="form-control" onkeypress="isInputNumber(event)">
-                                            </div>                                             
+                                            </div>
                                         </div>
-
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('mobile_number');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="mobile_number" placeholder="<?php echo translate('mobile_number'); ?>" value="<?php echo $row['mobile_number']; ?>"  class="form-control" onkeypress="isInputNumber(event)">
-                                            </div>                                             
+                                            </div>
                                         </div>
-
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('direct_email');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="email" name="direct_email" placeholder="<?php echo translate('direct_email'); ?>" value="<?php echo $row['direct_email']; ?>"  class="form-control" >
-                                            </div>                                             
+                                            </div>
                                         </div>
 
-                                       
-                                        <div class="form-group btm_border">
+                                       <!--  <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('category');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="category" placeholder="<?php echo translate('category'); ?>" value="<?php echo ucwords($row['category']); ?>"  class="form-control">
-                                            </div>                                             
-                                        </div> -->
-
+                                            </div>
+                                        </div>
+                                         -->
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('minimum_wholesale_value_for_free_delivery_to_banksmeadow_NSW_2019');?>
                                             </label>
                                             <div class="col-sm-4">
                                                 <input type="text" name="minimum_tick" placeholder="<?php echo translate('minimum (_tick_boxes )'); ?>" value="<?php echo ucwords($row['minimum_tick']); ?>" <?php echo " $" ?> class="form-control">
-                                            </div>  
+                                            </div>
                                             <div class="col-sm-2">
                                                 <input type="text" value=" $" class="form-control" readonly>
-                                            </div>                                            
+                                            </div>
                                         </div>
-
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('minimum_mix_quantity_for_free_delivery_to_banksmeadow_NSW_2019');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="free_delivery" placeholder="<?php echo translate('minimum_mix_quantity_for_free_delivery_to_banksmeadow_NSW_2019'); ?>" value="<?php echo $row['free_delivery']; ?>"  class="form-control" onkeypress="isInputNumber(event)">
-                                            </div>                                             
+                                            </div>
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
@@ -368,7 +383,7 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <input type="text" value=" $" class="form-control" readonly>
-                                            </div>                                             
+                                            </div>
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
@@ -376,7 +391,7 @@
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="c_d_english" placeholder="<?php echo translate('company_desciption (_english )'); ?>" value="<?php echo ucwords($row['c_d_english']); ?>"  class="form-control">
-                                            </div>                                             
+                                            </div>
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
@@ -384,7 +399,7 @@
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="c_d_chinese" placeholder="<?php echo translate('company_desciption(simplified_chinese-_if_any )'); ?>" value="<?php echo ucwords($row['c_d_chinese']); ?>"  class="form-control" >
-                                            </div>                                             
+                                            </div>
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
@@ -392,227 +407,103 @@
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="c_d_japanese" placeholder="<?php echo translate('company_desciption (_simplified_japanese-_if_any )'); ?>" value="<?php echo ucwords($row['c_d_japanese']); ?>"  class="form-control" >
-                                            </div>                                             
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- other details_end -->
-
                                 </div>
                             </div>
                         </div>
-                       
-
                         <div class="panel-footer text-right">
                             <span class="btn btn-info submitter enterer" data-ing='<?php echo translate('updating..'); ?>' data-msg='<?php echo translate('profile_updated!'); ?>'>
-                            <?php echo translate('update_profile');?>
+                            <?php echo translate('update');?>
                             </span>
                         </div>
                         </form>
-
                         <br>
-                        <div class="table-responsive">
-                            <table  id="user_data" class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Brand</th>
-                                        <th>Logo (Image PNG)</th>
-                                        <th>Category</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <?php
-                                            // echo form_open(base_url() . 'vendor/manage_vendor/update_profile/', array(
-                                            //     'class' => 'form-horizontal',
-                                            //     'method' => 'post'
-                                            // ));
-                                        ?>
-
-                                        <form class="form-horizontal" enctype="multipart/form-data" method="post" action="<?php echo base_url('vendor/add_brand');?>"> 
-
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="text" name="brands" placeholder="<?php echo translate('brand_name'); ?>"  value="<?php echo ucwords($row['brands']); ?>"  class="form-control ">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="file" name="brand_image" class="form-control">
-                                                </div>
-                                            </td>
-                                            <td>
-                                               <div class="form-group">
-                                                    <?php  $row=$this->db->get("category");?>
-                                                    <select name="category" class="form-control">
-                                                        <option value="wine">Wine</option>
-                                                            <?php 
-                                                                foreach($row->result() as $cat)
-                                                                {
-                                                                    if($cat->category_name=="Wine")
-                                                                    {    
-                                                                       continue;
-                                                                    }
-                                                                    else{
-                                                                      ?>
-                                                                        <option value="<?php  echo$cat->category_name; ?>"> <?php echo $cat->category_name; ?></option>
-                                                                <?php   } 
-                                                                }  
-                                                            ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>  
-                                                <button type="submit" name="uploadimg">Update</button>
-
-
-<!--                                                <input type="hidden"value="<?php echo$this->session->userdata('vendor_id'); ?>"name="vendor_id"> -->
-
-                                                <!--  <span class="btn btn-info submitter enterer" data-ing='<?php echo translate('Saving..'); ?>' data-msg='<?php echo translate('Added!'); ?>'>
-                                                    <?php //echo translate('Add');?>
-                                                </span>  -->
-                                            </td>
-                                        </form>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="panel-footer text-right">
-                            
-                        </div>
-
-
-                        <!-- <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo translate('change_password');?></h3>
-                        </div>
-                        <?php
-                            echo form_open(base_url() . 'vendor/manage_vendor/update_password/', array(
-                                'class' => 'form-horizontal',
-                                'method' => 'post'
-                            ));
-                            ?>
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="demo-hor-5">
-                                <?php echo translate('current_password');?>
-                                </label>
-                                <div class="col-sm-6">
-                                    <input type="password" name="password" value="" id="demo-hor-5" class="form-control required">
+                        
+                        <div  style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><?php echo translate('change_password');?></h3>
+                            </div>
+                            <?php
+                                echo form_open(base_url() . 'vendor/manage_vendor/update_password/', array(
+                                    'class' => 'form-horizontal',
+                                    'method' => 'post'
+                                ));
+                                ?>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="demo-hor-5">
+                                    <?php echo translate('current_password');?>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input type="password" name="password" value="" id="demo-hor-5" class="form-control required">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="demo-hor-6">
+                                    <?php echo translate('new_password*');?>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input type="password" name="password1" value="" id="demo-hor-6" class="form-control pass pass1 required">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="demo-hor-7">
+                                    <?php echo translate('confirm_password');?>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input type="password" name="password2" value="" id="demo-hor-7" class="form-control pass pass2 required">
+                                    </div>
+                                    <div id="pass_note">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="demo-hor-6">
-                                <?php echo translate('new_password*');?>
-                                </label>
-                                <div class="col-sm-6">
-                                    <input type="password" name="password1" value="" id="demo-hor-6" class="form-control pass pass1 required">
-                                </div>
+                            <div class="panel-footer text-right">
+                                <span class="btn btn-info pass_chng disabled enterer" disabled='disabled' data-ing='<?php echo translate('updating..'); ?>' data-msg='<?php echo translate('password_updated!'); ?>'>
+                                <?php echo translate('update_password');?>
+                                </span>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="demo-hor-7">
-                                <?php echo translate('confirm_password');?>
-                                </label>
-                                <div class="col-sm-6">
-                                    <input type="password" name="password2" value="" id="demo-hor-7" class="form-control pass pass2 required">
-                                </div>
-                                <div id="pass_note">
-                                </div>
-                            </div>
+                            </form>
                         </div>
-                        <div class="panel-footer text-right">
-                            <span class="btn btn-info pass_chng disabled enterer" disabled='disabled' data-ing='<?php echo translate('updating..'); ?>' data-msg='<?php echo translate('password_updated!'); ?>'>
-                            <?php echo translate('update_password');?>
-                            </span>
-                        </div>
-                        </form>
                         <?php
                             }
-                            ?> -->
+                            ?>
                     </div>
                 </div>
             </div>
             <!--Panel body-->
-
-
-
-
-
-           
-
-
-
-
-
-
-
-
-
-
         </div>
     </div>
 </div>
-
-
-
-
-
-
 <!--  Vendors model -->
-  
-  <div id="userModal" class="modal fade">  
-      <div class="modal-dialog">  
-           <form method="post" id="user_form">  
-                <div class="modal-content">  
-                     <div class="modal-header">  
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                          <h4 class="modal-title">Add User</h4>  
-                     </div>  
-                     <div class="modal-body">  
-                          <label>Enter First Name</label>  
-                          <input type="text" name="first_name" id="first_name" class="form-control" />  
-                          <br />  
-                          <label>Select User Image</label>  
-                          <input type="file" name="user_image" id="user_image" />  
-                          <span id="user_uploaded_image"></span>  
-                     </div>  
-                     <div class="modal-footer">  
-                          <input type="hidden" name="user_id" id="user_id" />  
-                          <input type="submit" name="action" id="action" class="btn btn-success" value="Add" />  
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                     </div>  
-                </div>  
-           </form>  
-      </div>  
- </div>  
-
-
-
-
-
-
-
-
-
+<div id="userModal" class="modal fade">
+    <div class="modal-dialog">
+        <form method="post" id="user_form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                    <h4 class="modal-title">Add User</h4>
+                </div>
+                <div class="modal-body">  
+                    <label>Enter First Name</label>  
+                    <input type="text" name="first_name" id="first_name" class="form-control" />  
+                    <br />  
+                    <label>Select User Image</label>  
+                    <input type="file" name="user_image" id="user_image" />  
+                    <span id="user_uploaded_image"></span>  
+                </div>
+                <div class="modal-footer">  
+                    <input type="hidden" name="user_id" id="user_id" />  
+                    <input type="submit" name="action" id="action" class="btn btn-success" value="Add" />  
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <!--  End oF model -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script type="text/javascript">
     $(".pass").blur(function() {
         var pass1 = $(".pass1").val();
@@ -857,111 +748,100 @@
         }
         //google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-
-
-
-  <script type="text/javascript" language="javascript" >  
-
-
-          /*var dataTable = $('#user_data').DataTable({  
-           "processing":true,  
-           "serverSide":true,  
-           "order":[],  
-           "ajax":{  
-                url:"<?php echo base_url() . 'brand/fetch_Brand'; ?>",  
-                type:"POST"  
-           },  
-           "columnDefs":[  
-                {  
-                     "targets":[0, 3, 4],  
-                     "orderable":false,  
-                },  
-           ],  
-           }); */
-
-
-
-
-
-
-
- 
-      $("#user_form").on( 'submit',function(event){  
-           event.preventDefault();  
-           var firstName = $('#vendor_name').val();  
- 
-           var extension = $('#vendor_image').val().split('.').pop().toLowerCase();  
-           if(extension != '')  
-           {  
-                if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)  
-                {  
-                     alert("Invalid Image File");  
-                     $('#vendor_image').val('');  
-                     return false;  
-                }  
-           }       
-           if(firstName != '')  
-           {  
-
-                
-
-                var formdata= new FormData(this);
-                $.ajax({  
-                     url:"<?php echo base_url() . 'Brand/vendor_action'?>",  
-                     method:'POST',  
-                     data:formdata,  
-                     contentType:false,  
-                     processData:false,  
-                     success:function(data)  
-                     {  
-                          alert(data);  
-                          $('#user_form')[0].reset();  
-                          
-                         dataTable.ajax.reload();  
-                     }  ,
-                     error: function()
-                     {
-                        alert("Try again");
-                     }
-                });  
-           }  
-           else  
-           {  
-                alert("Both Fields are Required");  
-           }  
-      });  
-      
-
-
-      $(document).on('click', '.update', function(){  
-           var user_id = $(this).attr("id");  
-           $.ajax({  
-                url:"<?php echo base_url(); ?>crud/fetch_single_user",  
-                method:"POST",  
-                data:{user_id:user_id},  
-                dataType:"json",  
-                success:function(data)  
-                {  
-                     $('#userModal').modal('show');  
-                     $('#first_name').val(data.name);  
-                     $('.modal-title').text("Edit User");  
-                     $('#user_id').val(user_id);  
-                     $('#user_uploaded_image').html(data.image);  
-                     $('#action').val("Edit");  
-                }  
-           })  
-      });  
-  
- </script>  
-
-
-
+<script type="text/javascript" language="javascript" >  
+    /*var dataTable = $('#user_data').DataTable({  
+     "processing":true,  
+     "serverSide":true,  
+     "order":[],  
+     "ajax":{  
+          url:"<?php echo base_url() . 'brand/fetch_Brand'; ?>",  
+          type:"POST"  
+     },  
+     "columnDefs":[  
+          {  
+               "targets":[0, 3, 4],  
+               "orderable":false,  
+          },  
+     ],  
+     }); */
+    
+    
+    
+    
+    
+    
+    
+    
+    $("#user_form").on( 'submit',function(event){  
+     event.preventDefault();  
+     var firstName = $('#vendor_name').val();  
+    
+     var extension = $('#vendor_image').val().split('.').pop().toLowerCase();  
+     if(extension != '')  
+     {  
+          if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)  
+          {  
+               alert("Invalid Image File");  
+               $('#vendor_image').val('');  
+               return false;  
+          }  
+     }       
+     if(firstName != '')  
+     {  
+    
+          
+    
+          var formdata= new FormData(this);
+          $.ajax({  
+               url:"<?php echo base_url() . 'Brand/vendor_action'?>",  
+               method:'POST',  
+               data:formdata,  
+               contentType:false,  
+               processData:false,  
+               success:function(data)  
+               {  
+                    alert(data);  
+                    $('#user_form')[0].reset();  
+                    
+                   dataTable.ajax.reload();  
+               }  ,
+               error: function()
+               {
+                  alert("Try again");
+               }
+          });  
+     }  
+     else  
+     {  
+          alert("Both Fields are Required");  
+     }  
+    });  
+    
+    
+    
+    $(document).on('click', '.update', function(){  
+     var user_id = $(this).attr("id");  
+     $.ajax({  
+          url:"<?php echo base_url(); ?>crud/fetch_single_user",  
+          method:"POST",  
+          data:{user_id:user_id},  
+          dataType:"json",  
+          success:function(data)  
+          {  
+               $('#userModal').modal('show');  
+               $('#first_name').val(data.name);  
+               $('.modal-title').text("Edit User");  
+               $('#user_id').val(user_id);  
+               $('#user_uploaded_image').html(data.image);  
+               $('#action').val("Edit");  
+          }  
+     })  
+    });  
+    
+</script>  
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>  
-      <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>            
-      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
-
-
-
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>            
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
 <script>
     function isInputNumber(evt){
         var ch = String.fromCharCode(evt.which);
@@ -970,16 +850,128 @@
         }
     }
     
-    window.preview = function (input) {
-        if (input.files && input.files[0]) {
-            $("#previewImg").html('');
-            $(input.files).each(function () {
+    window.previewcompany = function (input) 
+    {
+        if (input.files && input.files[0]) 
+        {
+            $("#previewcompanyImg").html('');
+            $(input.files).each(function () 
+            {
                 var reader = new FileReader();
                 reader.readAsDataURL(this);
                 reader.onload = function (e) {
-                    $("#previewImg").append("<div style='float:left;border:4px solid #303641;padding:5px;margin:5px;'><img height='80' src='" + e.target.result + "'></div>");
+                    $("#previewcompanyImg").append("<div style='float:left;border:4px solid #303641;padding:5px;margin:5px;'><img height='80' src='" + e.target.result + "'></div>");
                 }
             });
         }
     }
+
+    window.previewbrand = function (input) 
+    {
+        if (input.files && input.files[0]) 
+        {
+            $("#previewbrandImg").html('');
+            $(input.files).each(function () 
+            {
+                var reader = new FileReader();
+                reader.readAsDataURL(this);
+                reader.onload = function (e) {
+                    $("#previewbrandImg").append("<div style='float:left;border:4px solid #303641;padding:5px;margin:5px;'><img height='80' src='" + e.target.result + "'></div>");
+                }
+            });
+        }
+    }
+
+    var x=0;
+    $("#more_btn").click(function(){
+        x++;
+        $("#more_additional_fields").append('<div class="remove'+x+'">'
+            +'<div class="form-group">'
+            +'    <div class="col-sm-3  ">'
+            +'         <input type="text" name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control ">'
+            +'    </div>'
+            +'    <div class="col-sm-3">'
+            +'        <input type="file" name="brand_image[]" class="form-control">'
+            +'    </div>'
+            +'    <div class="col-sm-3">'
+            +'        <select name="category[]" class="form-control">  <?php  foreach ($categories as $cat) { ?> <option value="<?php echo $cat['category_name'] ?>"><?php echo $cat['category_name'] ?></option>  <?php } ?></select>'
+            +'    </div>'
+
+            +'    <div class="col-sm-2">'
+            +'        <span class="remove_it_v rms btn btn-danger btn-icon btn-circle icon-lg fa fa-times" onclick="delete_row('+x+')"></span>'
+            +'    </div>'
+            +'</div>'
+            +'</div>'
+        );
+        
+    });
+    function delete_row(x)
+    {
+        $('.remove'+x).empty();
+    }
+
+    $('.delete-div-wrap .delete-events-img').on('click', function() { 
+        var pid = $(this).closest('.delete-div-wrap').find('img').data('id'); 
+        var here = $(this); 
+        msg = 'Really want to delete this Image?'; 
+        bootbox.confirm(msg, function(result) {
+            if (result) { 
+                 $.ajax({ 
+                    url: base_url+''+user_type+'/'+module+'/dlt_img/'+pid, 
+                    cache: false, 
+                    success: function(data) { 
+                        $.activeitNoty({ 
+                            type: 'success', 
+                            icon : 'fa fa-check', 
+                            message : 'Deleted Successfully', 
+                            container : 'floating', 
+                            timer : 3000 
+                        }); 
+                        here.closest('.delete-div-wrap').remove(); 
+                    } 
+                }); 
+            }else{ 
+                $.activeitNoty({ 
+                    type: 'danger', 
+                    icon : 'fa fa-minus', 
+                    message : 'Cancelled', 
+                    container : 'floating', 
+                    timer : 3000 
+                }); 
+            }; 
+          }); 
+        });
+
+    $('.delete-div-wrap .close').on('click', function() { 
+        var pid = $(this).closest('.delete-div-wrap').find('img').data('id'); 
+        var here = $(this); 
+        msg = 'Really want to delete this Image?'; 
+        bootbox.confirm(msg, function(result) {
+            if (result) { 
+                 $.ajax({ 
+                    url: base_url+''+user_type+'/'+module+'/dlt_img/'+pid, 
+                    cache: false, 
+                    success: function(data) { 
+                        $.activeitNoty({ 
+                            type: 'success', 
+                            icon : 'fa fa-check', 
+                            message : 'Deleted Successfully', 
+                            container : 'floating', 
+                            timer : 3000 
+                        }); 
+                        here.closest('.delete-div-wrap').remove(); 
+                    } 
+                }); 
+            }else{ 
+                $.activeitNoty({ 
+                    type: 'danger', 
+                    icon : 'fa fa-minus', 
+                    message : 'Cancelled', 
+                    container : 'floating', 
+                    timer : 3000 
+                }); 
+            }; 
+          }); 
+        });
+
 </script>
