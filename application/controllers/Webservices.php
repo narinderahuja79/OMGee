@@ -1167,7 +1167,7 @@
             }
             $community_arr['product_image'] = $product_image;
             $community_arr['title'] = $row['title'];
-            $community_arr['rrp'] = $row['bundle_sale1'];
+            $community_arr['rrp'] = $row['sale_price_AU'];
                                 
             if($row['sale_price_AU']){
                 $rrp = $row['sale_price_AU'];
