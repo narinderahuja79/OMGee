@@ -1140,10 +1140,7 @@
 </script>
 <style type="text/css">
     .customform span{
-         position: absolute;
-        top: 7px;
-        left: 28px;
-        font-weight: bold;
+         position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;
     }
 
     .customform .form-control{

@@ -87,7 +87,7 @@
                             <div class="form-group btm_border" >
                                 <label class="col-sm-4 control-label" for="demo-hor-4"><?php echo translate('brand');?></label>
                                 <div class="col-sm-6" >
-                                    <select class="demo-chosen-select form-control required" name="brand">
+                                    <select class="demo-chosen-select form-control required"  name="brand">
                                         <option value="">Select...</option>
                                         <?php
                                         $brands = $this->db->get_where('vendorbrands',array('user_id'=> $this->session->userdata('vendor_id')))->result_array();
@@ -161,23 +161,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group btm_border" >
-                                <label class="col-sm-4 control-label" for="demo-hor-4"><?php echo translate('brand');?></label>
-                                <div class="col-sm-6" >
-                                    <select class="demo-chosen-select form-control" name="brand">
-                                        <option value="">Select...</option>
-                                        <?php
-                                        $brands = $this->db->get_where('vendorbrands',array('user_id'=> $this->session->userdata('vendor_id')))->result_array();
-                                        foreach ($brands as $key => $value) 
-                                        {
-                                            ?>
-                                            <option <?php if($row['brand']==$value['id']) { echo "selected"; } ?>  value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="form-group btm_border">
                                 <label class="col-sm-4 control-label" for="demo-hor-84"><?php echo translate('is_low_stock');?></label>
                                 <div class="col-sm-6">
@@ -187,7 +171,7 @@
                             <div class="form-group btm_border">
                                 <label class="col-sm-4 control-label" for="demo-hor-13">Product Description English</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="5" maxlength="900"  class="form-control required"  name="description_en"><?php echo $row['description_en']; ?></textarea>
+                                    <textarea rows="5" maxlength="900"  class="form-control required"  name="description_en"><?php echo $row['description']; ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group btm_border">

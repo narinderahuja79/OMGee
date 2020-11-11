@@ -82,7 +82,7 @@
                 </a>
                 
                 <a class="btn btn-success btn-xs btn-labeled fa fa-wrench" data-toggle="tooltip" 
-                    onclick="ajax_modal('delivery_payment','<?php echo translate('delivery_payment'); ?>','<?php echo translate('successfully_edited!'); ?>','delivery_payment','<?php echo $row['sale_id']; ?>')" 
+                    onclick="ajax_modal('delivery_payment','<?php echo translate('update'); ?>','<?php echo translate('successfully_edited!'); ?>','delivery_payment','<?php echo $row['sale_id']; ?>')" 
                         data-original-title="Edit" data-container="body">
                             <?php echo translate('update'); ?>
                 </a>

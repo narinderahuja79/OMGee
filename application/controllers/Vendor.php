@@ -930,7 +930,7 @@ class Vendor extends CI_Controller
 
             $this->db->where('product_id', $para2);
             $this->db->update('product', $data);
-           echo $this->db->last_query();
+            echo $this->db->last_query();
             $this->crud_model->set_category_data(0);
             recache();
         } 
