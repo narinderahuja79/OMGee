@@ -175,10 +175,10 @@
                                         <select name="country">
                                             <option>Select Country</option>
                                             <option value="Australia">Australia</option>
-                                           <!-- <option value="Japan">Japan</option>
+                                           <option value="Japan">Japan</option>
                                             <option value="Hong Kong">Hong Kong </option>
                                             <option value="Singapore">Singapore</option>   -->
-                                        </select>
+                                       <!--  </select> -->
                                     <!--</div>  -->
                                     
                                     </div>
@@ -292,17 +292,45 @@
                                     </div>
 
                                  </div>
+       <div class="col-sm-6 selectpro">
+                                        <div class="select-wrapper">
+                                        	
+                                        <select d="example-multiple-optgroups" name="brandcategory[]" multiple="multiple" size="1">
+                                        	 <?php  $row=$this->db->get("category");
+                                                    
 
-
-                                 <div class="col-sm-6 selectpro">
+                                                    ?>
+                                        	 <?php foreach($row->result() as $cat){?>
+                                           <option value="<?php  echo$cat->category_name; ?>"> <?php echo$cat->category_name; ?></option> 
+<?php   }   ?>
+                                        </select>
+                                        
+                                    </div>
+                                    </div> 
+<div class="col-sm-12">
+	<script type="text/javascript">
+    $('#example-multiple-optgroups').multiselect();
+</script>
+<select id="example-multiple-optgroups">
+    <optgroup label="Group 1">
+        <option value="1-1">Option 1.1</option>
+        <option value="1-2" selected="selected">Option 1.2</option>
+        <option value="1-3" selected="selected">Option 1.3</option>
+    </optgroup>
+    <optgroup label="Group 2">
+        <option value="2-1">Option 2.1</option>
+        <option value="2-2">Option 2.2</option>
+        <option value="2-3">Option 2.3</option>
+    </optgroup>
+</select>
+</div>
+                                 <!-- <div class="col-sm-6 selectpro">
                                      
                                                <?php  $row=$this->db->get("category");
                                                     
 
                                                     ?>
-                            
-
-                             <!--  Brand category -->       
+                                 
                             <div class="select-wrapper" id="select-wrapper">
                                  <select name="brandcategory[]" multiple="multiple"size="1">
                                     
@@ -317,7 +345,7 @@
                                                 </div>
                                 
 
-                                 </div>
+                                 </div> -->
                         
 
                                     
