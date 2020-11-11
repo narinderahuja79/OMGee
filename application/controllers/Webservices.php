@@ -1205,10 +1205,11 @@
                 $community_arr['Each_new'] = currency($lat_sale_price1);
                 $community_arr['Six_new'] = currency($lat_sale_price2); 
                 $community_arr['Twelve_new'] = currency($lat_sale_price3);
-                echo "<pre>"; print_r($community_arr);die;
                 $communArr[] = $community_arr;
             }
         }
+
+        echo "<pre>"; print_r($communArr);die;
 
         $results_array['community'] = $communArr;
         $results_array['status'] = 1;
