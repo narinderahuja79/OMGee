@@ -554,10 +554,19 @@
 
 
             
-            $rrp = $sale_price;
-            $results_array['rrp'] = $sale_price;
+            // $rrp = $sale_price;
+            // $results_array['rrp'] = $sale_price;
             $wholesale = $row->wholesale;
-            $results_array['orp']=$this->get_orp($sale_price,$wholesale,$row->discount,$row->limited_release);
+            $orpData=$this->get_orp($sale_price,$wholesale,$row->discount,$row->limited_release);
+
+
+
+            $orp = !empty($orpData['orp']) ? $orpData['orp'] : '0';
+            $discount_orp = !empty($orpData['discount_orp']) ? $orpData['discount_orp'] : '0';
+
+
+            $results_array['discount_orp'] = $discount_orp;
+            $results_array['orp'] = $orp;
 
             
             $discount = ($row->discount) ? ($row->discount/100) : 0;
@@ -661,8 +670,19 @@
                     }
 
                     $resp['discount'] = ($pkey->discount) ? ($pkey->discount/100) : 0;
-                    $resp['rrp'] = $sale_price;
-                    $resp['orp'] = $this->get_orp($sale_price,$pkey->wholesale,$pkey->discount,$pkey->limited_release);
+                    // $resp['rrp'] = $sale_price;
+                    // $resp['orp'] = $this->get_orp($sale_price,$pkey->wholesale,$pkey->discount,$pkey->limited_release);
+
+
+                    $orp = !empty($orpData['orp']) ? $orpData['orp'] : '0';
+                    $discount_orp = !empty($orpData['discount_orp']) ? $orpData['discount_orp'] : '0';
+
+
+                    $resp['discount_orp'] = $discount_orp;
+                    $resp['orp'] = $orp;
+
+
+
                     $resp['product_id'] = $pkey['product_id'];
                     $resp['title'] = $pkey['title'];
 
@@ -735,6 +755,7 @@
 
 
     public function get_orp($bundle_sale1,$whole_sale,$bundle_discount1,$limited_release){
+        $response = array();
         $rrp = $bundle_sale1;
     
         $wholesale = $whole_sale;
@@ -756,7 +777,12 @@
         $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
         $total_discount = $orp * $discount;
         $total_orp = $orp - $total_discount;
-        return $total_orp;
+        
+        $lat_sale_price1 = $total_orp*1;
+
+        $response['orp'] = $orp;
+        $response['discount_orp'] = $lat_sale_price1;
+        return $response;
     }
 
 
@@ -800,8 +826,18 @@
                 $wholesale=!empty($key->wholesale)?$key->wholesale:0;
                 $discount=!empty($key->discount)?$key->discount:0;
                 $limited_release=!empty($key->limited_release)?$key->limited_release:0;
-                $respo['rrp'] = $sale_price;
-                $respo['orp_price'] = $this->get_orp($sale_price,$wholesale,$discount,$limited_release);
+                // $respo['rrp'] = $sale_price;
+                $orpData = $this->get_orp($sale_price,$wholesale,$discount,$limited_release);
+
+
+                $orp = !empty($orpData['orp']) ? $orpData['orp'] : '0';
+                $discount_orp = !empty($orpData['discount_orp']) ? $orpData['discount_orp'] : '0';
+
+
+                $respo['discount_orp'] = $discount_orp;
+                $respo['orp'] = $orp;
+
+
 
                 if(!empty($key->num_of_imgs)){
                     $num_of_imgs = explode(",", $key->num_of_imgs); 
@@ -948,13 +984,7 @@
         $category_array = array();
         $categories = $this->db->order_by('category_id', 'desc')->get_where('category',array('digital'=> NULL))->result_array();
 
-
-
-
         //1st row : Popular,Top Deals, Wine=23,Spirits=17. Non-Alcohol=16
-
-
-        // echo "<pre>"; print_r($categories);die;
 
         $productcate1 = array();
         $productcate2 = array();
@@ -1323,8 +1353,14 @@
                 $sale_price = $default_price;
             }
 
-            $latestPro['rrp'] = $sale_price;
-            $latestPro['orp'] = $this->get_orp($sale_price,$row['wholesale'],$row['discount'],$row['limited_release']);
+            $orpData = $this->get_orp($sale_price,$row['wholesale'],$row['discount'],$row['limited_release']);
+
+            $orp = !empty($orpData['orp']) ? $orpData['orp'] : '0';
+            $discount_orp = !empty($orpData['discount_orp']) ? $orpData['discount_orp'] : '0';
+
+
+            $latestPro['discount_orp'] = $discount_orp;
+            $latestPro['orp'] = $orp;
             $latestPro['is_wished']= $is_wished;
                 
             $latestPro['product_id'] =$row['product_id'];
@@ -1399,7 +1435,7 @@
             }
             $community_arr['product_image'] = $product_image;
             $community_arr['title'] = $row['title'];
-            $community_arr['rrp'] = $row['sale_price_AU'];
+            // $community_arr['rrp'] = $row['sale_price_AU'];
             
 
 
@@ -1417,48 +1453,57 @@
                 $sale_price = $default_price;
             }
 
+
+            $orpData = $this->get_orp($sale_price,$row['wholesale'],$row['discount'],$row['limited_release']);
+            $orp = !empty($orpData['orp']) ? $orpData['orp'] : '0';
+            $discount_orp = !empty($orpData['discount_orp']) ? $orpData['discount_orp'] : '0';
+
+
+            $community_arr['discount_orp'] = $discount_orp;
+            $community_arr['orp'] = $orp;
+
             // $latestPro['rrp'] = $sale_price;
-            // $latestPro['orp'] = $this->get_orp($sale_price,$row['wholesale'],$row['discount'],$row['limited_release']);
+            
             // $latestPro['is_wished']= $is_wished;
 
             // if($row['sale_price_AU']){
-            $rrp = $sale_price;
+            // $rrp = $sale_price;
 
-            $wholesale = $row['wholesale'];
-            $discount = ($row['discount']) ? ($row['discount']/100) : 0;
+            // $wholesale = $row['wholesale'];
+            // $discount = ($row['discount']) ? ($row['discount']/100) : 0;
             
-            if($row['limited_release']=="Yes"){
-                $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
+            // if($row['limited_release']=="Yes"){
+            //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
             
-                $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
-            } else {
-                $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
+            //     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
+            // } else {
+            //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
             
-                $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
-            }
+            //     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
+            // }
 
-            $gap_revenue = $rrp - $wholesale;
-            $gap_revenue_commission = $gap_revenue * $commission_amount;    
-            $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
-            $total_discount = $orp * $discount;
-            $total_orp = $orp - $total_discount;
+            // $gap_revenue = $rrp - $wholesale;
+            // $gap_revenue_commission = $gap_revenue * $commission_amount;    
+            // $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
+            // $total_discount = $orp * $discount;
+            // $total_orp = $orp - $total_discount;
         
 
-            $lat_sale_price1 = $total_orp*1;
-            $lat_sale_price2 = $total_orp*6;
-            $lat_sale_price3 = $total_orp*12;
+            // $lat_sale_price1 = $total_orp*1;
+            // $lat_sale_price2 = $total_orp*6;
+            // $lat_sale_price3 = $total_orp*12;
 
 
-            $community_arr['rrp'] = $rrp;
-            $community_arr['orp'] = $orp;
+            // $community_arr['rrp'] = $rrp;
+            // $community_arr['orp'] = $orp;
             $community_arr['discount'] = (string)$discount;
-            $community_arr['Each'] = currency($orp *1);
-            $community_arr['Six'] = currency($orp *6); 
-            $community_arr['Twelve'] = currency($orp *12);
+            // $community_arr['Each'] = currency($orp *1);
+            // $community_arr['Six'] = currency($orp *6); 
+            // $community_arr['Twelve'] = currency($orp *12);
 
-            $community_arr['Each_new'] = currency($lat_sale_price1);
-            $community_arr['Six_new'] = currency($lat_sale_price2); 
-            $community_arr['Twelve_new'] = currency($lat_sale_price3);
+            // $community_arr['Each_new'] = currency($lat_sale_price1);
+            // $community_arr['Six_new'] = currency($lat_sale_price2); 
+            // $community_arr['Twelve_new'] = currency($lat_sale_price3);
             $communArr[] = $community_arr;
         }
 
@@ -2045,14 +2090,42 @@
 
 
 
+    //     $carted = $this->cart->contents();
+    //     
+    //     $carted   = $this->cart->contents();
+    //     $total    = $this->cart->total();
+    //     $exchange = exchange('usd');
+    //     $vat_per  = '';
+    //     $vat      = $this->crud_model->cart_total_it('tax');
+        
+    //     $shipping = ($this->session->userdata('ishipping_total_price')) ? $this->session->userdata('ishipping_total_price') : 0;
+        
+    //     $grand_total     = $total + $shipping;
+    //     $product_details = json_encode($carted);
+        
+    //     $this->db->where('user_id', $this->session->userdata('user_id'));
+    //     $this->db->update('user', array(
+    //         'langlat' => $this->input->post('langlat')
+    //     ));
+
+
+
+
+    // function checkstripe(){
+    //     $user_id =  $this->input->post('user_id');
+    //     $userAddress=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
+    //     echo "<pre>"; print_r($userAddress);die;
+    // }
+
+
 
 //     user_id:321
 // amount:10
 // payment_type:wallet/stripe
 // stripe_token:transaction_id
-    function check_out(){
+   /* function check_out(){
         $addressArr = array();
-        $amount =  $this->input->post('amount');
+        $total =  $this->input->post('amount');
         
         $user_id =  $this->input->post('user_id');
         $amount = $this->input->post('amount');
@@ -2062,7 +2135,9 @@
         $SQL = $this->db->query($query);
         $carted = $SQL->result_array();
 
-
+        $shipping = 0;
+        
+        $grand_total = $total + $shipping;
         // $total    = $this->cart->total();
         $exchange = exchange('usd');
         $vat_per  = '';
@@ -2071,7 +2146,11 @@
         // $shipping = ($this->session->userdata('ishipping_total_price')) ? $this->session->userdata('ishipping_total_price') : 0;
         $grand_total     = $total + $shipping;
         $product_details = json_encode($carted);
-    
+        
+
+
+        $userAddress=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
+        
         if ($payment_type == 'wallet') {
             $balance = $this->wallet_model->user_balance();
             $balance = !empty($balance) ? $balance : "10000";
@@ -2155,6 +2234,106 @@
             } 
         } else if ($payment_type == 'stripe') {
             if(!empty($stripe_token)) {
+                // if(isset($_POST['stripeToken'])) {
+                require_once(APPPATH . 'libraries/stripe-php/init.php');
+                $stripe_api_key = $this->db->get_where('business_settings' , array('type' => 'stripe_secret'))->row()->value;
+                    \Stripe\Stripe::setApiKey($stripe_api_key); //system payment settings
+                $customer_email = $this->db->get_where('user' , array('user_id' => $user_id))->row()->email;
+                    
+                $customer = \Stripe\Customer::create(array(
+                    'email' => $customer_email, // customer email id
+                    'card'  => $stripe_token
+                ));
+
+                $charge = \Stripe\Charge::create(array(
+                    'customer'  => $customer->id,
+                    'amount'    => ceil($grand_total*100/$exchange),
+                    'currency'  => 'USD'
+                ));
+
+                if($charge->paid == true){
+                    $customer = (array) $customer;
+                    $charge = (array) $charge; 
+
+                    $data['product_details']   = $product_details;
+                    $data['shipping_address']  = json_encode($userAddress);
+                    $data['vat']               = $vat;
+                    $data['vat_percent']       = $vat_per;
+                    $data['shipping']          = !empty($shipping) ? $shipping : 0;
+                    $data['delivery_status']   = 'pending';
+                    $data['payment_type']      = 'stripe';
+                    $data['payment_status']    = 'paid';
+                    $data['payment_details']   = "Customer Info: \n".json_encode($customer,true)."\n \n Charge Info: \n".json_encode($charge,true);
+                    $data['grand_total']       = $grand_total;
+                    $data['sale_datetime']     = time();
+                    $data['delivary_datetime'] = '';
+                        
+                    $this->db->insert('sale', $data);
+                        //echo $this->db->last_query();
+                    $sale_id = $this->db->insert_id();
+                    
+                    $data['buyer'] = $user_id;    
+                    
+                    $vendors = $this->crud_model->vendors_in_sale($sale_id);
+                        
+
+
+                    $delivery_status = array();
+                    $payment_status = array();
+                    foreach ($vendors as $p) {
+                        $delivery_status[] = array('vendor'=>$p,'status'=>'pending','comment'=> '','delivery_time'=>'');
+                        $payment_status[] = array('vendor'=>$p,'status'=>'paid');
+                    }
+                    if($this->crud_model->is_admin_in_sale($sale_id)){
+                        $delivery_status[] = array('admin'=>'','status'=>'pending','comment'=> '','delivery_time'=>'');
+                        $payment_status[] = array('admin'=>'','status'=>'paid');
+                    }
+                    $data['sale_code'] = date('Ym', $data['sale_datetime']) . $sale_id;
+                    $data['delivery_status'] = json_encode($delivery_status);
+                    $data['payment_status'] = json_encode($payment_status);
+
+
+                    if($data['sale_code']){
+                        $data['ishipping_request_response'] = $this->send_order_ishipping($data['sale_code'],$_POST); // add address
+                    }
+                    $this->db->where('sale_id', $sale_id);
+                    $this->db->update('sale', $data);
+                    $total_coupon_price = 0;
+                       
+                    $this->cart->destroy(); //delete cart data
+                        //$this->session->set_userdata('couponer','');
+                    // if($this->session->userdata('total_cashback_discount') > 0){
+                    //     $data2['user']                   = $this->session->userdata('user_id');
+                    //     $data2['method']                 = 'stripe';
+                    //     $data2['amount']                 = $this->session->userdata('total_cashback_discount');
+                    //     $data2['status']                 = 'paid';
+                    //     $data2['payment_details']        = "Customer Info: \n".json_encode($usera,true)."\n \n Charge Info: \n".json_encode($charge,true);;
+                    //     $data2['timestamp']              = time();
+                    //     $this->db->insert('wallet_load',$data2);
+                    //     //echo $this->db->last_query();
+                    //     $id = $this->db->insert_id();       
+                    //     $user = $this->db->get_where('wallet_load', array('wallet_load_id' => $id))->row()->user;
+                    //     $amount = $this->db->get_where('wallet_load', array('wallet_load_id' => $id))->row()->amount;
+                    //     $balance = base64_decode($this->db->get_where('user',array('user_id'=>$user))->row()->wallet);
+                    //     $new_balance = base64_encode($balance+$amount);
+                    //     $this->db->where('user_id',$user);
+                    //     $this->db->update('user',array('wallet'=>$new_balance));
+                    // }    
+                    // redirect(base_url().'home/thankyou/'.$sale_id,'refresh'); 
+                    
+                //}// 
+
+
+
+
+                // }
+                // else
+                // {
+                //     $this->session->set_flashdata('alert', 'unsuccessful_stripe');
+                //     redirect(base_url() . 'home/cart_checkout/', 'refresh');
+                // }
+
+
                 // require_once(APPPATH . 'libraries/stripe-php/init.php');
                 // $stripe_api_key = $this->db->get_where('business_settings' , array('type' => 'stripe_secret'))->row()->value;
                 // \Stripe\Stripe::setApiKey($stripe_api_key); //system payment settings
@@ -2258,7 +2437,7 @@
         exit(json_encode($res)); 
     }
     
-
+*/
 
 
     function send_order_ishipping($sale_code,$user_id){
