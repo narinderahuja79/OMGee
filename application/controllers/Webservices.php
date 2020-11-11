@@ -1235,7 +1235,7 @@
             }
         }
 
-        echo "<pre>"; print_r($communArr);die;
+        // echo "<pre>"; print_r($communArr);die;
 
         $results_array['community'] = $communArr;
         $results_array['status'] = 1;
