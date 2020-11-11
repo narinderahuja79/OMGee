@@ -3361,7 +3361,7 @@ function check_out(){
         $vat      = $this->crud_model->cart_total_it('tax');
         
         // $shipping = ($this->session->userdata('ishipping_total_price')) ? $this->session->userdata('ishipping_total_price') : 0;
-        $grand_total     = $total + $shipping;
+        $grand_total     = $total;// + $shipping;
         $product_details = json_encode($carted);
     
         if ($payment_type == 'wallet') {
