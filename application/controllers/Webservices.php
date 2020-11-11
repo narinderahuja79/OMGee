@@ -1609,7 +1609,7 @@
                         $productInfo=$this->Webservice_model->getDataFromTabel('product', 'product_id,title,num_of_imgs', array('product_id'=>$vv->product_id));
                         $respo['product_id'] = $productInfo[0]->product_id;
                         $respo['title'] = $productInfo[0]->title;
-                        $respo['qty'] = $data1[$k]->qty;
+                        $respo['qty'] = 1;//$data1[$k]->qty;
                         $respo['grand_total'] = $orderData[$key]['grand_total'];
                         $respo['description'] = !empty($productInfo[0]->description) ? $productInfo[0]->description : "Lorem Ipsum is simply dummy text";
 
@@ -3344,7 +3344,7 @@
 
 function check_out(){
         $addressArr = array();
-        $amount =  $this->input->post('amount');
+        // $amount =  $this->input->post('amount');
         
         $user_id =  $this->input->post('user_id');
         $amount = $this->input->post('amount');
