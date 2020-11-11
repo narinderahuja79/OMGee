@@ -207,11 +207,14 @@
           $wished = array();
       }
       $wished_new = array();
-      foreach ($wished as $row) {
-          if ($row !== $product_id) {
-              $wished_new[] = $row;
-          }
+      if(!empty($wished_new)){
+        foreach ($wished as $row) {
+            if ($row !== $product_id) {
+                $wished_new[] = $row;
+            }
+        }  
       }
+      
       $this->db->where('user_id', $user_id);
       $this->db->update('user', array('wishlist' => json_encode($wished_new)));
       $ListData = $this->db->affected_rows();
