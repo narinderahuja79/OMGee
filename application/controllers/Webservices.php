@@ -764,23 +764,43 @@
         $product_search = $this->input->post('product_search');
         $filter = $this->input->post('search_by_filter');
         $brand_id = $this->input->post('brand_id');
+
+        $currency_type = $this->input->post('currency_type');
+        $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
+
+
         $data = $this->Webservice_model->searchProduct($product_search,$filter,$brand_id);
         // echo "<pre>"; print_r($data);die;
         if(!empty($data)){
             foreach ($data as $key) {
                 $respo = array();
+
+
+                $default_price = !empty($key->sale_price_AU) ? $key->sale_price_AU : '0';
+                if($currencyType=="AUD"){
+                    $sale_price = $default_price;
+                }else if($currencyType=="HKD"){
+                    $sale_price = !empty($key->sale_price_HK) ? $key->sale_price_HK : $default_price;
+                }else if($currencyType=="JPY"){
+                    $sale_price = !empty($key->sale_price_JP) ? $key->sale_price_JP : $default_price;
+                }else if($currencyType=="SGD"){
+                    $sale_price = !empty($key->sale_price_SG) ? $key->sale_price_SG : $default_price;
+                }else{
+                    $sale_price = $default_price;
+                }
+
                 $respo['product_id']   = $key->product_id;
                 $respo['title']   = $key->title;
                 $respo['description'] = $key->description;
-                $respo['sale_price'] = $key->bundle_sale1;
-                $respo['rating'] = '4';
+                $respo['sale_price'] = $sale_price;
+                $respo['rating'] = $this->crud_model->getProductRating($key->product_id);
 
-                $bundle_sale1=!empty($key->bundle_sale1)?$key->bundle_sale1:0;
+                // $bundle_sale1=!empty($key->bundle_sale1)?$key->bundle_sale1:0;
                 $wholesale=!empty($key->wholesale)?$key->wholesale:0;
-                $bundle_discount1=!empty($key->bundle_discount1)?$key->bundle_discount1:0;
+                $discount=!empty($key->discount)?$key->discount:0;
                 $limited_release=!empty($key->limited_release)?$key->limited_release:0;
-                
-                $respo['orp_price'] = $this->get_orp($bundle_sale1,$wholesale,$bundle_discount1,$limited_release);
+                $respo['rrp'] = $sale_price;
+                $respo['orp_price'] = $this->get_orp($sale_price,$wholesale,$discount,$limited_release);
 
                 if(!empty($key->num_of_imgs)){
                     $num_of_imgs = explode(",", $key->num_of_imgs); 
