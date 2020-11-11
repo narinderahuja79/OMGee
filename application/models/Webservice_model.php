@@ -93,8 +93,11 @@
 
     function lastOneWeekproduct()
     {
-        $latest = $this->db->query("SELECT * FROM product WHERE `created_date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY AND `created_date` < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY ORDER BY product_id DESC");
+        // $latest = $this->db->query("SELECT * FROM product WHERE `created_date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY AND `created_date` < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY ORDER BY product_id DESC");
          
+        $latest = $this->db->query("SELECT * FROM product WHERE `created_date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY  ORDER BY product_id DESC");
+         
+        // echo $this->db->last_query();die;
         return  $latest->result_array();
     }
 
