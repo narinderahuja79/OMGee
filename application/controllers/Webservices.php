@@ -777,10 +777,15 @@
         $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
         $total_discount = $orp * $discount;
         $total_orp = $orp - $total_discount;
+        if(!empty($discount)){
+            $lat_sale_price1 = $total_orp*1;    
+        }else{
+            $lat_sale_price1=0;
+        }
         
-        $lat_sale_price1 = $total_orp*1;
 
         $response['orp'] = $orp;
+
         $response['discount_orp'] = $lat_sale_price1;
         return $response;
     }
@@ -1842,13 +1847,16 @@
 
 
 
-
-
 /* http://103.15.67.74/pro1/teleboutik/webservices/my_cart_items */
-
+/*
     public function my_cart_items(){
+
         $user_id =  $this->input->post('user_id');
         // $language_type = $this->input->post('language_type');
+
+        $currency_type = $this->input->post('currency_type');
+        $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
+
 
         $where = array('user_id'=>$user_id);
         $cartContent = $this->Webservice_model->get_data_where('forCart',$where);
@@ -1861,6 +1869,7 @@
                 
 
                 if(!empty($productDetail[0]['num_of_imgs'])){
+                    // $num_of_img = explode(",", $productDetail[0]['num_of_imgs']); 
                     $cartContent[$key]['images'] = base_url('uploads/product_image/'.$productDetail[0]['num_of_imgs']); //$images;    
                 }else{
                     $cartContent[$key]['images'] = base_url('uploads/product_image/default.jpg');
@@ -1869,7 +1878,22 @@
                 $cartContent[$key]['title']  = $productDetail[0]['title'];
 
 
-                $rrp=$productDetail[0]['bundle_sale1'];
+                $default_price = !empty($productDetail[0]['sale_price_AU']) ? $productDetail[0]['sale_price_AU'] : '0';
+                if($currencyType=="AUD"){
+                    $sale_price = $default_price;
+                }else if($currencyType=="HKD"){
+                    $sale_price = !empty($productDetail[0]['sale_price_HK']) ? $productDetail[0]['sale_price_HK'] : $default_price;
+                }else if($currencyType=="JPY"){
+                    $sale_price = !empty($productDetail[0]['sale_price_JP']) ? $productDetail[0]['sale_price_JP'] : $default_price;
+                }else if($currencyType=="SGD"){
+                    $sale_price = !empty($productDetail[0]['sale_price_SG']) ? $productDetail[0]['sale_price_SG'] : $default_price;
+                }else{
+                    $sale_price = $default_price;
+                }
+
+
+
+                // $rrp=$productDetail[0]['bundle_sale1'];
                 $wholesale=$productDetail[0]['wholesale'];
                 $bundle_discount1=$productDetail[0]['bundle_discount1'];
 
@@ -1891,7 +1915,7 @@
                 $gap_revenue_commission = $gap_revenue * $commission_amount;    
                 $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
                 $total_discount = $orp * $discount;
-                $total_orp = $orp /*- $total_discount*/;  
+                $total_orp = $orp /*- $total_discount;  
 
 
                 $saving = (($bundle_sale1*$value['qty'])-($bundle_sale1*$value['qty']))+$total_discount;
@@ -1979,7 +2003,7 @@
             $res['message'] = ' Cart is empty ';
         }
         exit(json_encode($res)); 
-    }
+    }*/
 
 
 
