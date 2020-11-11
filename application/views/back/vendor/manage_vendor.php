@@ -1028,12 +1028,10 @@
         var here = $(this);
         var total_brands = x;
         var name = [];    
-        var category = []; 
-        var images = [];   
+        var category = [];
         for(var i = 1; i <= total_brands; i++) 
         {
             name.push($('input[name="brands'+i+'"]').val());
-
             var selected=[];
             $('.category_name'+i+' :selected').each(function()
             {
@@ -1042,15 +1040,20 @@
                     selected.push($(this).val());
                 }
             });
-            category.push(selected);
+            var selected_obj = {selected};
+            category.push(selected_obj);
             selected=[];
-            images.push($('input[name="brand_image'+i+'"]')[0].files[0]);
+
+            /*images.push($('input[name="brand_image'+i+'"]')[0].files[0]);*/
         }
-                
+        /*console.log(images);*/
         var fd = new FormData();
         fd.append('brands',name);
-        fd.append('category',category);
-        fd.append('brand_image',images);
+        fd.append('category',JSON.stringify(category));
+        for (var y = 1; y <= name.length; y++) 
+        {
+            fd.append('brand_images'+y,$('input[name="brand_image'+y+'"]')[0].files[0]);
+        }   
 
         $.ajax({ 
             url: base_url+user_type+'/manage_vendor/add_brand/', 
@@ -1067,11 +1070,9 @@
                     container : 'floating', 
                     timer : 3000 
                 });
-                //setTimeout(function(){ window.location.reload(); }, 3000);
+                setTimeout(function(){ window.location.reload(); }, 2000);
             } 
         }); 
-           
-
     });
     $('.delete-div-wrap .delete-events-img').on('click', function() { 
         var pid = $(this).closest('.delete-div-wrap').find('img').data('id'); 

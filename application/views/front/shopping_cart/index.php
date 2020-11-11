@@ -144,6 +144,11 @@
                                         if($this->session->userdata('currency') == '2')
                                         {
                                             $rrp = $product_details->sale_price_AU*$items['qty'];
+                                            $wholesale = $product_details->wholesale*$items['qty'];
+                                        }
+                                        else
+                                        {
+                                            $wholesale = $product_details->wholesale_EXCL_WET_GST*$items['qty'];
                                         }
                                         if($this->session->userdata('currency') == '10')
                                         {
@@ -178,8 +183,6 @@
                                                 $rrp = $product_details->sale_price_AU*$items['qty'];
                                             }
                                         }
-                                        $wholesale = $product_details->wholesale*$items['qty'];
-
                                         if($product_details->limited_release =="Yes")
                                         {
                                             $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
@@ -197,13 +200,73 @@
                                         $gap_revenue_commission = $gap_revenue * $commission_amount;    
                                         $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
 
-                                        $discount = ($product_details->bundle_discount1) ? ($product_details->bundle_discount1) : 0; 
+                                        $discount = ($product_details->discount) ? ($product_details->discount) : 0; 
 
                                         $total_discount = ($orp*($discount/100));
 
                                         $promocode = ($variationqty_arr->promocode_cal_discount_price > 0) ? $variationqty_arr->promocode_cal_discount_price *$items['qty'] : 0;
 
                                         $saving = ($rrp - $orp)+$total_discount;
+                                        $total_sub_total_orp = $orp - ($orp * ($discount/100));
+
+                                        if($this->session->userdata('currency') == '2')
+                                        {
+                                            $with_rrp_currency = currency($rrp);
+                                            $with_orp_currency = currency($orp); 
+                                            $with_saving_currency = currency($saving); 
+                                            $with_sub_total_currency = currency($total_sub_total_orp); 
+                                        }
+                                        if($this->session->userdata('currency') == '10')
+                                        {
+                                            if($product_details->sale_price_HK > 0)
+                                            {
+                                                $with_rrp_currency = currency().$rrp;   
+                                                $with_orp_currency = currency().$orp;
+                                                $with_saving_currency = currency().$saving; 
+                                                $with_sub_total_currency = currency().$total_sub_total_orp;  
+                                            }
+                                            else
+                                            {
+                                                $with_rrp_currency = currency($rrp);
+                                                $with_orp_currency = currency($orp);
+                                                $with_saving_currency = currency($saving);
+                                                $with_sub_total_currency = currency($total_sub_total_orp);
+                                            }
+                                        }
+                                        if($this->session->userdata('currency') == '13')
+                                        {
+                                            if($product_details->sale_price_JP > 0)
+                                            {
+                                                $with_rrp_currency = currency().$rrp;
+                                                $with_orp_currency = currency().$orp;
+                                                $with_saving_currency = currency().$saving;
+                                                $with_sub_total_currency = currency().$total_sub_total_orp;
+                                            }
+                                            else
+                                            {
+                                                $with_rrp_currency = currency($rrp);
+                                                $with_orp_currency = currency($orp);
+                                                $with_saving_currency = currency($saving);
+                                                $with_sub_total_currency = currency($total_sub_total_orp);
+                                            }
+                                        }
+                                        if($this->session->userdata('currency') == '22')
+                                        {
+                                            if($product_details->sale_price_SG > 0)
+                                            {
+                                                $with_rrp_currency = currency().$rrp;
+                                                $with_orp_currency = currency().$orp;
+                                                $with_saving_currency = currency().$saving;
+                                                $with_sub_total_currency = currency().$total_sub_total_orp;
+                                            }
+                                            else
+                                            {
+                                                $with_rrp_currency = currency($rrp);
+                                                $with_orp_currency = currency($orp);
+                                                $with_saving_currency = currency($saving);
+                                                $with_sub_total_currency = currency($total_sub_total_orp);
+                                            }
+                                        }
                                     ?>
                                 <tr data-rowid="<?php echo $items['rowid']; ?>">
                                     <td class="product-thumbnail proimgheight">
@@ -213,9 +276,8 @@
                                         <a  href="<?php echo $this->crud_model->product_link($variationqty_arr->productid); ?>"><img class="img-responsive" src="<?php echo base_url(); ?>template/omgee/images/iconfindericon/wine.png" alt="" /></a>
                                         <?php $count= $items['id']; } ?>
                                     </td> 
-
-                                    <td class="product-name"><a href="<?php echo $this->crud_model->product_link($variationqty_arr->productid); ?>"><?php echo $items['name']; ?></a></td>
-
+                                    <td class="product-name"><a href="<?php echo $this->crud_model->product_link($variationqty_arr->productid); ?>"><?php echo $items['name']; ?></a>
+                                    </td>
                                     <td class="product-quantity">
                                         <div class="cart-plus-minus">
                                             <button type='button' variationqty="<?php echo $variationqty_arr->variationqty; ?>" class="dec qtybutton btn in_xs quantity-button minus"  value='minus' >-</button>
@@ -223,8 +285,12 @@
                                             <button type='button' variationqty="<?php echo $variationqty_arr->variationqty; ?>"  class="btn in_xs quantity-button plus inc qtybutton"  value='plus' >+</button>
                                         </div>
                                     </td>
-                                    <td class="prize"><span class="amount rrp"><?php echo currency($rrp); ?></span></td>
-                                    <td class="prize"><span class="amount orp"><?php echo currency($orp); ?></span></td>
+                                    <td class="prize">
+                                        <span class="amount rrp">
+                                            <?php echo $with_rrp_currency; ?>
+                                        </span>
+                                    </td>
+                                    <td class="prize"><span class="amount orp"><?php echo $with_orp_currency; ?></span></td>
                                     <td class="promocode_price">
                                         <?php
                                             if($promocode > 0)
@@ -238,22 +304,10 @@
                                         ?>
                                     </td>
                                     <td class="product-price-cart discount">
-                                        <?php 
-                                            if($saving > 0)
-                                            {
-                                                echo currency($saving);
-                                            }
-                                            else
-                                            {
-                                                echo "-";
-                                            }
-                                        ?>
+                                        <?php  echo $with_saving_currency;  ?>
                                     </td>
                                     <td class="product-subtotal sub_total">
-                                        <?php 
-                                            $total_sub_total_orp = $orp - ($orp * ($discount/100));
-                                            echo currency($total_sub_total_orp);
-                                        ?>    
+                                        <?php  echo $with_sub_total_currency;  ?>    
                                     </td>                               
                                     <td class="total">
                                         <a href="javascript:void(0);" class="close delete_cart_product float-none">
@@ -261,13 +315,13 @@
                                         </a>
                                     </td>
                                 </tr>
-                                <?php }
-
+                                <?php 
+                                }
                                 if($remove_promocode != 'abhi h product')
                                 {
                                     $promocode=$this->session->set_userdata('promocode','');
                                 }    
-                                ?>
+                            ?>
                             </tbody>
                         </table>
                     </div>
@@ -275,7 +329,7 @@
                         <div class="col-lg-12">
                             <div class="cart-shiping-update-wrapper">
                                 <div class="cart-shiping-update">
-                                    <a href="." class="removeproduct">Clear Shopping Cart</a>
+                                    <a href="javascript:void(0);" class="removeproduct">Clear Shopping Cart</a>
                                 </div>
                                 <div class="cart-clear">
                                     <a href="<?php echo base_url(); ?>"><button>Continue Shopping</button></a>
@@ -455,7 +509,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!-- new data over--> 
                                                 </div>
                                             </div>
                                         </div>
@@ -463,11 +516,14 @@
                                             <div class="pro-details-policy">
                                                 <ul>
                                                     <li>
-                                                        <img src="<?php echo base_url();?>template/omgee/images/icons/policy.png" alt="" /><span>Security Policy</span></li>
+                                                        <img src="<?php echo base_url();?>template/omgee/images/icons/policy.png" alt="" /><span>Security Policy</span>
+                                                    </li>
                                                     <li>
-                                                        <img src="<?php echo base_url();?>template/omgee/images/icons/policy-2.png" alt="" /><span>Delivery Policy</span></li>
+                                                        <img src="<?php echo base_url();?>template/omgee/images/icons/policy-2.png" alt="" /><span>Delivery Policy</span>
+                                                    </li>
                                                     <li>
-                                                        <img src="<?php echo base_url();?>template/omgee/images/icons/policy-3.png" alt="" /><span>Return Policy</span></li>
+                                                        <img src="<?php echo base_url();?>template/omgee/images/icons/policy-3.png" alt="" /><span>Return Policy</span>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>

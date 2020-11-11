@@ -379,6 +379,11 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                         if($this->session->userdata('currency') == '2')
                                         {
                                             $rrp = $row['sale_price_AU'];
+                                            $wholesale = $row['wholesale'];
+                                        }
+                                        else
+                                        {
+                                            $wholesale = $row['wholesale_EXCL_WET_GST'];
                                         }
                                         if($this->session->userdata('currency') == '10')
                                         {
@@ -753,6 +758,11 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                         if($this->session->userdata('currency') == '2')
                                         {
                                             $rrp = $row['sale_price_AU'];
+                                            $wholesale = $row['wholesale'];
+                                        }
+                                        else
+                                        {
+                                            $wholesale = $row['wholesale_EXCL_WET_GST'];
                                         }
                                         if($this->session->userdata('currency') == '10')
                                         {
@@ -787,8 +797,7 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                                 $rrp = $row['sale_price_AU'];
                                             }
                                         }
-    
-                                        $wholesale = $row['wholesale'];
+
                                         $discount = ($row['discount']) ? ($row['discount']/100) : 0;
                                         
                                         if($row['limited_release']=="Yes")
@@ -822,6 +831,7 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                             <th class="text-center <?php if($row['discount'] == 0) { echo 'th_firstdata'; } ?>">Six</span></th>   
                                             <th class="text-center <?php if($row['discount'] == 0) { echo 'th_firstdata'; } ?>">Twelve</span></th>   
                                         </thead>
+                                        <tr>
                                        <?php
                                             if($row['discount'] > 0)
                                             {
@@ -973,9 +983,7 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                             ?>
                                         </tr>
                                     </table>
-                                    <?php
-                                }
-                                ?>
+                                    <?php }  ?>
                                 </div>
                             </article>
                         </div>

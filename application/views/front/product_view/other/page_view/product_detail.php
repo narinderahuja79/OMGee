@@ -56,13 +56,16 @@
 	        }
 	    }
 	    return $ret;
-
 	}
-	
 
 	if($this->session->userdata('currency') == '2')
     {
         $rrp = $row['sale_price_AU'];
+    	$wholesale = $row['wholesale'];
+    }
+    else
+    {
+        $wholesale = $row['wholesale_EXCL_WET_GST'];
     }
     if($this->session->userdata('currency') == '10')
     {
@@ -98,7 +101,6 @@
         }
     }
 	
-	$wholesale = $row['wholesale'];
 	$discount = ($row['discount']) ? ($row['discount']/100) : 0;
 	
 
@@ -428,9 +430,73 @@ z-index: 1 !important;
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><?php echo currency($lat_sale_price1); ?></td>
-                                            <td><?php echo currency($lat_sale_price2); ?></td>
-                                            <td><?php echo currency($lat_sale_price3); ?></td>
+                                            <?php
+                                                if($this->session->userdata('currency') == '2')
+                                                {
+                                                    ?>
+                                                    <td><?php echo currency($lat_sale_price1); ?></td>
+                                                    <td><?php echo currency($lat_sale_price2); ?></td>
+                                                    <td><?php echo currency($lat_sale_price3); ?></td>
+                                                    <?php
+                                                }
+                                                if($this->session->userdata('currency') == '10')
+                                                {
+                                                    if($row['sale_price_HK'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '13')
+                                                {
+                                                    if($row['sale_price_JP'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '22')
+                                                {
+                                                    if($row['sale_price_SG'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
                                         </tr>
                                         <tr>
                                             <td class="plusview">
