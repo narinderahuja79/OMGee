@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <!--  <label>City</label> -->
-                                <input type="text" name="city" placeholder="<?php echo translate('city');?>">
+                                <input type="text" name="city" placeholder="<?php echo translate('suburb');?>">
                             </div>
                             <div class="col-sm-6">
                                 <!--  <label>State</label>  -->
@@ -128,10 +128,10 @@
                                     <select name="country">
                                         <option>Select Country</option>
                                         <option value="Australia">Australia</option>
-                                       <!-- <option value="Japan">Japan</option>
+                                        <option value="Japan">Japan</option>
                                         <option value="Hong Kong">Hong Kong </option>
-                                        <option value="Singapore">Singapore</option>   -->
-                                </select>
+                                        <option value="Singapore">Singapore</option>   
+                                </select> --->
                                 <!--</div>  -->
                             </div>
                             <div class="col-sm-6">
@@ -140,11 +140,11 @@
                                     <div class="col-sm-4 selectpro">
                                         <div class="select-wrapper">
                                             <select name="countryCode">
-                                                <option value="">Code</option>
-                                                <option value="61">(+61) Australia</option>
-                                                <option value="81">(+81) Japan</option>
-                                                <option value="852">(+852) Hong Kong </option>
-                                                <option value="65">(+65) Singapore</option>
+                                                <option value="02">(+02)</option>
+                                                <option value="03">(+03)</option>
+                                                <option value="04">(+04)</option>
+                                                <option value="07">(+07)</option>
+                                                <option value="08">(+08)</option>
                                             </select>
                                         </div>
                                     </div>
@@ -155,9 +155,9 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="row">
-                                    <div class="col-sm-4 selectpro">
+                                    <div class="col-sm-4 selectpro" style="display: none;">
                                         <div class="select-wrapper">
-                                            <select name="countryCode">
+                                            <select name="countrycode">
                                                 <option value="">Code</option>
                                                 <option value="61">(+61) Australia</option>
                                                 <option value="81">(+81) Japan</option>
@@ -166,7 +166,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-12">
                                         <input name="mobile" type="text" placeholder="<?php echo translate('Mobile Number');?>"onkeypress="isInputNumber(event)"/>
                                     </div>
                                 </div>
@@ -213,7 +213,7 @@
                                               else{
                                             
                                             ?>
-                                        <option value="<?php  echo$cat->category_name; ?>"> <?php echo$cat->category_name; ?></option>
+                                        <option value="<?php  echo $cat->category_name; ?>"> <?php echo$cat->category_name; ?></option>
                                         <?php   } }  ?>
                                     </select>
                                 </div>
@@ -301,27 +301,4 @@
         $('.mcat').select2();
     });
 
-    function checkPass()
-    {
-        var pass1 = document.getElementById('password1');
-        
-        if(pass1.length > 7){
-             $('.password1_error').html("password length minimum 6 character/digit").css('color','red');
-        }
-        else{
-             $('.password1_error').html("password length ok ").css('color','green');
-        }
-    }
-    function checkPass1()
-    {
-        var pass2 = document.getElementById('password2');
-        
-        if(pass2.length > 7){
-             $('.password2_error').html("Comfirm password length minimum 6 character/digit").css('color','red');
-        }
-        else{
-             $('.password2_error').html("Comfirm password length ok ").css('color','green');
-        }
-
-    }
 </script>

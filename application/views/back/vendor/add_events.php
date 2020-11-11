@@ -54,7 +54,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label"><?php echo translate('product');?></label>
                     <div class="col-sm-6">
-                        <select data-placeholder="<?php echo translate('choose_product');?>" name='choose_product[]' class="form-control chosen-select required" multiple tabindex="2" required>
+                        <select data-placeholder="<?php echo translate('Choose one or multiple products to promote');?>" name='choose_product[]' class="form-control chosen-select required" multiple tabindex="2" required>
                             <?php
                                 $products = $this->db->get_where('product',array('added_by'=>json_encode(array('type'=>'vendor','id'=>$this->session->userdata('vendor_id')))))->result_array();
                                 foreach ($products as $row) 

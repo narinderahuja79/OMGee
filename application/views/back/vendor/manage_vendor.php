@@ -27,7 +27,7 @@
                                         <a data-toggle="tab" href="#other_details"><?php echo translate('other_details'); ?></a>
                                     </li>
                                     <li>
-                                        <a data-toggle="tab" href="#agreement"><?php echo translate('vendor agreement'); ?></a>
+                                        <a data-toggle="tab" href="#agreement"><?php echo translate('document'); ?></a>
                                     </li>
                                 </ul>
                             </div>
@@ -65,8 +65,10 @@
                                                 <span id="previewcompanyImg" ></span>
                                             </div>
                                         </div>
-                                       
-                                       
+                                        <?php
+                                            if($row['company_image'])
+                                            {
+                                        ?>       
                                             <div class="form-group btm_border">
                                                 <label class="col-sm-3 control-label"></label>
                                                 <div class="col-sm-6">
@@ -89,7 +91,9 @@
                                                         ?>
                                                 </div>
                                             </div>
-                                        
+                                        <?php
+                                            }
+                                        ?>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('trading_name');?>
@@ -116,7 +120,7 @@
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
-                                            <?php echo translate('license_number');?>
+                                            <?php echo translate('Licence_number');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="license_number" placeholder="<?php echo translate('license_number'); ?>"  value="<?php echo ucwords($row['license_number']); ?>" id="demo-hor-57" class="form-control ">
@@ -129,11 +133,12 @@
                                             <div class="col-sm-2">
                                                 <div class="select-wrapper">
                                                     <select name="phone_code" class="form-control">
-                                                        <option value="<?php echo ucwords($row['phone_code']); ?>">+<?php echo ucwords($row['phone_code']); ?></option>
-                                                        <option value="61">(+61) Australia</option>
-                                                        <option value="81">(+81) Japan</option>
-                                                        <option value="852">(+852) Hong Kong </option>
-                                                        <option value="65">(+65) Singapore</option>
+                                                        <option value="<?php echo $row['phone_code']; ?>"><?php echo "(+".$row['phone_code'].")"; ?></option>
+                                                        <?php if($row['phone_code'] !="02"){ ?><option value="02">(+02)</option><?php } ?>
+                                                        <?php if($row['phone_code'] !="03"){ ?><option value="03">(+03)</option><?php } ?>
+                                                        <?php if($row['phone_code'] !="04"){ ?><option value="04">(+04)</option><?php } ?>
+                                                        <?php if($row['phone_code'] !="07"){ ?><option value="07">(+07)</option><?php } ?>
+                                                        <?php if($row['phone_code'] !="08"){ ?><option value="08">(+08)</option><?php } ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -191,7 +196,7 @@
                                             </div> -->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label" for="demo-hor-4">
-                                            <?php echo translate('postalcode');?>
+                                            <?php echo translate('postcode');?>
                                             </label>
                                             <div class="col-sm-6">
                                                 <input type="text" name="zip" value="<?php echo $row['zip']; ?>" id="demo-hor-4" class="form-control address" onblur="set_cart_map('iio');">
@@ -364,11 +369,12 @@
                                             <div class="col-sm-2">
                                                 <div class="select-wrapper">
                                                     <select name="direct_code" class="form-control">
-                                                        <option value="<?php echo ucwords($row['direct_code']); ?>">+<?php echo ucwords($row['direct_code']); ?></option>
-                                                        <option value="61">(+61) Australia</option>
-                                                        <option value="81">(+81) Japan</option>
-                                                        <option value="852">(+852) Hong Kong </option>
-                                                        <option value="65">(+65) Singapore</option>
+                                                        <option value="<?php echo $row['direct_code']; ?>"><?php echo "(+".$row['direct_code'].")"; ?></option>
+                                                        <?php if($row['direct_code'] !="02"){ ?><option value="02">(+02)</option><?php } ?>
+                                                        <?php if($row['direct_code'] !="03"){ ?><option value="03">(+03)</option><?php } ?>
+                                                        <?php if($row['direct_code'] !="04"){ ?><option value="04">(+04)</option><?php } ?>
+                                                        <?php if($row['direct_code'] !="07"){ ?><option value="07">(+07)</option><?php } ?>
+                                                        <?php if($row['direct_code'] !="08"){ ?><option value="08">(+08)</option><?php } ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -406,12 +412,11 @@
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('minimum_wholesale_value_for_free_delivery_to_banksmeadow_NSW_2019');?>
                                             </label>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6 customform">
+                                                <span> $ </span>
                                                 <input type="text" name="minimum_tick" placeholder="<?php echo translate('minimum (_tick_boxes )'); ?>" value="<?php echo ucwords($row['minimum_tick']); ?>" <?php echo " $" ?> class="form-control">
                                             </div>
-                                            <div class="col-sm-2">
-                                                <input type="text" value=" $" class="form-control" readonly>
-                                            </div>
+                                            
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
@@ -425,12 +430,11 @@
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met');?>
                                             </label>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6 customform">
+                                                <span> $ </span>
                                                 <input type="text" name="delivery_fee" placeholder="<?php echo translate('delivery_fee_to_banksmeadow_NSW_2019_if_either_minimum_are_not_met'); ?>" $ value="<?php echo $row['delivery_fee']; ?>"  class="form-control " onkeypress="isInputNumber(event)">
                                             </div>
-                                            <div class="col-sm-2">
-                                                <input type="text" value=" $" class="form-control" readonly>
-                                            </div>
+                                            
                                         </div>
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
@@ -1109,3 +1113,16 @@
         });
 
 </script>
+<style type="text/css">
+    .customform span{
+         position: absolute;
+        top: 7px;
+        left: 28px;
+        font-weight: bold;
+    }
+
+    .customform .form-control{
+        padding-left: 26px;
+        padding-top: 3px;
+    }
+</style>

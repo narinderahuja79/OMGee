@@ -2588,13 +2588,12 @@ class Home extends CI_Controller
             }
             ?>
             <?php
-            $this->form_validation->set_error_delimiters('<div class="controller_error">', '</div>');
             $this->form_validation->set_rules('titlename', 'Title', 'required');
             $this->form_validation->set_rules('name', 'First Name', 'required');
             $this->form_validation->set_rules('titlename', 'Title', 'required');
             $this->form_validation->set_rules('email', 'Email', 'valid_email|required|is_unique[vendor.email]',array('required' => 'You have not provided %s.', 'is_unique' => 'This %s already exists.'));
             $this->form_validation->set_rules('password1', 'Password', 'required|min_length[6]|max_length[20]|matches[password2]');
-            $this->form_validation->set_rules('password2', 'Confirm Password',  'required|min_length[6]|max_length[20]');
+            $this->form_validation->set_rules('password2', 'Confirm Password', 'required|min_length[6]|max_length[20]');
             $this->form_validation->set_rules('address1', 'Address Line 1', 'required');
             $this->form_validation->set_rules('state', 'State', 'required');
             $this->form_validation->set_rules('country', 'Country', 'required');

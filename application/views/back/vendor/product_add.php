@@ -48,6 +48,25 @@
                         <?php echo $this->crud_model->select_html('sub_category','sub_category','sub_category_name','add','demo-chosen-select ','','digital',NULL,'get_cat'); ?>
                     </div>
                 </div>
+
+                <div class="form-group btm_border" >
+                    <label class="col-sm-4 control-label" for="demo-hor-4"><?php echo translate('brand');?></label>
+                    <div class="col-sm-6">
+                        <select class="demo-chosen-select form-control required" name="brand">
+                            <option value="">Select...</option>
+                            <?php
+                            $brands = $this->db->get_where('vendorbrands',array('user_id'=> $this->session->userdata('vendor_id')))->result_array();
+                            foreach ($brands as $key => $value) 
+                            {
+                                ?>
+                                <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-84"><?php echo translate('variety');?></label>
                     <div class="col-sm-6">
@@ -57,13 +76,13 @@
                 <div class="form-group btm_border">
                     <label class="col-sm-3 control-label" for="demo-hor-1"><?php echo "Product Name"; ?></label>
                     <div class="col-sm-3">
-                        <input type="text" name="title" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control required">English
+                        <input type="text" name="title" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control required"><span style="color: grey"> English</span>
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" name="title_ch" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control">Chinese
+                        <input type="text" name="title_ch" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control"><span style="color: grey"> Chinese</span>
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" name="title_jp" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control">Japanese
+                        <input type="text" name="title_jp" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" class="form-control"><span style="color: grey"> Japanese</span>
                     </div>
                 </div>
                 <div class="form-group btm_border">
@@ -151,32 +170,38 @@
                 </div>
                 <div class="form-group btm_border" >
                     <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo translate('wholesale (INCL GST + WET)');?></label>
-                    <div class="col-sm-6" >
+                    <div class="col-sm-6 customform">
+                        <span> $ </span>
                         <input type="number" min="1" name="wholesale" class="form-control required">
                     </div>
                 </div>
                 <div class="form-group btm_border" >
                     <label class="col-sm-4 control-label" for="demo-hor-5">Wholesale (EXCL WET & GST)</label>
-                    <div class="col-sm-6" >
+                    <div class="col-sm-6 customform">
+                        <span> $ </span>
                         <input type="number" min="1" name="wholesale_EXCL_WET_GST" class="form-control required">
                     </div>
                 </div>
                 
                 <div class="form-group btm_border" >
-                    <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (AUD)</label>
-                    <div class="col-sm-2">
+                    <label class="col-sm-1 control-label" for="demo-hor-5">  <?php echo translate('bundle_sale_price');?> (AUD)</label>
+                    <div class="col-sm-2 customform">
+                        <span> $ </span>
                         <input type="number" min="1" name="sale_price_AU" class="form-control required" placeholder="If applicable">
                     </div>
-                    <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (HKD)</label>
-                    <div class="col-sm-2">
+                    <label class="col-sm-1 control-label" for="demo-hor-5">  <?php echo translate('bundle_sale_price');?> (HKD)</label>
+                    <div class="col-sm-2 customform">
+                        <span> $ </span>
                         <input type="number" min="1" name="sale_price_HK" class="form-control" placeholder="If applicable">
                     </div>
-                    <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (JP Yen)</label>
-                    <div class="col-sm-2">
+                    <label class="col-sm-1 control-label" for="demo-hor-5">  <?php echo translate('bundle_sale_price');?> (JP Yen)</label>
+                    <div class="col-sm-2 customform">
+                        <span> $ </span>
                         <input type="number" min="1" name="sale_price_JP" class="form-control" placeholder="If applicable">
                     </div>
                     <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (SGD)</label>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 customform">
+                        <span> $ </span>
                         <input type="number" min="1" name="sale_price_SG" class="form-control" placeholder="If applicable">
                     </div>
                 </div>
@@ -197,20 +222,41 @@
                 
                 <!-- test Percentage -->
                 <div class="form-group btm_border test_hide_show_field">
+
+                    <div class="form-group btm_border test_hide_show_field">
+                        <div class="col-sm-3">
+                            <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" class="form-control">
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" name="test_title_ch" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" name="test_title_jp" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
+                        </div>
+                    </div>
+
                     <div class="col-sm-3">
                         <select name="test1_name" id="demo-hor-65"  class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
+                            
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -231,17 +277,24 @@
                     <div class="col-sm-3">
                         <select name="test11_name" id="demo-hor-67"   class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -264,17 +317,24 @@
                     <div class="col-sm-3">
                         <select name="test2_name" id="demo-hor-69"   class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -295,17 +355,24 @@
                     <div class="col-sm-3">
                         <select name="test22_name" id="demo-hor-71"   class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -328,17 +395,24 @@
                     <div class="col-sm-3">
                         <select name="test3_name" id="demo-hor-73"   class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -359,17 +433,24 @@
                     <div class="col-sm-3">
                         <select name="test33_name" id="demo-hor-75"   class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -392,17 +473,24 @@
                     <div class="col-sm-3">
                         <select name="test4_name" id="demo-hor-73"   class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -423,17 +511,24 @@
                     <div class="col-sm-3">
                         <select name="test44_name" id="demo-hor-73"   class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -456,17 +551,24 @@
                     <div class="col-sm-3">
                         <select name="test5_name" id="demo-hor-73"   class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -486,18 +588,25 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="test55_name" id="demo-hor-73"   class="form-control">
-                            <option value=""><?php echo translate('test55_name');?></option>
+                            <option value=""><?php echo translate('taste');?></option>
+                            <option value="Wine">Wine</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Sweet">Sweet</option>
+                            <option value="Fruity">Fruity</option>
+                            <option value="Citrus">Citrus</option>
+                            <option value="Floral">Floral</option>
+                            <option value="Oak">Oak</option>
+                            <option value="Creamy">Creamy</option>
+                            <option value="Rich">Rich</option>
+                            <option value="Body">Body</option>
+
                             <option value="Sparkling">Sparkling</option>
                             <option value="Dry white">Dry White</option>
                             <option value="Sweet white">Sweet White</option>
                             <option value="Rich White">Rich White</option>
-                            <option value="Rose">Rose</option>
                             <option value="Light Red">Light Red</option>
                             <option value="Medium Red">Medium Red</option>
                             <option value="Bold Red">Bold Red</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Fortified">Fortified</option>
-                            <option value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -516,17 +625,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group btm_border test_hide_show_field">
-                    <div class="col-sm-3">
-                        <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" class="form-control">
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" name="test_title_ch" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" name="test_title_jp" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
-                    </div>
-                </div>
+                
                 <div class="form-group  test_hide_show_field">
                     <div class="col-sm-3"  style="display: none;" >
                         <input type="text" name="test_sumary_title_en" id="demo-hor-56" placeholder="<?php echo translate('test_sumary_title English');?>" min="1" max="100" class="form-control">
@@ -563,8 +662,8 @@
                         <textarea name="food_description" maxlength="250" rows="3" placeholder="<?php echo translate('food_description');?>" class="form-control"></textarea>
                     </div>
                 </div>
-                <div class="form-group btm_border"> 
-                    <div class="col-sm-3">
+                <div class="form-group btm_border" > 
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_preparation_1" class="form-control">
                             <option value=""><?php echo "Preparation 1" //translate('food_preparation_1');?>...</option>
                             <option value="Spicy">Spicy</option>
@@ -590,7 +689,7 @@
                             <option value="Braised">Braised</option>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_origin_1" class="form-control">
                             <option value=""><?php echo "Origin 1"; //translate('food_origin_1');?>...</option>
                             <option value="Chinese">Chinese</option>
@@ -644,7 +743,7 @@
                     </div>
                 </div>
                 <div class="form-group btm_border">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_preparation_2" class="form-control">
                             <option value=""><?php echo "Preparation 2"; //translate('food_preparation_2');?>...</option>
                             <option value="Spicy">Spicy</option>
@@ -670,8 +769,8 @@
                             <option value="Braised">Braised</option>
                         </select>
                     </div>
-                    <div class="col-sm-3">
-                        <select name="food_origin_2" class="form-control">
+                    <div class="col-sm-3" style="display: none;">
+                        <select name="food_origin_2" class="form-control" >
                             <option value=""><?php echo "Origin 2";//translate('food_origin_2');?>...</option>
                             <option value="Chinese">Chinese</option>
                             <option value="Indonesian">Indonesian</option>
@@ -724,7 +823,7 @@
                     </div>
                 </div>
                 <div class="form-group btm_border">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_preparation_3" class="form-control">
                             <option value=""><?php echo "Preparation 1"; //translate('food_preparation_1');?>...</option>
                             <option value="Spicy">Spicy</option>
@@ -750,7 +849,7 @@
                             <option value="Braised">Braised</option>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_origin_3" class="form-control">
                             <option value=""><?php echo "Origin 1"; //translate('food_origin_1');?>...</option>
                             <option value="Chinese">Chinese</option>
@@ -804,7 +903,7 @@
                     </div>
                 </div>
                 <div class="form-group btm_border">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_preparation_4" class="form-control">
                             <option value=""><?php echo "Preparation 4"; //translate('food_preparation_4');?>...</option>
                             <option value="Spicy">Spicy</option>
@@ -830,7 +929,7 @@
                             <option value="Braised">Braised</option>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_origin_4" class="form-control">
                             <option value=""><?php echo "Preparation 4";//translate('food_origin_4');?>...</option>
                             <option value="Chinese">Chinese</option>
@@ -888,12 +987,12 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-md-11">
+                    <span class="btn btn-success btn-md btn-labeled fa fa-upload pull-right enterer" onclick="form_submit('product_add','<?php echo translate('product_has_been_uploaded!'); ?>');proceed('to_add');" ><?php echo translate('upload');?></span>
+                </div>
+                <div class="col-md-1">
                     <span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn pull-right" 
                         onclick="ajax_set_full('add','<?php echo translate('add_product'); ?>','<?php echo translate('successfully_added!'); ?>','product_add',''); "><?php echo translate('reset');?>
                     </span>
-                </div>
-                <div class="col-md-1">
-                    <span class="btn btn-success btn-md btn-labeled fa fa-upload pull-right enterer" onclick="form_submit('product_add','<?php echo translate('product_has_been_uploaded!'); ?>');proceed('to_add');" ><?php echo translate('upload');?></span>
                 </div>
             </div>
         </div>
@@ -1405,4 +1504,18 @@
         border-bottom: 1px solid #ebebeb;
         padding-bottom: 15px;   
     }
+
+    .customform span{
+        position: absolute;
+        top: 7px;
+        left: 28px;
+        color: grey;
+        font-weight: bold;
+    }
+
+    .customform .form-control{
+        padding-left: 26px;
+        padding-top: 3px;
+    }
+
 </style>

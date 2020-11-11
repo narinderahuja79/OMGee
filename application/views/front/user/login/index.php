@@ -103,8 +103,8 @@
                                                 <div class="col-sm-12 text-right">
                                                     <button class="cart-btn-2 login_btn entersubmitlogin" type="button"><?php echo translate('login');?></button>
                                                 </div>
-                                                <!-- <div class="col-sm-12 text-center"> <small>-or login via social media-</small> </div>
-                                                <div class="col-sm-12 text-center">
+                                                <div class="col-sm-12 text-center" style="display: none;"> <small>-or login via social media-</small> </div>
+                                                <div class="col-sm-12 text-center" style="display: none;">
                                                     <button type="button" class="btn instaloginbtn">
                                                         <ion-icon name="logo-instagram"></ion-icon>
                                                         Instagram     
@@ -118,7 +118,7 @@
                                                         linkedin 
                                                     </button>
                                                 </div> 
-                                                </div>-->
+                                                </div>
                                             <?php echo form_close() ; ?>
                                         </div>
                                     </div>
