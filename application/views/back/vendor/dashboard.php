@@ -1,10 +1,9 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>template/back//amcharts/style.css" type="text/css">
 <script src="<?php echo base_url(); ?>template/back/amcharts/amcharts.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>template/back/amcharts/serial.js" type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/1.0/src/markerclusterer.js"></script>
 <script src="<?php echo base_url(); ?>template/back/plugins/gauge-js/gauge.min.js"></script>
-
-
 <div id="content-container">
     <div id="page-title">
         <h1 class="page-header text-overflow"><?php echo translate('dashboard'); ?></h1>
@@ -13,60 +12,56 @@
         <div class="row">
             <div class="col-md-12 col-lg-12">
                 <?php if ($this->db->get_where('business_settings', array('type' => 'commission_set'))->row()->value == 'no') { ?>
-                    <div class="col-md-4 col-lg-4" style="display: none;">
-                        <div class="panel panel-bordered panel-grad2" style="height:260px !important;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">
-                                    <?php echo translate('membership_type'); ?>
-                                </h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="text-center">
-                                    <?php
+                <div class="col-md-4 col-lg-4" style="display: none;">
+                    <div class="panel panel-bordered panel-grad2" style="height:260px !important;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <?php echo translate('membership_type'); ?>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <?php
                                     $vend = $this->db->get_where('vendor', array('vendor_id' => $this->session->userdata('vendor_id')))->row();
                                     $membership = $vend->membership;
                                     ?>
-                                    <img class="img-lg" style="height:auto !important;" src="<?php echo $this->crud_model->file_view('membership', $membership, '100', '', 'thumb', 'src', '', '', '.png') ?>" />
-                                    <h3>
-                                        <?php
+                                <img class="img-lg" style="height:auto !important;" src="<?php echo $this->crud_model->file_view('membership', $membership, '100', '', 'thumb', 'src', '', '', '.png') ?>" />
+                                <h3>
+                                    <?php
                                         if ($membership == '0') {
                                             echo 'Default';
                                         } else {
                                             echo $this->db->get_where('membership', array('membership_id' => $membership))->row()->title;
                                         }
-
+                                        
                                         ?>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="col-md-12 col-lg-12" style="display: none;">
-                        <div class="panel panel-bordered panel-grad2" style="height:260px !important;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">
-                                    <?php echo translate('vendorship_timespan'); ?>
-                                    <?php echo translate('remaining'); ?>
                                 </h3>
                             </div>
-                            <div class="panel-body">
-                                <div class="text-center">
-                                    <div class="main-example">
-                                        <div class="countdown-container" id="main-example"></div>
-                                    </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12" style="display: none;">
+                    <div class="panel panel-bordered panel-grad2" style="height:260px !important;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <?php echo translate('vendorship_timespan'); ?>
+                                <?php echo translate('remaining'); ?>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <div class="main-example">
+                                    <div class="countdown-container" id="main-example"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
                 <?php
-                }
-                ?>
+                    }
+                    ?>
             </div>
         </div>
-
         <script type="text/template" id="main-example-template">
             <div class="time <%= label %>">
               <span class="count curr top"><%= curr %></span>
@@ -149,7 +144,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title"><?php echo "OMGee total number of consumers"; ?></h3>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body first_row_min_height">
                             <div class="text-center">
                                 <p class="country_head">
                                     <span class="label label-purple" style="display: none;"><?php echo currency('', 'def'); ?></span>
@@ -160,51 +155,257 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6">
-                    <div class="panel panel-bordered panel-success">
+                    <div class="panel panel-bordered panel-success total_sales_per_country">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "OMGee total sales per country"; ?></h3>
+                            <h3 class="panel-title"><?php echo "OMGee Total sales per country";?></h3>
                         </div>
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p class="h4">
+                        <div class="panel-body first_row_min_height">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
                                     <?php
-                                    $country_count = $this->db->get('sale')->result_array();
-                                    $au = 0;
-                                    $hk = 0;
-                                    $jp = 0;
-                                    $sg = 0;
-                                    foreach ($country_count as  $row) {
-                                        if ($row['shipping_address']) {
-                                            $country_count = json_decode($row['shipping_address']);
-                                            if ($country_count->country == 'AU' || $country_count->delivery_country == 'AU') {
-                                                $au++;
-                                            } else if ($country_count->country == 'HK' || $country_count->delivery_country == 'HK') {
-                                                $hk++;
-                                            } else if ($country_count->country == 'JP' || $country_count->delivery_country == 'JP') {
-                                                $jp++;
-                                            } else if ($country_count->country == 'SG' || $country_count->delivery_country == 'SG') {
-                                                $sg++;
+                                        $country_count = $this->db->get('sale')->result_array();
+                                        $au = 0; $hk = 0; $jp = 0; $sg = 0;
+                                        foreach ($country_count as  $row) 
+                                        {
+                                            if($row['shipping_address'])
+                                            {
+                                                $country_count = json_decode($row['shipping_address']);
+                                                if($country_count->country == 'AU' || $country_count->delivery_country == 'AU')
+                                                {
+                                                    $au++;
+                                                }
+                                                else if($country_count->country == 'HK' || $country_count->delivery_country == 'HK')
+                                                {
+                                                    $hk++;
+                                                }
+                                                else if($country_count->country == 'JP' || $country_count->delivery_country == 'JP')
+                                                {
+                                                    $jp++;
+                                                }
+                                                else if($country_count->country == 'SG' || $country_count->delivery_country == 'SG')
+                                                {
+                                                    $sg++;
+                                                }
                                             }
+                                            
                                         }
-                                    }
-                                    $arr = array(
-                                        array('id' => $au, 'name' => 'Austraila'),
-                                        array('id' => $hk, 'name' => 'HongKong'),
-                                        array('id' => $jp, 'name' => 'Japan'),
-                                        array('id' => $sg, 'name' => 'Singapore')
-                                    );
-                                    rsort($arr);
-                                    ?>
+                                        $arr = array(
+                                                    array('id'=>$au,'name'=>'Austraila'),
+                                                    array('id'=>$hk,'name'=>'HongKong'),
+                                                    array('id'=>$jp,'name'=>'Japan'),
+                                                    array('id'=>$sg,'name'=>'Singapore')
+                                                );
+                                        rsort($arr);
+                                        ?>   
                                     <?php
-                                    foreach ($arr as $arr1) {
-
-                                    ?>
-                                        <span class="label label-dark"> <?php echo $arr1['name']; ?> </span>
-                                        <span class="label label-success"> <?php echo $arr1['id']; ?>%</span>
-                                        <br><br>
-                                    <?php
+                                        foreach ($arr as $arr1) {
+                                             
+                                            ?>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"> <?php echo $arr1['name']; ?> </span>
+                                    <span class="label label-success"> <?php echo $arr1['id']; ?>%</span>
+                                </div>
+                                <?php
                                     }
+                                    ?>  
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="page-title">
+                    <h1 class="page-header text-overflow">OMGee Top 5 Product sales per Country</h1>
+                </div>
+                <br><br>
+                <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-bordered panel-success total_sales_per_country">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo "Austraila"; ?></h3>
+                        </div>
+                        <div class="panel-body first_row_min_height">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
+                                    <?php
+                                        // echo "<pre>"; print_r($aus_data);die;
+                                        if (!empty($aus_data)) {
+                                            $i = 1;
+                                            foreach ($aus_data as $arr1) {
+                                                if ($i <= 5) {
+                                        ?>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"> <?php echo $arr1['sub_category']; ?> </span>
+                                    <span class="label label-success"><?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>% </span>
+                                </div>
+                                <?php
+                                    }
+                                    $i++;
+                                    }
+                                    }else{
                                     ?>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10%</span>
+                                </div>
+                                <div class="total_sales_box">     
+                                    <span class="label label-dark">Sparkling</span>
+                                    <span class="label label-success">8%</span>
+                                </div>
+                                <div class="total_sales_box"> 
+                                    <span class="label label-dark">Rum</span>
+                                    <span class="label label-success">5%</span>
+                                </div>
+                                <!-- <br><br>        
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10&</span>
+                                    <br><br>        
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10&</span>
+                                    <br><br>         -->
+                                <?php
+                                    }
+                                    ?> 
+                                <!-- <span class="label label-black" style="display: none;"><?php echo currency('', 'def'); ?></span>
+                                    <span class="label label-black">0</span> -->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-bordered panel-success total_sales_per_country">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo "HongKong"; ?></h3>
+                        </div>
+                        <div class="panel-body secondrowheight">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
+                                    <?php
+                                        // echo "<pre>"; print_r($aus_data);die;
+                                        if (!empty($hk_data)) {
+                                            $i = 1;
+                                            foreach ($hk_data as $arr1) {
+                                                if ($i <= 5) {
+                                        ?>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark">
+                                    <?php echo $arr1['sub_category']; ?> </span>
+                                    <span class="label label-success">
+                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
+                                    </span>
+                                </div>
+                                <?php
+                                    }
+                                    $i++;
+                                    }
+                                    }else{
+                                    ?>
+                                <!-- <br><br>        
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10&</span>
+                                    <br><br>        
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10&</span>
+                                    <br><br>         -->
+                                <?php
+                                    }
+                                    ?> 
+                                <!-- <span class="label label-black" style="display: none;"><?php echo currency('', 'def'); ?></span>
+                                    <span class="label label-black">0</span> -->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-bordered panel-success total_sales_per_country">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo "Japan"; ?></h3>
+                        </div>
+                        <div class="panel-body first_row_min_height">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
+                                    <?php
+                                        // echo "<pre>"; print_r($aus_data);die;
+                                        if (!empty($jp_data)) {
+                                            $i = 1;
+                                            foreach ($jp_data as $arr1) {
+                                                if ($i <= 5) {
+                                        ?>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark">  <?php echo $arr1['sub_category']; ?> </span>
+                                    <span class="label label-success"> <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>% </span>
+                                </div>
+                                <?php
+                                    }
+                                    $i++;
+                                    }
+                                    }else{
+                                    ?>
+                                <span class="label label-dark">Rose</span>
+                                <span class="label label-success">10%</span>
+                                <span class="label label-dark">Sparkling</span>
+                                <span class="label label-success">8%</span>
+                                <span class="label label-dark">Rum</span>
+                                <span class="label label-success">5%</span>
+                                <!-- <br><br>        
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10&</span>
+                                    <br><br>        
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10&</span>
+                                    <br><br>         -->
+                                <?php
+                                    }
+                                    ?> 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-bordered panel-success total_sales_per_country">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo "Singapore"; ?></h3>
+                        </div>
+                        <div class="panel-body first_row_min_height">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
+                                    <?php
+                                        // echo "<pre>"; print_r($aus_data);die;
+                                        if (!empty($sg_data)) {
+                                            $i = 1;
+                                            foreach ($sg_data as $arr1) {
+                                                if ($i <= 5) {
+                                        ?>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark">
+                                    <?php echo $arr1['sub_category']; ?> </span>
+                                    <span class="label label-success">
+                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
+                                    </span>
+                                </div>
+                                <?php
+                                    }
+                                    $i++;
+                                    }
+                                    }else{
+                                    ?>
+                                <span class="label label-dark">Rose</span>
+                                <span class="label label-success">10%</span>
+                                <span class="label label-dark">Sparkling</span>
+                                <span class="label label-success">8%</span>
+                                <span class="label label-dark">Rum</span>
+                                <span class="label label-success">5%</span>
+                                <!-- <br><br>        
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10&</span>
+                                    <br><br>        
+                                    <span class="label label-dark">Rose</span>
+                                    <span class="label label-success">10&</span>
+                                    <br><br>         -->
+                                <?php
+                                    }
+                                    ?> 
                                 </p>
                             </div>
                         </div>
@@ -217,253 +418,36 @@
                                 <?php echo "OMGee Top 5 Product sales volume (quantity) per Country"; ?>
                             </h3>
                         </div>
-
-
-
+                    
+                    
+                    
                         <div class="panel-body">
                             <div class="text-center">
-
+                    
                                 <div class="table-responsive">
                                     <table class="table table-striped">
                                         <?php
-                                        foreach ($arr as $arr1) {
-
-                                        ?>
+                        foreach ($arr as $arr1) {
+                        
+                        ?>
                                                 <span class="label label-dark"> <?php echo $arr1['name']; ?> </span>
                                                 <span class="label label-success"> <?php echo $arr1['id']; ?></span>
                                                 <br><br>
                                             <?php
-                                        }
-                                            ?> 
+                        }
+                            ?> 
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> -->
-                <div id="page-title">
-                    <h1 class="page-header text-overflow">OMGee Top 5 Product sales per Country</h1>
-                </div><br><br>
-
-
-
-                <div class="col-md-3 col-lg-3">
-                    <div class="panel panel-bordered panel-black">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "Austraila"; ?></h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p class="h4">
-
-                                    <?php
-                                    // echo "<pre>"; print_r($aus_data);die;
-                                    if (!empty($aus_data)) {
-                                        $i = 1;
-                                        foreach ($aus_data as $arr1) {
-                                            if ($i <= 5) {
-                                    ?>
-                                                <span class="label label-dark">
-                                                    <?php echo $arr1['sub_category']; ?> </span>
-                                                <span class="label label-success">
-                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
-                                                </span>
-                                                <br><br>
-                                    <?php
-                                            }
-                                            $i++;
-                                        }
-                                    }else{
-                                    ?>
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10%</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Sparkling</span>
-                                        <span class="label label-success">8%</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Rum</span>
-                                        <span class="label label-success">5%</span>
-                                        <!-- <br><br>        
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10&</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10&</span>
-                                        <br><br>         -->
-
-                                    <?php
-                                        }
-                                    ?> 
-
-                                    <!-- <span class="label label-black" style="display: none;"><?php echo currency('', 'def'); ?></span>
-                                    <span class="label label-black">0</span> -->
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-lg-3">
-                    <div class="panel panel-bordered panel-black">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "HongKong"; ?></h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p class="h4">
-                                    <?php
-                                    // echo "<pre>"; print_r($aus_data);die;
-                                    if (!empty($hk_data)) {
-                                        $i = 1;
-                                        foreach ($hk_data as $arr1) {
-                                            if ($i <= 5) {
-                                    ?>
-                                                <span class="label label-dark">
-                                                    <?php echo $arr1['sub_category']; ?> </span>
-                                                <span class="label label-success">
-                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
-                                                </span>
-                                                <br><br>
-                                    <?php
-                                            }
-                                            $i++;
-                                        }
-                                    }else{
-                                    ?>
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10%</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Sparkling</span>
-                                        <span class="label label-success">8%</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Rum</span>
-                                        <span class="label label-success">5%</span>
-                                        <!-- <br><br>        
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10&</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10&</span>
-                                        <br><br>         -->
-
-                                    <?php
-                                        }
-                                    ?> 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-lg-3">
-                    <div class="panel panel-bordered panel-black">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "Japan"; ?></h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p class="h4">
-                                    <?php
-                                    // echo "<pre>"; print_r($aus_data);die;
-                                    if (!empty($jp_data)) {
-                                        $i = 1;
-                                        foreach ($jp_data as $arr1) {
-                                            if ($i <= 5) {
-                                    ?>
-                                                <span class="label label-dark">
-                                                    <?php echo $arr1['sub_category']; ?> </span>
-                                                <span class="label label-success">
-                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
-                                                </span>
-                                                <br><br>
-                                    <?php
-                                            }
-                                            $i++;
-                                        }
-                                    }else{
-                                    ?>
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10%</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Sparkling</span>
-                                        <span class="label label-success">8%</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Rum</span>
-                                        <span class="label label-success">5%</span>
-                                        <!-- <br><br>        
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10&</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10&</span>
-                                        <br><br>         -->
-
-                                    <?php
-                                        }
-                                    ?> 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-lg-3">
-                    <div class="panel panel-bordered panel-black">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><?php echo "Singapore"; ?></h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p class="h4">
-                                    <?php
-                                    // echo "<pre>"; print_r($aus_data);die;
-                                    if (!empty($sg_data)) {
-                                        $i = 1;
-                                        foreach ($sg_data as $arr1) {
-                                            if ($i <= 5) {
-                                    ?>
-                                                <span class="label label-dark">
-                                                    <?php echo $arr1['sub_category']; ?> </span>
-                                                <span class="label label-success">
-                                                    <?php echo $new_width = ($arr1['qty'] / 100) * $arr1['current_stock']; ?>%
-                                                </span>
-                                                <br><br>
-                                    <?php
-                                            }
-                                            $i++;
-                                        }
-                                    }else{
-                                    ?>
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10%</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Sparkling</span>
-                                        <span class="label label-success">8%</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Rum</span>
-                                        <span class="label label-success">5%</span>
-                                        <!-- <br><br>        
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10&</span>
-                                        <br><br>        
-                                        <span class="label label-dark">Rose</span>
-                                        <span class="label label-success">10&</span>
-                                        <br><br>         -->
-
-                                    <?php
-                                        }
-                                    ?> 
-
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-lg-4">
+                    </div> -->
+                <div class="col-md-6 col-lg-6">
                     <div class="panel panel-bordered panel-black">
                         <div class="panel-heading">
                             <h3 class="panel-title"><?php echo "Total sales quantity"; ?></h3>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body ">
                             <div class="text-center">
                                 <p class="country_head">
                                     <span class="label label-black" style="display: none;"><?php echo $totalQty; ?></span>
@@ -473,7 +457,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-4">
+                <div class="col-md-6 col-lg-6">
                     <div class="panel panel-bordered panel-purple">
                         <div class="panel-heading">
                             <h3 class="panel-title"><?php echo "Total sales revenue"; ?></h3>
@@ -488,98 +472,122 @@
                         </div>
                     </div>
                 </div>
-
-
-                <div class="col-md-4 col-lg-4">
-                    <div class="panel panel-bordered panel-success">
+                <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-bordered panel-success total_sales_per_country">
                         <div class="panel-heading">
                             <h3 class="panel-title"><?php echo "Total sales quantity  per country"; ?></h3>
                         </div>
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p class="h4">
-                                    <span class="label label-success"><?php echo 'Austraila'; ?></span>
-                                    <span class="label label-success"><?php echo $austotalQty; ?></span> <br><br>
-
-
-                                    <span class="label label-success"><?php echo 'HongKong'; ?></span>
-                                    <span class="label label-success"><?php echo $hktotalQty; ?></span> <br><br>
-
-
-                                    <span class="label label-success"><?php echo 'Japan'; ?></span>
-                                    <span class="label label-success"><?php echo $jptotalQty; ?></span> <br><br>
-
-
-
-                                    <span class="label label-success"><?php echo 'Singapore'; ?></span>
+                        <div class="panel-body first_row_min_height">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Austraila'; ?></span>
+                                    <span class="label label-success"><?php echo $austotalQty; ?></span> 
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'HongKong'; ?></span>
+                                    <span class="label label-success"><?php echo $hktotalQty; ?></span> 
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Japan'; ?></span>
+                                    <span class="label label-success"><?php echo $jptotalQty; ?></span> 
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Singapore'; ?></span>
                                     <span class="label label-success"><?php echo $sgtotalQty; ?></span>
+                                </div>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-                <div class="col-md-4 col-lg-4">
-                    <div class="panel panel-bordered panel-purple">
+                <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-bordered panel-success total_sales_per_country">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo "Total sales volume  per country";?></h3>
+                        </div>
+                        <div class="panel-body minheight">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Austraila'; ?></span>
+                                    <span class="label label-success"><?php echo $austotalQty; ?></span> 
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'HongKong'; ?></span>
+                                    <span class="label label-success"><?php echo $hktotalQty; ?></span>
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Japan'; ?></span>
+                                    <span class="label label-success"><?php echo $jptotalQty; ?></span>
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Singapore'; ?></span>
+                                    <span class="label label-success"><?php echo $sgtotalQty; ?></span>
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-bordered panel-purple total_sales_per_country">
                         <div class="panel-heading">
                             <h3 class="panel-title"><?php echo "Total sales revenue  per country (AUD)"; ?></h3>
                         </div>
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p class="h4">
-                                    <span class="label label-success"><?php echo 'Austraila'; ?></span>
-                                    <span class="label label-success"><?php echo $ausRevenue; ?></span> <br><br>
-
-
-                                    <span class="label label-success"><?php echo 'HongKong'; ?></span>
-                                    <span class="label label-success"><?php echo $hkRevenue; ?></span> <br><br>
-
-
-                                    <span class="label label-success"><?php echo 'Japan'; ?></span>
-                                    <span class="label label-success"><?php echo $jpRevenue; ?></span> <br><br>
-
-
-
-                                    <span class="label label-success"><?php echo 'Singapore'; ?></span>
+                        <div class="panel-body total_sale_height">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Austraila'; ?></span>
+                                    <span class="label label-success"><?php echo $ausRevenue; ?></span> 
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'HongKong'; ?></span>
+                                    <span class="label label-success"><?php echo $hkRevenue; ?></span> 
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Japan'; ?></span>
+                                    <span class="label label-success"><?php echo $jpRevenue; ?></span> 
+                                </div>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark"><?php echo 'Singapore'; ?></span>
                                     <span class="label label-success"><?php echo $sgRevenue; ?></span>
+                                </div>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <div class="col-md-8 col-lg-8">
-                    <div class="panel panel-bordered panel-success">
+                <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-bordered panel-success total_sales_per_country">
                         <div class="panel-heading">
                             <h3 class="panel-title"><?php echo "Total 5 most purchase product"; ?></h3>
                         </div>
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p class="h4">
+                        <div class="panel-body ">
+                            <div class="text-left">
+                                <p class="h4 content_wrapper">
                                     <?php
-                                    // echo "<pre>"; print_r($aus_data);die;
-                                    if (!empty($topProduct)) {
-                                        $i = 1;
-                                        foreach ($topProduct as $arr) {
-                                            if ($i <= 5) {
-                                    ?>
-                                                <span class="label label-dark">
-                                                    <?php echo $arr['variety']; ?> </span>
-                                                <span class="label label-success">
-                                                    <?php echo $arr['qty']; ?>
-                                                </span>
-                                                <br><br>
-                                    <?php
-                                            }
-                                            $i++;
-                                        }
+                                        // echo "<pre>"; print_r($aus_data);die;
+                                        if (!empty($topProduct)) {
+                                            $i = 1;
+                                            foreach ($topProduct as $arr) {
+                                                if ($i <= 5) {
+                                        ?>
+                                <div class="total_sales_box">
+                                    <span class="label label-dark">
+                                    <?php echo $arr['variety']; ?> </span>
+                                    <span class="label label-success">
+                                    <?php echo $arr['qty']; ?>
+                                    </span>
+                                </div>
+                                <?php
+                                    }
+                                    $i++;
+                                    }
                                     }
                                     ?>
-
-                                    <!-- <span class="label label-success" style="display: none;"><?php echo currency('', 'def'); ?></span>
+                                <!-- <span class="label label-success" style="display: none;"><?php echo currency('', 'def'); ?></span>
                                     <span class="label label-success">0</span> -->
                                 </p>
                             </div>
@@ -600,62 +608,58 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
+                    </div> -->
             </div>
         </div>
     </div>
 </div>
-
-
 <?php
-// $vendor_id = $this->session->userdata('vendor_id');
-// $cod_paid = $this->crud_model->vendor_share_total($vendor_id,'paid','cash_on_delivery');
-// $stock = $this->crud_model->vendor_share_total($vendor_id);
-// $stock = $stock['total'];
-// $sale = $this->crud_model->vendor_share_total($vendor_id,'paid');
-// $sale = $sale['total'];
-// $already_paid = $this->crud_model->paid_to_vendor($vendor_id);
-// $destroy = $sale-$already_paid-$cod_paid['total'];
-//echo $already_paid;
-?>
-
-
+    // $vendor_id = $this->session->userdata('vendor_id');
+    // $cod_paid = $this->crud_model->vendor_share_total($vendor_id,'paid','cash_on_delivery');
+    // $stock = $this->crud_model->vendor_share_total($vendor_id);
+    // $stock = $stock['total'];
+    // $sale = $this->crud_model->vendor_share_total($vendor_id,'paid');
+    // $sale = $sale['total'];
+    // $already_paid = $this->crud_model->paid_to_vendor($vendor_id);
+    // $destroy = $sale-$already_paid-$cod_paid['total'];
+    //echo $already_paid;
+    ?>
 <script>
     var base_url = '<?php echo base_url(); ?>';
     var stock = <?php if ($stock == 0) {
-                    echo .1;
-                } else {
-                    echo $stock;
-                } ?>;
+        echo .1;
+        } else {
+        echo $stock;
+        } ?>;
     var stock_max = <?php echo ($stock * 3.5 / 3 + 100); ?>;
     var destroy = <?php if ($destroy == 0) {
-                        echo .1;
-                    } else {
-                        echo $destroy;
-                    } ?>;
+        echo .1;
+        } else {
+        echo $destroy;
+        } ?>;
     var destroy_max = <?php echo ($destroy * 3.5 / 3 + 100); ?>;
     var sale = <?php if ($sale == 0) {
-                    echo .1;
-                } else {
-                    echo $sale;
-                } ?>;
+        echo .1;
+        } else {
+        echo $sale;
+        } ?>;
     var sale_max = <?php echo ($sale * 3.5 / 3 + 100); ?>;
     var currency = '<?php echo currency('', 'def'); ?>';
     var cost_txt = '<?php echo translate('cost'); ?>(<?php echo currency('', 'def'); ?>)';
     var value_txt = '<?php echo translate('value'); ?>(<?php echo currency('', 'def'); ?>)';
     var loss_txt = '<?php echo translate('loss'); ?>(<?php echo currency('', 'def'); ?>)';
     var pl_txt = '<?php echo translate('profit'); ?>/<?php echo translate('loss'); ?>(<?php echo currency('', 'def'); ?>)';
-
+    
     var sale_details = [];
-
+    
     var sale_details1 = [];
-
+    
     var chartData1 = [];
-
+    
     var chartData2 = [];
-
+    
     var chartData3 = [];
-
+    
     var chartData4 = [
         <?php
         $categories = $this->db->get('category')->result_array();
@@ -668,46 +672,41 @@
                     "color": "#458fd2"
                 },
         <?php
-            }
+        }
         }
         ?>
     ];
-
+    
     var chartData5 = [];
 </script>
 <script src="<?php echo base_url(); ?>template/back/js/custom/dashboard.js"></script>
 <style>
     #map-container {
-        padding: 6px;
-        border-width: 1px;
-        border-style: solid;
-        border-color: #ccc #ccc #999 #ccc;
-        -webkit-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
-        -moz-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
-        box-shadow: rgba(64, 64, 64, 0.1) 0 2px 5px;
-        width: 100%;
+    padding: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc #ccc #999 #ccc;
+    -webkit-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+    -moz-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+    box-shadow: rgba(64, 64, 64, 0.1) 0 2px 5px;
+    width: 100%;
     }
-
     #map {
-        width: 100%;
-        height: 400px;
+    width: 100%;
+    height: 400px;
     }
-
     #map1 {
-        width: 100%;
-        height: 400px;
+    width: 100%;
+    height: 400px;
     }
-
     #actions {
-        list-style: none;
-        padding: 0;
+    list-style: none;
+    padding: 0;
     }
-
     #inline-actions {
-        padding-top: 10px;
+    padding-top: 10px;
     }
-
     .item {
-        margin-left: 20px;
+    margin-left: 20px;
     }
 </style>

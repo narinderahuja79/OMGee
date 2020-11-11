@@ -40,24 +40,26 @@
         </div>
     </div>
 </div>
-<section class="vender_center_register">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 offset-sm-3">
-                <!-- <div class="vendormainblock">
-                    <img src="assets/images/iconfindericon/vendorbgg.jpg" class="img-responsive">
-                    </div> -->
-                <div class="blocksec ">
-                    <h4>VENDOR REGISTRATION</h4>
-                    <p style="text-align: left; margin-left:30%;">
-                        Already A Vendor ? <a href="<?php echo base_url('vendor'); ?>">Login </a>  <br/>
-                        New Vendor <!--<a href="<?php echo base_url('home/vendor_logup/registration'); ?>"> -->Sign-Up below:</a> 
-                    </p>
-                </div>
-                <div class="form-modal">
-                    <div id="signup-form">
-                        <?php
-                            echo form_open(base_url() . 'home/vendor_logup/add_info/', array('class' => 'form-login','id' => 'sign_form'));
+    <section class="vender_center_register">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 offset-sm-3">
+                    <!-- <div class="vendormainblock">
+                        <img src="assets/images/iconfindericon/vendorbgg.jpg" class="img-responsive">
+                        </div> -->
+                    <div class="blocksec ">
+                        <h4>VENDOR REGISTRATION</h4>
+                        <p style="text-align: left; margin-left:30%;">Already A Vendor ? <a href="<?php echo base_url('vendor'); ?>">Login </a>  <br/>
+                                 
+
+                    
+
+                          New Vendor <!--<a href="<?php echo base_url('home/vendor_logup/registration'); ?>"> -->Sign-Up below:</a> </p>
+                    </div>
+                    <div class="form-modal">
+                        <div id="signup-form">
+                            <?php
+                                echo form_open(base_url() . 'home/vendor_logup/add_info/', array('class' => 'form-login','id' => 'sign_form'));
                             ?>
                         <div class="row">
                             <div class="col-sm-12">
@@ -84,68 +86,182 @@
                                         <input name="name" type="text" placeholder="First Name">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-4"> 
-                                <input name="last_name" type="text" placeholder=" Last Name">
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- <label><?php echo translate('company');?></label> -->
-                                <input name="company" type="text" placeholder="<?php echo translate('company');?>"/>
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- <label><?php echo translate('company');?></label> -->
-                                <input name="abn" type="text" placeholder="ABN/ACN"/>
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- <label>Email Address</label> -->
-                                <input name="website" type="email" placeholder="Website">
-                            </div>
-                            <div class="col-sm-6"></div>
-                            <div class="col-sm-6">
-                                <!--<label>Address Line 1</label>   -->
-                                <textarea name="address1" placeholder="<?php echo translate('address_line_1');?>" rows="3"></textarea>
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- <label>Address Line 2</label>   -->
-                                <textarea name="address2" placeholder="<?php echo translate('address_line_2');?>" rows="3"></textarea>
-                            </div>
-                            <div class="col-sm-6">
-                                <!--  <label>City</label> -->
-                                <input type="text" name="city" placeholder="<?php echo translate('suburb');?>">
-                            </div>
-                            <div class="col-sm-6">
-                                <!--  <label>State</label>  -->
-                                <input type="text" name="state" placeholder="<?php echo translate('state');?>">
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- <label>Post Code</label>  -->
-                                <input type="text" name="zip" placeholder="<?php echo translate('Post Code');?>">
-                            </div>
-                            <div class="col-sm-6 selectpro">
-                                <input type="hidden" name="country"value="Null">
-                                <!-- <label>Country Name</label> -->
-                                <!--  <div class="select-wrapper">
-                                    <select name="country">
-                                        <option>Select Country</option>
-                                        <option value="Australia">Australia</option>
-                                        <option value="Japan">Japan</option>
-                                        <option value="Hong Kong">Hong Kong </option>
-                                        <option value="Singapore">Singapore</option>   
-                                </select> --->
-                                <!--</div>  -->
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- <label>Phone Number</label> -->
-                                <div class="row">
-                                    <div class="col-sm-4 selectpro">
-                                        <div class="select-wrapper">
-                                            <select name="countryCode">
-                                                <option value="02">(+02)</option>
-                                                <option value="03">(+03)</option>
-                                                <option value="04">(+04)</option>
-                                                <option value="07">(+07)</option>
-                                                <option value="08">(+08)</option>
-                                            </select>
+                                </div>
+
+                                    <div class="col-sm-4"> 
+                                        <input name="last_name" type="text" placeholder=" Last Name">
+                                    </div>
+                                    
+
+                                      
+                                    <div class="col-sm-6"> 
+                                       <!-- <label><?php echo translate('company');?></label> -->
+                                        <input name="company" type="text" placeholder="<?php echo translate('company');?>"/>
+                                    </div>
+
+
+                                     
+                                       <div class="col-sm-6"> 
+                                       <!-- <label><?php echo translate('company');?></label> -->
+                                        <input name="abn" type="text" placeholder="ABN/ACN"/>
+                                    </div>
+
+                                       
+
+                                    <div class="col-sm-6"> 
+                                       <!-- <label>Email Address</label> -->
+
+
+                                        <input name="website" type="email" placeholder="Website">
+                                    </div>
+                                   
+                                      
+
+                                      <div class="col-sm-6"></div>
+
+
+
+                                     <div class="col-sm-6">
+                                        <!--<label>Address Line 1</label>   -->
+                                        <textarea name="address1" placeholder="<?php echo translate('address_line_1');?>" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-sm-6"> 
+                                       <!-- <label>Address Line 2</label>   -->
+
+                                        <textarea name="address2" placeholder="<?php echo translate('address_line_2');?>" rows="3"></textarea>
+                                    </div>
+
+
+
+
+
+
+
+                                     <div class="col-sm-6"> 
+                                      <!--  <label>City</label> -->
+
+                                        <input type="text" name="city" placeholder="<?php echo translate('city');?>">
+                                    </div>
+
+                                   
+
+
+                                    
+
+                                     <div class="col-sm-6"> 
+                                       <!--  <label>State</label>  -->
+
+                                        <input type="text" name="state" placeholder="<?php echo translate('state');?>">
+                                    </div>
+
+
+                                   
+                                    <div class="col-sm-6"> 
+                                       <!-- <label>Post Code</label>  -->
+
+                                        <input type="text" name="zip" placeholder="<?php echo translate('Post Code');?>">
+                                    </div>
+                                    
+                                  
+
+                                    <div class="col-sm-6 selectpro">
+                                        <input type="hidden" name="country"value="Null">
+                                       <!-- <label>Country Name</label> -->
+
+                                      <!--  <div class="select-wrapper">
+                                        <select name="country">
+                                            <option>Select Country</option>
+                                            <option value="Australia">Australia</option>
+                                           <!-- <option value="Japan">Japan</option>
+                                            <option value="Hong Kong">Hong Kong </option>
+                                            <option value="Singapore">Singapore</option>   -->
+                                        </select>
+                                    <!--</div>  -->
+                                    
+                                    </div>
+
+                                      
+
+
+                                    <div class="col-sm-6">
+                                       <!-- <label>Phone Number</label> -->
+
+                                     
+                                        <div class="row">
+                                      
+                                            <div class="col-sm-4 selectpro">
+                                                <div class="select-wrapper">
+                                                    <select name="countryCode">
+                                                    <option value="">Code</option>
+                                                    <option value="61">(+61) Australia</option>
+                                                    <option value="81">(+81) Japan</option>
+                                                    <option value="852">(+852) Hong Kong </option>
+                                                    <option value="65">(+65) Singapore</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="phone" placeholder="<?php echo translate('phone');?>"onkeypress="isInputNumber(event)">
+                                            </div>
+                                       </div>
+                                    </div> 
+
+
+                                      <div class="col-sm-6"> 
+
+                                      <div class="row">
+
+                                         <div class="col-sm-4 selectpro">
+                                                <div class="select-wrapper">
+                                                    <select name="countryCode">
+                                                    <option value="">Code</option>
+                                                    <option value="61">(+61) Australia</option>
+                                                    <option value="81">(+81) Japan</option>
+                                                    <option value="852">(+852) Hong Kong </option>
+                                                    <option value="65">(+65) Singapore</option>
+                                                </select>
+                                                </div>
+                                           </div>
+                                      
+                                       <div class="col-sm-8">
+                                       
+                                        <input name="mobile" type="text" placeholder="<?php echo translate('Mobile Number');?>"onkeypress="isInputNumber(event)"/>
+                                       </div>
+
+                                    </div>
+                                   </div>
+
+
+                                       
+                                    <div class="col-sm-6"> 
+                                       <!-- <label>Email Address</label> -->
+
+
+                                        <input name="email" type="email" placeholder="<?php echo translate('email');?>">
+
+
+
+                                    </div>
+
+
+                                     <div class="col-sm-6"></div>
+
+
+                                    <div class="col-sm-6">
+                                       <!-- <label>Password</label>  -->
+
+                                        <div class="passfield">
+                                            <input type="password" name="password1" id="password1" placeholder="<?php echo translate('password');?>"/>
+                                            <i class="fa fa-eye password1" onclick="rpassword_hideshow()"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                       <!--  <label>Confirm Password</label>  -->
+
+                                        <div class="passfield">
+                                            <input type="password" name="password2" id="password2" placeholder="<?php echo translate('confirm_password');?>"/>
+                                            <i class="fa fa-eye password2" onclick="rcpassword_hideshow()"></i>
+
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
