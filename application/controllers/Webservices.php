@@ -2092,7 +2092,9 @@
 
                 $response['orp']  = $orpData['orp'];
                 $response['saving']  = '0';
-
+                $response['type']  = $item['type'];
+                $response['product_id']  = $item['product_id'];
+                $response['user_id']  = $item['user_id'];
                 $producttotal += $rrp;
                 $total_saving += $saving;
                 $total_promocode += $promocode;
