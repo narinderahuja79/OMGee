@@ -475,7 +475,11 @@
         $results_array = array();
         $productId = $this->input->post('product_id');
         $user_id = $this->input->post('user_id');
+        $currency_type = $this->input->post('currency_type');
+        $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
 
+
+       
          // $productInfo=$this->Webservice_model->getDataFromTabel('product', '*', array('product_id'=>$productId));
         // $row = !empty($productInfo) ? $productInfo[0] : "";
         $row = $this->db->get_where('product',array('product_id' => $productId))->row();
@@ -483,6 +487,21 @@
         
         if (!empty($row)) {
             $res = array();
+
+            $default_price = !empty($row->sale_price_AU) ? $row->sale_price_AU : '0';
+            if($currencyType=="AUD"){
+                $sale_price = $default_price;
+            }else if($currencyType=="HKD"){
+                $sale_price = !empty($row->sale_price_HK) ? $row->sale_price_HK : $default_price;
+            }else if($currencyType=="JPY"){
+                $sale_price = !empty($row->sale_price_JP) ? $row->sale_price_JP : $default_price;
+            }else if($currencyType=="SGD"){
+                $sale_price = !empty($row->sale_price_SG) ? $row->sale_price_SG : $default_price;
+            }else{
+                $sale_price = $default_price;
+            }
+
+
             $results_array['product_id'] = $row->product_id;
 
             $results_array['food_section'] = $row->food_section;
@@ -534,11 +553,14 @@
             }
 
 
-            $results_array['orp'] = $row->bundle_sale1;
-            $rrp = $row->bundle_sale1;
             
+            $rrp = $sale_price;
+            $results_array['rrp'] = $sale_price;
             $wholesale = $row->wholesale;
-            $discount = ($row->bundle_discount1) ? ($row->bundle_discount1/100) : 0;
+            $results_array['orp']=$this->get_orp($sale_price,$wholesale,$row->discount,$row->limited_release);
+
+            
+            $discount = ($row->discount) ? ($row->discount/100) : 0;
             
 
 
@@ -604,7 +626,7 @@
                 $is_wished='0';
             }
 
-            $results_array['orp']=$this->get_orp($row->bundle_sale1,$wholesale,$row->bundle_discount1,$row->limited_release);
+            // $results_array['orp']=$this->get_orp($row->bundle_sale1,$wholesale,$row->bundle_discount1,$row->limited_release);
             
             //  $food_paring = array();
             // if($row->food_section == 'yes'){
@@ -624,9 +646,23 @@
             if(!empty($you_also_likes)){
                 foreach ($you_also_likes as $pkey) {
                     $resp = array();
-                    $resp['discount'] = ($pkey->bundle_discount1) ? ($pkey->bundle_discount1/100) : 0;
-                    $resp['rrp'] = $pkey['bundle_sale1'];
-                    $resp['orp'] = $this->get_orp($pkey['bundle_sale1'],$pkey->wholesale,$pkey->bundle_discount1,$pkey->limited_release);
+
+                    $default_price = !empty($row->sale_price_AU) ? $row->sale_price_AU : '0';
+                    if($currencyType=="AUD"){
+                        $sale_price = $default_price;
+                    }else if($currencyType=="HKD"){
+                        $sale_price = !empty($row->sale_price_HK) ? $row->sale_price_HK : $default_price;
+                    }else if($currencyType=="JPY"){
+                        $sale_price = !empty($row->sale_price_JP) ? $row->sale_price_JP : $default_price;
+                    }else if($currencyType=="SGD"){
+                        $sale_price = !empty($row->sale_price_SG) ? $row->sale_price_SG : $default_price;
+                    }else{
+                        $sale_price = $default_price;
+                    }
+
+                    $resp['discount'] = ($pkey->discount) ? ($pkey->discount/100) : 0;
+                    $resp['rrp'] = $sale_price;
+                    $resp['orp'] = $this->get_orp($sale_price,$pkey->wholesale,$pkey->discount,$pkey->limited_release);
                     $resp['product_id'] = $pkey['product_id'];
                     $resp['title'] = $pkey['title'];
 
@@ -640,12 +676,12 @@
                     }
 
                     // $resp['product_image'] = base_url('uploads/product_image/'.$pkey['main_image']);                    
-                    $resp['sale_price'] = $pkey['bundle_sale1'];
-                    $resp['purchase_price'] = $pkey['purchase_price'];
-                    $resp['discount'] = !empty($pkey['bundle_discount1']) ? $pkey['bundle_discount1'] : "";
+                    $resp['sale_price'] = $sale_price;
+                    // $resp['purchase_price'] = $pkey['purchase_price'];
+                    $resp['discount'] = !empty($pkey['discount']) ? $pkey['discount'] : "";
 
 
-                    if($pkey['bundle_discount1'] > 0){
+                    if($pkey['discount'] > 0){
                         $resp['off'] = '1';
                     }else{
                         // $community_arr['product_price'] = $row['bundle_discount1'];
@@ -774,10 +810,17 @@
 // cashback
 // title
 // product_image
+// currency_type:AUD/HKD/JPY/SGD
+
+
+
 
 
     public function dashboard() {
         $user_id = $this->input->post('user_id');
+        $currency_type = $this->input->post('currency_type');
+        $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
+
         $results_array = array();
         // $events_array = array();
         $slider_array = array();
@@ -877,6 +920,9 @@
                 }
             }
         }
+
+
+
                      
         $category_array = array();
         $categories = $this->db->order_by('category_id', 'desc')->get_where('category',array('digital'=> NULL))->result_array();
@@ -884,118 +930,259 @@
 
 
 
+        //1st row : Popular,Top Deals, Wine=23,Spirits=17. Non-Alcohol=16
+
+
+        // echo "<pre>"; print_r($categories);die;
 
         $productcate1 = array();
         $productcate2 = array();
         $cat_count = 0;
-        foreach ($categories as $catvalue) {
-            $cateArr = array();
+        // foreach ($categories as $catvalue) {
+        //     $cateArr = array();
+        //      // Wine=23,Spirits=17. Non-Alcohol=16
+        //     // echo $catvalue['category_id'];die;
+        //     if( $catvalue['category_id']=='23' || $catvalue['category_id']=='17' || $catvalue['category_id'] == '16' ){
 
-            if($cat_count=='0'){
-
-                $cateArr['category_name'] = 'Popular';        
-                $cateArr['category_id'] = '';        
-                $cateArr['category_image']= base_url('template/omgee/images/iconfindericon/popular.png');
-                
-                $brandArray = array();
-                $brands = $this->db->limit(12)->get_where('brand')->result_array();
-                foreach ($brands as $brandsvalue) {
-                    $brand_arr = array();
-                    if($brandsvalue['logo'] !=NULL){
-                        $num_of_img = explode(",", $brandsvalue['logo']); 
-                        $brand_arr['category_image'] = base_url('uploads/brand_image/'.$num_of_img[0]);
-                        $brand_arr['sub_category_name'] = $brandsvalue['name'];
-                        $brand_arr['sub_category_id'] = $brandsvalue['brand_id'];
-                    }else{
-                        $brand_arr['category_image'] = base_url('uploads/product_image/default.jpg');
-                        $brand_arr['sub_category_name'] = $brandsvalue['name'];
-                        $brand_arr['sub_category_id'] = $brandsvalue['brand_id'];
-                        
-                    }
-                    $brandArray[]  = $brand_arr;
-                }
-                // $results_array['brand'] = $brandArray;                            
-                
-                $cateArr['sub_category']=$brandArray;
+        //         $cateArr['category_name'] = $catvalue['category_name'];        
+        //         $cateArr['category_id'] = $catvalue['category_id'];        
+        //         $cateArr['category_image']= base_url('uploads/category_image/'.$catvalue['banner']);
 
 
-            }if($cat_count=='1'){
-                $cateArr['category_name'] = 'Top Deals';        
-                $cateArr['category_id'] = '';        
-                $cateArr['category_image']= base_url('template/omgee/images/iconfindericon/topdeals.png');
+        //         $sub_category_arr = array();     
+        //         $sub_category = $this->db->get_where('sub_category',array('category'=>$catvalue['category_id']))->result_array();
 
+        //         if(count($sub_category) > 0){
+        //             foreach ($sub_category as $sub_category_value) {
 
-                $topdeal_array = array();                                    
-                $topdeal_products = $this->db->limit(12)->get_where('product',array('deal'=>'ok','status'=>'ok'))->result_array();
-                foreach ($topdeal_products as $pdtvalue) {
-                    $topdeal_arr  = array();
-                    if($pdtvalue['num_of_imgs'] !=NULL){
-                        $num_of_img = explode(",", $pdtvalue['num_of_imgs']); 
-                        $topdeal_arr['category_image'] = base_url('uploads/product_image/'.$num_of_img[0]);
-                        $topdeal_arr['sub_category_name'] = $pdtvalue['title'];
-                        $topdeal_arr['sub_category_id'] = $pdtvalue['product_id'];
-                    }else{
-                        
-                        $topdeal_arr['sub_category_name'] = $pdtvalue['title'];
-                        $topdeal_arr['category_image'] = base_url('uploads/product_image/default.jpg');
-                        $topdeal_arr['sub_category_id'] = $pdtvalue['product_id'];
-                      
-                    }
-                    $topdeal_array[] = $topdeal_arr;
-                }
-                // $results_array['topdeal_product'] = $topdeal_array;     
-
-                $cateArr['sub_category']=$topdeal_array;
-            }
-            if( ($cat_count!='0' && $cat_count!='1') && ($catvalue['category_id']=='23' || $catvalue['category_id']=='17' || $catvalue['category_id'] == '16' )){
-                $cateArr['category_name'] = $catvalue['category_name'];        
-                $cateArr['category_id'] = $catvalue['category_id'];        
-                $cateArr['category_image']= base_url('uploads/category_image/'.$catvalue['banner']);
-
-
-                $sub_category_arr = array();     
-                $sub_category = $this->db->get_where('sub_category',array('category'=>$catvalue['category_id']))->result_array();
-
-                if(count($sub_category) > 0){
-                    foreach ($sub_category as $sub_category_value) {
-
-                        $subCateArr = array();
-                        if($sub_category_value['banner'] !=NULL){
-                            $num_of_img = explode(",",$sub_category_value['banner']); 
+        //                 $subCateArr = array();
+        //                 if($sub_category_value['banner'] !=NULL){
+        //                     $num_of_img = explode(",",$sub_category_value['banner']); 
                             
-                            $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
-                            $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
-                            $subCateArr['category_image']= base_url('uploads/sub_category_image/'.$sub_category_value['banner']);
-                        }else{
+        //                     $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
+        //                     $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
+        //                     $subCateArr['category_image']= base_url('uploads/sub_category_image/'.$sub_category_value['banner']);
+        //                 }else{
                             
-                            $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
-                            $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
-                            $subCateArr['category_image']= base_url('uploads/sub_category_image/default.jpg');
+        //                     $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
+        //                     $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
+        //                     $subCateArr['category_image']= base_url('uploads/sub_category_image/default.jpg');
 
-                        }
-                        $sub_category_arr[]=$subCateArr;
+        //                 }
+        //                 $sub_category_arr[]=$subCateArr;
                                          
-                    }
-                    $cateArr['sub_category'] = $sub_category_arr;
-                }else{
-                    $cateArr['sub_category'] = array();
-                }
+        //             }
+        //             $cateArr['sub_category'] = $sub_category_arr;
+        //         }else{
+        //             $cateArr['sub_category'] = array();
+        //         }
   
+        //     }
+
+
+
+        //     if(count($cateArr) > 0){
+        //         $productcate1[] = $cateArr; 
+        //     }
+        //     $cat_count++;
+        // }
+       
+
+
+        $popularArray= array();
+        $popularArray['category_name'] = 'Popular';        
+        $popularArray['category_id'] = '';        
+        $popularArray['category_image']= base_url('template/omgee/images/iconfindericon/popular.png');
+                
+        $brandArray = array();
+        $brands = $this->db->limit(12)->get_where('brand')->result_array();
+        foreach ($brands as $brandsvalue) {
+            $brand_arr = array();
+            if($brandsvalue['logo'] !=NULL){
+                $num_of_img = explode(",", $brandsvalue['logo']); 
+                $brand_arr['category_image'] = base_url('uploads/brand_image/'.$num_of_img[0]);
+                $brand_arr['sub_category_name'] = $brandsvalue['name'];
+                $brand_arr['sub_category_id'] = $brandsvalue['brand_id'];
+            }else{
+                $brand_arr['category_image'] = base_url('uploads/product_image/default.jpg');
+                $brand_arr['sub_category_name'] = $brandsvalue['name'];
+                $brand_arr['sub_category_id'] = $brandsvalue['brand_id'];
+                
             }
-            if(count($cateArr) > 0){
-                $productcate1[] = $cateArr; 
+            $brandArray[]  = $brand_arr;
+        }
+        // $results_array['brand'] = $brandArray;                            
+        
+        $popularArray['sub_category']=$brandArray;
+
+
+        $productcate1['0']=$popularArray;
+
+        $topdealArray = array();
+        $topdealArray['category_name'] = 'Top Deals';        
+        $topdealArray['category_id'] = '';        
+        $topdealArray['category_image']= base_url('template/omgee/images/iconfindericon/topdeals.png');
+
+
+        $topdeal_array = array();                                    
+        $topdeal_products = $this->db->limit(12)->get_where('product',array('deal'=>'ok','status'=>'ok'))->result_array();
+        foreach ($topdeal_products as $pdtvalue) {
+            $topdeal_arr  = array();
+            if($pdtvalue['num_of_imgs'] !=NULL){
+                $num_of_img = explode(",", $pdtvalue['num_of_imgs']); 
+                $topdeal_arr['category_image'] = base_url('uploads/product_image/'.$num_of_img[0]);
+                $topdeal_arr['sub_category_name'] = $pdtvalue['title'];
+                $topdeal_arr['sub_category_id'] = $pdtvalue['product_id'];
+            }else{
+                
+                $topdeal_arr['sub_category_name'] = $pdtvalue['title'];
+                $topdeal_arr['category_image'] = base_url('uploads/product_image/default.jpg');
+                $topdeal_arr['sub_category_id'] = $pdtvalue['product_id'];
+              
             }
-            $cat_count++;
+            $topdeal_array[] = $topdeal_arr;
+        }
+        // $results_array['topdeal_product'] = $topdeal_array;     
+
+        $topdealArray['sub_category']=$topdeal_array;
+
+        $productcate1['1']=$topdealArray;
+
+
+        $wine_array = array();
+
+
+        $wine_array['category_name'] = $categories['0']['category_name'];        
+        $wine_array['category_id'] = $categories['0']['category_id'];        
+        $wine_array['category_image']= base_url('uploads/category_image/'.$categories['0']['banner']);
+
+
+        $sub_category_arr = array();     
+        $sub_category = $this->db->get_where('sub_category',array('category'=>$categories['0']['category_id']))->result_array();
+
+        if(count($sub_category) > 0){
+            foreach ($sub_category as $sub_category_value) {
+
+                $subCateArr = array();
+                if($sub_category_value['banner'] !=NULL){
+                    $num_of_img = explode(",",$sub_category_value['banner']); 
+                    
+                    $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
+                    $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
+                    $subCateArr['category_image']= base_url('uploads/sub_category_image/'.$sub_category_value['banner']);
+                }else{
+                    
+                    $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
+                    $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
+                    $subCateArr['category_image']= base_url('uploads/sub_category_image/default.jpg');
+
+                }
+                $sub_category_arr[]=$subCateArr;
+                                 
+            }
+            $wine_array['sub_category'] = $sub_category_arr;
+        }else{
+            $wine_array['sub_category'] = array();
         }
 
+
+        $productcate1['2']=$wine_array;
+
+
+
+
+        $spirits_array = array();
+
+
+        $spirits_array['category_name'] = $categories['3']['category_name'];        
+        $spirits_array['category_id'] = $categories['3']['category_id'];        
+        $spirits_array['category_image']= base_url('uploads/category_image/'.$categories['3']['banner']);
+
+
+        $sub_category_arr = array();     
+        $sub_category = $this->db->get_where('sub_category',array('category'=>$categories['3']['category_id']))->result_array();
+
+        if(count($sub_category) > 0){
+            foreach ($sub_category as $sub_category_value) {
+
+                $subCateArr = array();
+                if($sub_category_value['banner'] !=NULL){
+                    $num_of_img = explode(",",$sub_category_value['banner']); 
+                    
+                    $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
+                    $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
+                    $subCateArr['category_image']= base_url('uploads/sub_category_image/'.$sub_category_value['banner']);
+                }else{
+                    
+                    $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
+                    $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
+                    $subCateArr['category_image']= base_url('uploads/sub_category_image/default.jpg');
+
+                }
+                $sub_category_arr[]=$subCateArr;
+                                 
+            }
+            $spirits_array['sub_category'] = $sub_category_arr;
+        }else{
+            $spirits_array['sub_category'] = array();
+        }
+
+
+        $productcate1['3']=$spirits_array;
+
+
+
+
+        $nonAlcoholArray = array();
+
+
+        $nonAlcoholArray['category_name'] = $categories['4']['category_name'];        
+        $nonAlcoholArray['category_id'] = $categories['4']['category_id'];        
+        $nonAlcoholArray['category_image']= base_url('uploads/category_image/'.$categories['4']['banner']);
+
+
+        $sub_category_arr = array();     
+        $sub_category = $this->db->get_where('sub_category',array('category'=>$categories['4']['category_id']))->result_array();
+
+        if(count($sub_category) > 0){
+            foreach ($sub_category as $sub_category_value) {
+
+                $subCateArr = array();
+                if($sub_category_value['banner'] !=NULL){
+                    $num_of_img = explode(",",$sub_category_value['banner']); 
+                    
+                    $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
+                    $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
+                    $subCateArr['category_image']= base_url('uploads/sub_category_image/'.$sub_category_value['banner']);
+                }else{
+                    
+                    $subCateArr['sub_category_name'] = $sub_category_value['sub_category_name'];
+                    $subCateArr['sub_category_id'] = $sub_category_value['sub_category_id'];        
+                    $subCateArr['category_image']= base_url('uploads/sub_category_image/default.jpg');
+
+                }
+                $sub_category_arr[]=$subCateArr;
+                                 
+            }
+            $nonAlcoholArray['sub_category'] = $sub_category_arr;
+        }else{
+            $nonAlcoholArray['sub_category'] = array();
+        }
+
+
+        $productcate1['4']=$nonAlcoholArray;
+
+
+
+         // echo "<pre>"; print_r($productcate1);die;
         $results_array['category1'] = $productcate1;  
                                  
-        
+        //2nd row : Food Pairing, Pantry Food=4, Beer=21,Cider=18, Other Beverages=5
 
         $cat_count = 0;
         foreach ($categories as $catvalue) {
             $cateArr = array();
-            if( $catvalue['category_id']=='21' || $catvalue['category_id']=='18' || $catvalue['category_id'] == '5' || $catvalue['category_id'] == '4' || $catvalue['category_id'] == '17' ){
+            if( $catvalue['category_id']=='4' || $catvalue['category_id'] == '21' || $catvalue['category_id'] == '18' || $catvalue['category_id'] == '5' ){
                 $cateArr['category_name'] = $catvalue['category_name'];        
                 $cateArr['category_id'] = $catvalue['category_id'];        
                 $cateArr['category_image']= base_url('uploads/category_image/'.$catvalue['banner']);
@@ -1052,6 +1239,9 @@
         // $results_array['publish_category'] = $category_array;
 
         
+
+
+
         $lastWeekproduct = array();                  
         $latest =$this->crud_model->lastOneWeekproduct();
         // echo "<pre>";print_r($latest);die;
@@ -1059,10 +1249,11 @@
         foreach($latest as $row){ 
             
             $latestPro = array();
-            $latestPro['discount'] = $row['bundle_discount1'];
+            $latestPro['discount'] = $row['discount'];
             
 
-            if($row['bundle_discount1'] > 0){
+            if($row['discount'] > 0){
+                 $community_arr['discount_price'] = $row['discount'];
                 $latestPro['off'] = '1';
             }else{
                 // $community_arr['product_price'] = $row['bundle_discount1'];
@@ -1082,6 +1273,9 @@
                 $latestPro['discount_type'] = "";
             }
 
+
+
+
             $wish = $this->Webservice_model->is_wished($row['product_id'],$user_id); 
             
             if(!empty($wish)){
@@ -1089,16 +1283,32 @@
             }else{
                 $is_wished='0';
             }
-            // if($wish == 'yes')
-            // echo $row['bundle_sale1'];die;
-            $latestPro['rrp'] = $row['bundle_sale1'];
-            $latestPro['orp'] = $this->get_orp($row['bundle_sale1'],$row['wholesale'],$row['bundle_discount1'],$row['limited_release']);
+
+        
+                                       
+
+            // $this->getFinalPrice($currencyType);
+            $default_price = !empty($row['sale_price_AU']) ? $row['sale_price_AU'] : '0';
+            if($currencyType=="AUD"){
+                $sale_price = $default_price;
+            }else if($currencyType=="HKD"){
+                $sale_price = !empty($row['sale_price_HK']) ? $row['sale_price_HK'] : $default_price;
+            }else if($currencyType=="JPY"){
+                $sale_price = !empty($row['sale_price_JP']) ? $row['sale_price_JP'] : $default_price;
+            }else if($currencyType=="SGD"){
+                $sale_price = !empty($row['sale_price_SG']) ? $row['sale_price_SG'] : $default_price;
+            }else{
+                $sale_price = $default_price;
+            }
+
+            $latestPro['rrp'] = $sale_price;
+            $latestPro['orp'] = $this->get_orp($sale_price,$row['wholesale'],$row['discount'],$row['limited_release']);
             $latestPro['is_wished']= $is_wished;
                 
             $latestPro['product_id'] =$row['product_id'];
             $latestPro['title'] =$row['title'];
             $latestPro['sale_price'] = $row['sale_price'];
-            $latestPro['purchase_price'] = $row['purchase_price'];
+            // $latestPro['purchase_price'] = $row['purchase_price'];
 
             if($row['num_of_imgs'] !=NULL){
                 $num_of_img = explode(",", $row['num_of_imgs']); 
@@ -1119,10 +1329,9 @@
 
         foreach($recentlyViewed as $row){
             $community_arr= array(); 
-             // if($row['discount'] > 0){
-
+            
             if($row['discount'] > 0){
-                $community_arr['product_price'] = $row['discount'];
+                $community_arr['discount_price'] = $row['discount'];
                 $community_arr['off'] = '1';
             }else{
                 $community_arr['off'] = '0';
@@ -1156,7 +1365,7 @@
             
             $community_arr['product_id'] = $row['product_id'];
             $community_arr['sale_price'] = $row['sale_price'];
-            $community_arr['purchase_price'] = $row['purchase_price'];
+            // $community_arr['purchase_price'] = $row['purchase_price'];
             
             
             if(!empty($row['num_of_imgs'])){
@@ -1168,73 +1377,66 @@
             $community_arr['product_image'] = $product_image;
             $community_arr['title'] = $row['title'];
             $community_arr['rrp'] = $row['sale_price_AU'];
-                                
-            if($row['sale_price_AU']){
-                $rrp = $row['sale_price_AU'];
-
-                $wholesale = $row['wholesale'];
-                // $discount = ($row['bundle_discount1']) ? ($row['bundle_discount1']/100) : 0;
-                
-
-                $wholesale = $row['wholesale'];
-                $discount = ($row['discount']) ? ($row['discount']/100) : 0;
-                
-                if($row['limited_release']=="Yes"){
-                    $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
-                
-                    $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
-                } else {
-                    $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
-                
-                    $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
-                }
-
-                $gap_revenue = $rrp - $wholesale;
-                $gap_revenue_commission = $gap_revenue * $commission_amount;    
-                $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
-                $total_discount = $orp * $discount;
-                $total_orp = $orp - $total_discount;
             
 
-                $lat_sale_price1 = $total_orp*1;
-                $lat_sale_price2 = $total_orp*6;
-                $lat_sale_price3 = $total_orp*12;
 
-                 // $wholesale = $row['wholesale'];
-
-                // if($row['limited_release']=="Yes"){
-                //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
-                    
-                //     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
-                // }else{
-                //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
-                
-                //     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
-                // }
-
-                // $gap_revenue = $rrp - $wholesale;
-                // $gap_revenue_commission = $gap_revenue * $commission_amount;    
-                // $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
-                // $total_discount = $orp * $discount;
-                // $total_orp = $orp - $total_discount;
-                
-
-                // $lat_sale_price1 = $total_orp*1;
-                // $lat_sale_price2 = $total_orp*6;
-                // $lat_sale_price3 = $total_orp*12;
-
-                $community_arr['orp'] = $orp;
-
-                $community_arr['discount'] = (string)$discount;
-                $community_arr['Each'] = currency($orp *1);
-                $community_arr['Six'] = currency($orp *6); 
-                $community_arr['Twelve'] = currency($orp *12);
-
-                $community_arr['Each_new'] = currency($lat_sale_price1);
-                $community_arr['Six_new'] = currency($lat_sale_price2); 
-                $community_arr['Twelve_new'] = currency($lat_sale_price3);
-                $communArr[] = $community_arr;
+            // $this->getFinalPrice($currencyType);
+            $default_price = !empty($row['sale_price_AU']) ? $row['sale_price_AU'] : '0';
+            if($currencyType=="AUD"){
+                $sale_price = $default_price;
+            }else if($currencyType=="HKD"){
+                $sale_price = !empty($row['sale_price_HK']) ? $row['sale_price_HK'] : $default_price;
+            }else if($currencyType=="JPY"){
+                $sale_price = !empty($row['sale_price_JP']) ? $row['sale_price_JP'] : $default_price;
+            }else if($currencyType=="SGD"){
+                $sale_price = !empty($row['sale_price_SG']) ? $row['sale_price_SG'] : $default_price;
+            }else{
+                $sale_price = $default_price;
             }
+
+            // $latestPro['rrp'] = $sale_price;
+            // $latestPro['orp'] = $this->get_orp($sale_price,$row['wholesale'],$row['discount'],$row['limited_release']);
+            // $latestPro['is_wished']= $is_wished;
+
+            // if($row['sale_price_AU']){
+            $rrp = $sale_price;
+
+            $wholesale = $row['wholesale'];
+            $discount = ($row['discount']) ? ($row['discount']/100) : 0;
+            
+            if($row['limited_release']=="Yes"){
+                $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
+            
+                $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
+            } else {
+                $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
+            
+                $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
+            }
+
+            $gap_revenue = $rrp - $wholesale;
+            $gap_revenue_commission = $gap_revenue * $commission_amount;    
+            $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
+            $total_discount = $orp * $discount;
+            $total_orp = $orp - $total_discount;
+        
+
+            $lat_sale_price1 = $total_orp*1;
+            $lat_sale_price2 = $total_orp*6;
+            $lat_sale_price3 = $total_orp*12;
+
+
+            $community_arr['rrp'] = $rrp;
+            $community_arr['orp'] = $orp;
+            $community_arr['discount'] = (string)$discount;
+            $community_arr['Each'] = currency($orp *1);
+            $community_arr['Six'] = currency($orp *6); 
+            $community_arr['Twelve'] = currency($orp *12);
+
+            $community_arr['Each_new'] = currency($lat_sale_price1);
+            $community_arr['Six_new'] = currency($lat_sale_price2); 
+            $community_arr['Twelve_new'] = currency($lat_sale_price3);
+            $communArr[] = $community_arr;
         }
 
         // echo "<pre>"; print_r($communArr);die;
@@ -1251,7 +1453,6 @@
 
 
 
-    // //brand list
     // public function getFinalPrice(){
         
     // }
