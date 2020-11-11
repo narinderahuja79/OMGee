@@ -2049,7 +2049,7 @@
 
                 if(!empty($productDetail[0]['num_of_imgs'])){
                     // $num_of_img = explode(",", $productDetail[0]['num_of_imgs']); 
-                    $$response['images'] = base_url('uploads/product_image/'.$productDetail[0]['num_of_imgs']); //$images;    
+                    $response['images'] = base_url('uploads/product_image/'.$productDetail[0]['num_of_imgs']); //$images;    
                 }else{
                     $response['images'] = base_url('uploads/product_image/default.jpg');
                 }
