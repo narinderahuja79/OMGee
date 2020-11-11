@@ -1114,19 +1114,21 @@
         //community product
         $communArr= array(); 
         $recently_viewed=$this->crud_model->product_list_set('recently_viewed','');
-        
-        // echo "<pre>"; print_r($recently_viewed);die;
+
+        echo "<pre>"; print_r($recently_viewed);die;
         $total_recently_viewed = count($recently_viewed);
 
         foreach($recently_viewed as $row){
             $community_arr= array(); 
-            if($row['bundle_discount1'] > 0){
-                $community_arr['product_price'] = $row['bundle_discount1'];
+             // if($row['discount'] > 0){
+
+            if($row['discount'] > 0){
+                $community_arr['product_price'] = $row['discount'];
                 $community_arr['off'] = '1';
             }else{
-                // $community_arr['product_price'] = $row['bundle_discount1'];
                 $community_arr['off'] = '0';
-            }    
+            }
+
             $wish = $this->Webservice_model->is_wished($row['product_id'],$user_id); 
             // $wish = $this->crud_model->is_wished($row['product_id']); 
             if(!empty($wish)){
@@ -1134,16 +1136,9 @@
             }else{
                 $is_wished='0';
             }
-            // if($wish == 'yes')
-
-            $community_arr['is_wished']= $is_wished;
+             $community_arr['is_wished']= $is_wished;
             $productKey = $this->searchArrayKeyVal("productid", $row['product_id'], $already_add_product_arr);
 
-            
-            $community_arr['product_id'] = $row['product_id'];
-            $community_arr['sale_price'] = $row['sale_price'];
-            $community_arr['purchase_price'] = $row['purchase_price'];
-            
             if($productKey!==false) {
                 $community_arr['cashback'] = '1';
                 
@@ -1157,6 +1152,14 @@
                 $community_arr['discount_type'] = "";    
             }
 
+
+
+            
+            $community_arr['product_id'] = $row['product_id'];
+            $community_arr['sale_price'] = $row['sale_price'];
+            $community_arr['purchase_price'] = $row['purchase_price'];
+            
+            
             if(!empty($row['num_of_imgs'])){
                 $num_of_img = explode(",", $row['num_of_imgs']); 
                 $product_image = base_url('uploads/product_image/'.$num_of_img[0]);
