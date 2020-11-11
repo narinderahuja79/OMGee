@@ -1053,11 +1053,11 @@
 
         
         $lastWeekproduct = array();                  
-        $latest =$this->Webservice_model->lastOneWeekproduct();
-        
+        $latest =$this->crud_model->lastOneWeekproduct();
+        // echo "<pre>";print_r($latest);die;
         $total_latest = count($latest);
         foreach($latest as $row){ 
-            // echo "<pre>";print_r($row);die;
+            
             $latestPro = array();
             $latestPro['discount'] = $row['bundle_discount1'];
             
@@ -1114,6 +1114,7 @@
         //community product
         $communArr= array(); 
         $recently_viewed=$this->crud_model->product_list_set('recently_viewed','');
+        
         // echo "<pre>"; print_r($recently_viewed);die;
         $total_recently_viewed = count($recently_viewed);
 
