@@ -1113,12 +1113,11 @@
 
         //community product
         $communArr= array(); 
-        $recently_viewed=$this->crud_model->product_list_set('recently_viewed','');
+        $recentlyViewed=$this->crud_model->product_list_set('recently_viewed','');
 
-        echo "<pre>"; print_r($recently_viewed);die;
-        $total_recently_viewed = count($recently_viewed);
+        $total_recently_viewed = count($recentlyViewed);
 
-        foreach($recently_viewed as $row){
+        foreach($recentlyViewed as $row){
             $community_arr= array(); 
              // if($row['discount'] > 0){
 
@@ -1136,7 +1135,7 @@
             }else{
                 $is_wished='0';
             }
-             $community_arr['is_wished']= $is_wished;
+            $community_arr['is_wished']= $is_wished;
             $productKey = $this->searchArrayKeyVal("productid", $row['product_id'], $already_add_product_arr);
 
             if($productKey!==false) {
@@ -1206,6 +1205,7 @@
                 $community_arr['Each_new'] = currency($lat_sale_price1);
                 $community_arr['Six_new'] = currency($lat_sale_price2); 
                 $community_arr['Twelve_new'] = currency($lat_sale_price3);
+                echo "<pre>"; print_r($community_arr);die;
                 $communArr[] = $community_arr;
             }
         }
