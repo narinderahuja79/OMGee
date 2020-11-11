@@ -11,7 +11,7 @@
                             <button class="btn btn-primary btn-labeled fa fa-plus-circle add_pro_btn pull-right" 
                                 onclick="ajax_set_full('add','<?php echo translate('add_product'); ?>','<?php echo translate('successfully_added!'); ?>','product_add',''); proceed('to_list');"><?php echo translate('create_product');?>
                             </button>
-                            <a href="<?php echo base_url('/vendor/import_product'); ?>">
+                            <a style="display: none;" href="<?php echo base_url('/vendor/import_product'); ?>">
                             	<button class="btn btn-primary btn-labeled fa fa-plus-circle add_pro_btn pull-right">Import Products</button>
                         	</a>
                             <button class="btn btn-info btn-labeled fa fa-step-backward pull-right pro_list_btn" 

@@ -55,7 +55,7 @@
 
                     
 
-                        	New Vendor <!--<a href="<?php echo base_url('home/vendor_logup/registration'); ?>"> -->Sign-Up below:</a> </p>
+                          New Vendor <!--<a href="<?php echo base_url('home/vendor_logup/registration'); ?>"> -->Sign-Up below:</a> </p>
                     </div>
                     <div class="form-modal">
                         <div id="signup-form">
@@ -72,7 +72,7 @@
                                         <!--<label>Full Name</label> -->
                                     </div>
                                     <div class="col-sm-8">
-                                    	<div class="row">
+                                      <div class="row">
                                     <div class="col-sm-4 selectpro">
                                         <div class="select-wrapper">
                                         <select name="titlename">
@@ -175,10 +175,10 @@
                                         <select name="country">
                                             <option>Select Country</option>
                                             <option value="Australia">Australia</option>
-                                           <option value="Japan">Japan</option>
+                                           <!-- <option value="Japan">Japan</option>
                                             <option value="Hong Kong">Hong Kong </option>
                                             <option value="Singapore">Singapore</option>   -->
-                                       <!--  </select> -->
+                                        </select>
                                     <!--</div>  -->
                                     
                                     </div>
@@ -190,7 +190,7 @@
                                        <!-- <label>Phone Number</label> -->
 
                                      
-                                       	<div class="row">
+                                        <div class="row">
                                       
                                             <div class="col-sm-4 selectpro">
                                                 <div class="select-wrapper">
@@ -214,7 +214,7 @@
 
                                       <div class="row">
 
-                                      	 <div class="col-sm-4 selectpro">
+                                         <div class="col-sm-4 selectpro">
                                                 <div class="select-wrapper">
                                                     <select name="countryCode">
                                                     <option value="">Code</option>
@@ -292,61 +292,59 @@
                                     </div>
 
                                  </div>
-       <div class="col-sm-6 selectpro">
-                                        <div class="select-wrapper">
-                                        	
-                                        <select d="example-multiple-optgroups" name="brandcategory[]" multiple="multiple" size="1">
-                                        	 <?php  $row=$this->db->get("category");
-                                                    
 
-                                                    ?>
-                                        	 <?php foreach($row->result() as $cat){?>
-                                           <option value="<?php  echo$cat->category_name; ?>"> <?php echo$cat->category_name; ?></option> 
-<?php   }   ?>
-                                        </select>
-                                        
-                                    </div>
-                                    </div> 
-<div class="col-sm-12">
-	<script type="text/javascript">
-    $('#example-multiple-optgroups').multiselect();
-</script>
-<select id="example-multiple-optgroups">
-    <optgroup label="Group 1">
-        <option value="1-1">Option 1.1</option>
-        <option value="1-2" selected="selected">Option 1.2</option>
-        <option value="1-3" selected="selected">Option 1.3</option>
-    </optgroup>
-    <optgroup label="Group 2">
-        <option value="2-1">Option 2.1</option>
-        <option value="2-2">Option 2.2</option>
-        <option value="2-3">Option 2.3</option>
-    </optgroup>
-</select>
-</div>
-                                 <!-- <div class="col-sm-6 selectpro">
+
+                                 <div class="col-sm-6 selectpro custom_vendor_sel">
                                      
                                                <?php  $row=$this->db->get("category");
                                                     
 
                                                     ?>
-                                 
-                            <div class="select-wrapper" id="select-wrapper">
-                                 <select name="brandcategory[]" multiple="multiple"size="1">
-                                    
+                            
 
-                                                    <?php foreach($row->result() as $cat){?>
+                             <!--  Brand category -->       
+                            <div class="select-wrapper" id="select-wrapper">
+                                 <select  name="brandcategory[]" multiple="multiple"size="1">
+                                     
+                                                   <option value="wine">Wine</option>
+                                                    <?php foreach($row->result() as $cat){
+
+                                                      if($cat->category_name=="Wine"){    
+                                                       continue;
+                                                          }
+                                                        else{
+
+                                                      ?>
 
                                                         <option value="<?php  echo$cat->category_name; ?>"> <?php echo$cat->category_name; ?></option>
-                                                 <?php   }   ?>
+                                                 <?php   } }  ?>
                                                     
                                                   
                                                 </select>
                                                 </div>
                                 
-
-                                 </div> -->
-                        
+<style type="text/css">
+  .custom_vendor_sel .select2-container--default .select2-selection--single {
+        width: 100%;
+    font-size: 1em;
+    padding: 13px 10px;
+    margin-top: 0.2em;
+    margin-bottom: 0.4em;
+    border-radius: 10px;
+    border: 1px solid #e2e2e2;
+    background: #fff;
+    outline: none;
+    height: 44px;
+  }
+  .custom_vendor_sel .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px;
+    position: absolute;
+    top: 10px;
+    right: 1px;
+    width: 35px;
+}
+</style>
+                                 </div>                       
 
                                     
 
