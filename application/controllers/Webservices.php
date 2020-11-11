@@ -2009,6 +2009,297 @@
 
 
 
+
+
+
+
+
+    
+
+
+    public function my_cart_items(){
+        $total_discount = 0;
+        $discount_total_item = 0;
+        $total_cashback_discount = 0;
+        $productKey = 0;
+
+        $user_id =  $this->input->post('user_id');
+
+        $currency_type = $this->input->post('currency_type');
+        $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
+        
+        $cashback_product = $this->db->get_where('coupon')->result_array();
+
+        $current_date = date('Y-m-d');
+
+        $cart_array = array();
+        $where = array('user_id'=>$user_id);
+        $cartContent = $this->Webservice_model->get_data_where('forCart',$where);
+        if(!empty($cartContent)){
+            foreach ($cartContent as $key => $value) {
+
+                $where = array('product_id'=> $value['product_id']);
+                $productDetail = $this->Webservice_model->get_data_where('product', $where);
+                // echo "<pre>"; print_r($productDetail);echo "<pre>";
+                
+
+                if(!empty($productDetail[0]['num_of_imgs'])){
+                    // $num_of_img = explode(",", $productDetail[0]['num_of_imgs']); 
+                    $cartContent[$key]['images'] = base_url('uploads/product_image/'.$productDetail[0]['num_of_imgs']); //$images;    
+                }else{
+                    $cartContent[$key]['images'] = base_url('uploads/product_image/default.jpg');
+                }
+
+                $cartContent[$key]['title']  = $productDetail[0]['title'];
+
+
+                $default_price = !empty($productDetail[0]['sale_price_AU']) ? $productDetail[0]['sale_price_AU'] : '0';
+                if($currencyType=="AUD"){
+                    $sale_price = $default_price;
+                }else if($currencyType=="HKD"){
+                    $sale_price = !empty($productDetail[0]['sale_price_HK']) ? $productDetail[0]['sale_price_HK'] : $default_price;
+                }else if($currencyType=="JPY"){
+                    $sale_price = !empty($productDetail[0]['sale_price_JP']) ? $productDetail[0]['sale_price_JP'] : $default_price;
+                }else if($currencyType=="SGD"){
+                    $sale_price = !empty($productDetail[0]['sale_price_SG']) ? $productDetail[0]['sale_price_SG'] : $default_price;
+                }else{
+                    $sale_price = $default_price;
+                }
+
+
+                $rrp = $sale_price*$value['qty'];
+                $wholesale = $productDetail[0]['wholesale']*$value['qty'];
+
+                if($product_details->limited_release =="Yes"){
+                    $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
+                
+                    $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
+                }else{
+                    $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
+                
+                    $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
+                }
+
+
+                $producttotal += $rrp;
+                $total_saving += $saving;
+                $total_promocode += $promocode;
+                $total_discounts += $total_discount;
+                $total_sub_total += $total_sub_total_orp;
+
+                if(!empty($cashback_product)){
+                    foreach($cashback_product as $key => $val) {
+                        $already_add_product_ar = json_decode($val['spec']);
+
+                        if(strtotime($val['till']) > strtotime($current_date)){
+                            $till_ar[] = strtotime($val['till']);
+
+                            foreach(json_decode($already_add_product_ar->set) as $key => $productids) {
+                                if($productids == $optiondata['productid']) {
+                                   $productKey =  $productids;
+                                   $discount_value = $already_add_product_ar->discount_value;
+                                   $discount_type = $already_add_product_ar->discount_type;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                if($productKey > 0 ) {
+                    if($discount_type=='percent'){
+                        $cashback_price += (($for_producttotal * ($discount_value/100))*$items['qty']);
+                    }else{
+                        $cashback_price += (($discount_value)*$value['qty']);
+                    }
+                }    
+                $total_cashback_discount =  round($cashback_price, 2);
+                 
+                $coupon_price = currency($optiondata['coupon_price']);
+
+                $ship  = 0;//currency($ship);
+                //$tax   = print_r($ishipping);
+                
+                $shipping = 0;              
+                
+                // $this->session->set_userdata('total_cashback_discount',$total_cashback_discount);
+
+                $total_cashback_discount = 0;
+
+
+
+                $default_price = !empty($productDetail[0]['sale_price_AU']) ? $productDetail[0]['sale_price_AU'] : '0';
+                if($currencyType=="AUD"){
+                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'aud_tax'))->row()->value;
+                }
+                if($currencyType=="HKD"){
+                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'hkd_tax'))->row()->value;
+                }
+                if($currencyType=="JPY"){
+                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'jpy_tax'))->row()->value;
+                }
+                if($currencyType=="SGD"){
+                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'sgd_tax'))->row()->value;
+                }
+
+             
+                
+                $tax = ($producttotal - $total_discounts)*($currency_tax/100);
+                $sub_total= ($total_sub_total + $tax)-$total_promocode;
+                $grand = $sub_total + $shipping;
+                
+                $cart_array['total_promocode']  = $total_promocode;
+                $cart_array['coupon_price']  = $coupon_price;
+                
+                $cart_array['producttotal']  = $producttotal;
+                $cart_array['ship']  = $ship;
+                $cart_array['tax']  = currency($tax);
+                $cart_array['grand_total']  = currency($grand);
+                $cart_array['total_saving']  = currency($total_saving);
+                $cart_array['sub_total']  = currency($sub_total);
+
+                // echo currency($producttotal) . '-' . $ship . '-' . currency($tax) . '-' . currency($grand) . '-' . $count . '-' . currency($total_saving) . '-' . $total_cashback_discount . '-' . currency($sub_total) . '-' . $coupon_price . '-' . currency($total_promocode);
+
+                // $this->session->set_userdata('grand_total',$grand);
+
+
+            }
+       
+            // echo "<pre>"; print_r($cart_array);die;
+            $alcohol_list = array('8.5');
+            $volume_list = array('750');
+            $price_list = array('35');
+            $quantity_list = array('1');
+            $weight_list = array('1.5');
+            $category_product_list = array('WINE');
+          
+            
+            $deliveryAdd=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
+
+            
+            if(!empty($deliveryAdd)){
+                if(count($deliveryAdd)=='1'){
+                    $name =  $deliveryAdd[0]->name;
+                    $mobile =  $deliveryAdd[0]->mobile;
+                    $city =  $deliveryAdd[0]->city;
+                    $state =  $deliveryAdd[0]->state;
+                    $country =  $deliveryAdd[0]->country;
+
+                    $post_code =  $deliveryAdd[0]->post_code;
+                    $country_code =  $deliveryAdd[0]->country_code;
+                    $address1 =  $deliveryAdd[0]->address1;
+
+                }else{
+                    $name =  $deliveryAdd[1]->name;
+                    $mobile =  $deliveryAdd[1]->mobile;
+                    $city =  $deliveryAdd[1]->city;
+                    $state =  $deliveryAdd[1]->state;
+                    $country =  $deliveryAdd[1]->country;
+
+                    $post_code =  $deliveryAdd[1]->post_code;
+                    $country_code =  $deliveryAdd[1]->country_code;
+                    $address1 =  $deliveryAdd[1]->address1;
+                } 
+
+                // $Streetlines = array($address1);
+                // $data = array(
+                //     "api_key" =>"p6RertCvahmbQm28Byky",
+                //     "type" => "overseas",
+                //     "alcohol_list" => $alcohol_list,
+                //     "volume_list" => $volume_list,
+                //     "price_list" => $price_list,
+                //     "quantity_list" => $quantity_list,
+                //     "weight_list"=> $weight_list,
+                //     "category_product_list" => $category_product_list,
+                //     "category_product_sum" => 1,
+                //     "total_quantity" => 1,
+                //     "recipient_details" => array(
+                //         "PersonName" => $name,
+                //         "CompanyName" => "Google",
+                //         "PhoneNumber" => $mobile,
+                //         "Address" => array(
+                //             "Streetlines" => $Streetlines,
+                //             "City" => $city,
+                //             "StateOrProvinceCode" => $country_code,
+                //             "PostalCode" => $post_code,
+                //             "CountryCode" => $country_code,
+                //             "Residental" => false
+                //         )
+                //     )
+                // );
+                $Streetlines = array('3 Chome-5-4 Shinjuku, Shinjuku City, Tokyo 160-0022, Japan');
+                $data = array(
+                    "api_key" =>"p6RertCvahmbQm28Byky",
+                    "type" => "overseas",
+                    "alcohol_list" => $alcohol_list,
+                    "volume_list" => $volume_list,
+                    "price_list" => $price_list,
+                    "quantity_list" => $quantity_list,
+                    "weight_list"=> $weight_list,
+                    "category_product_list" => $category_product_list,
+                    "category_product_sum" => 1,
+                    "total_quantity" => 1,
+                    "recipient_details" => array(
+                        "PersonName" => 'John William',
+                        "CompanyName" => "Google",
+                        "PhoneNumber" => "0452593389",
+                        "Address" => array(
+                            "Streetlines" => $Streetlines,
+                            "City" => "Tokyo",
+                            "StateOrProvinceCode" => "JP",
+                            "PostalCode" => "160-0022",
+                            "CountryCode" => "JP",
+                            "Residental" => false
+                        )
+                    )
+                );
+
+
+                $url = 'http://www.ishipping.com.au/API/V1/php/Rate/calculate_rate.php';
+
+                $postdata = json_encode($data);
+
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+                $result = curl_exec($ch);
+                
+                curl_close($ch);   
+
+
+
+                $cart_array['ishipping_data'] = json_decode($result);
+                
+
+                $res['status'] = 1;
+                $res['message'] = ' Showing cart items ';
+                $res['cart_total'] = $cart_array;
+                $res['cart_data'] = $cartContent ;
+
+            }else{
+                //error address
+                $res['status'] = 0;
+                $res['message'] = 'Please add Address first';
+            }
+
+       
+        }else{
+            $res['status'] = 0;
+            $res['message'] = ' Cart is empty ';
+        }
+        exit(json_encode($res)); 
+    }
+
+
+
+
+
+
     public function add_address(){
         // echo "<pre>"; print_r($_POST);die;
         $addressArr1 = array();
