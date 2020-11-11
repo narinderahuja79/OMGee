@@ -1,6 +1,6 @@
 <div>
 	<?php
-        if($this->crud_model->is_sale_of_vendor($sale_id,$this->session->userdata('vendor_id'))){
+        /*if($this->crud_model->is_sale_of_vendor($sale_id,$this->session->userdata('vendor_id'))){*/
         echo form_open(base_url() . 'vendor/sales/delivery_payment_set/' . $sale_id, array(
             'class' => 'form-horizontal',
             'method' => 'post',
@@ -50,7 +50,7 @@
         </div>
     </form>
     <?php
-        }
+        /*}*/
     ?>
 </div>
 <script type="text/javascript">
