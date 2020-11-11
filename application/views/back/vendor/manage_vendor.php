@@ -65,28 +65,31 @@
                                                 <span id="previewcompanyImg" ></span>
                                             </div>
                                         </div>
-                                        <div class="form-group btm_border">
-                                            <label class="col-sm-3 control-label"></label>
-                                            <div class="col-sm-6">
-                                                <?php 
-                                                    $images = explode(",",$row['company_image']);
-                                                    if($images)
-                                                    {
-                                                        foreach ($images as $row1)
-                                                        {
-                                                    ?>
-                                                        <div class="delete-div-wrap">
-                                                            <span class="close" >&times;</span>
-                                                            <div class="inner-div">
-                                                                <img class="img-responsive" width="100" src="<?php echo base_url(); ?>uploads/events_image/<?php echo $row1; ?> "alt="User_Image">
-                                                            </div>
-                                                        </div>
+                                       
+                                       
+                                            <div class="form-group btm_border">
+                                                <label class="col-sm-3 control-label"></label>
+                                                <div class="col-sm-6">
                                                     <?php 
+                                                        $images = explode(",",$row['company_image']);
+                                                        if($images)
+                                                        {
+                                                            foreach ($images as $row1)
+                                                            {
+                                                        ?>
+                                                            <div class="delete-div-wrap">
+                                                                <span class="close" >&times;</span>
+                                                                <div class="inner-div">
+                                                                    <img class="img-responsive" width="100" src="<?php echo base_url(); ?>uploads/events_image/<?php echo $row1; ?> "alt="User_Image">
+                                                                </div>
+                                                            </div>
+                                                        <?php 
+                                                            } 
                                                         } 
-                                                    } 
-                                                    ?>
+                                                        ?>
+                                                </div>
                                             </div>
-                                        </div>
+                                        
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label" >
                                             <?php echo translate('trading_name');?>
