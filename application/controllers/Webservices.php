@@ -2170,10 +2170,10 @@
                 
                 $cart_array['producttotal']  = $producttotal;
                 $cart_array['ship']  = $ship;
-                $cart_array['tax']  = currency($tax);
-                $cart_array['grand_total']  = currency($grand);
-                $cart_array['total_saving']  = currency($total_saving);
-                $cart_array['sub_total']  = currency($sub_total);
+                $cart_array['tax']  = $tax;
+                $cart_array['grand_total']  = $grand;
+                $cart_array['total_saving']  = $total_saving;
+                $cart_array['sub_total']  = $sub_total;
 
                 // echo currency($producttotal) . '-' . $ship . '-' . currency($tax) . '-' . currency($grand) . '-' . $count . '-' . currency($total_saving) . '-' . $total_cashback_discount . '-' . currency($sub_total) . '-' . $coupon_price . '-' . currency($total_promocode);
 
