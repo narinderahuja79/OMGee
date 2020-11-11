@@ -624,7 +624,7 @@
             if($wish=="yes"){
                 $is_wished='1';
             }else if($wish=="no"){
-                $is_wished='1';{
+                $is_wished='1';
             }
             // $results_array['orp']=$this->get_orp($row->bundle_sale1,$wholesale,$row->bundle_discount1,$row->limited_release);
             
@@ -706,7 +706,7 @@
                     if($wish=="yes"){
                         $is_wished='1';
                     }else if($wish=="no"){
-                        $is_wished='1';{
+                        $is_wished='1';
                     }
 
                     $resp['is_wished'] = $is_wished;
@@ -1303,7 +1303,7 @@
             if($wish=="yes"){
                 $is_wished='1';
             }else if($wish=="no"){
-                $is_wished='1';{
+                $is_wished='1';
             }
 
         
@@ -1365,7 +1365,7 @@
             if($wish=="yes"){
                 $is_wished='1';
             }else if($wish=="no"){
-                $is_wished='1';{
+                $is_wished='1';
             }
             $community_arr['is_wished']= $is_wished;
             $productKey = $this->searchArrayKeyVal("productid", $row['product_id'], $already_add_product_arr);
