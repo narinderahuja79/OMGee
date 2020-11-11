@@ -126,22 +126,6 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group btm_border" >
-                    <label class="col-sm-4 control-label" for="demo-hor-4"><?php echo translate('brand');?></label>
-                    <div class="col-sm-6">
-                    <select class="demo-chosen-select form-control" name="brand">
-                        <option value="">Select...</option>
-                        <?php
-                        $brands = $this->db->get_where('vendorbrands',array('user_id'=> $this->session->userdata('vendor_id')))->result_array();
-                        foreach ($brands as $key => $value) 
-                        {
-                            ?>
-                            <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
-                            <?php
-                        }
-                        ?>
-                    </select>
-                </div>
                    
                 </div>
                 <div class="form-group btm_border">
@@ -170,39 +154,39 @@
                 </div>
                 <div class="form-group btm_border" >
                     <label class="col-sm-4 control-label" for="demo-hor-5"><?php echo translate('wholesale (INCL GST + WET)');?></label>
-                    <div class="col-sm-6 customform">
-                        <span> $ </span>
-                        <input type="number" min="1" name="wholesale" class="form-control required">
+                    <div class="col-sm-6">
+                        <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                        <input type="number" min="1" name="wholesale" class="form-control required" style=" padding-left: 26px;padding-top: 3px;">
                     </div>
                 </div>
                 <div class="form-group btm_border" >
                     <label class="col-sm-4 control-label" for="demo-hor-5">Wholesale (EXCL WET & GST)</label>
-                    <div class="col-sm-6 customform">
-                        <span> $ </span>
-                        <input type="number" min="1" name="wholesale_EXCL_WET_GST" class="form-control required">
+                    <div class="col-sm-6">
+                         <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                        <input type="number" min="1" name="wholesale_EXCL_WET_GST" class="form-control required" style=" padding-left: 26px;padding-top: 3px;" >
                     </div>
                 </div>
                 
                 <div class="form-group btm_border" >
                     <label class="col-sm-1 control-label" for="demo-hor-5">  <?php echo translate('bundle_sale_price');?> (AUD)</label>
-                    <div class="col-sm-2 customform">
-                        <span> $ </span>
-                        <input type="number" min="1" name="sale_price_AU" class="form-control required" placeholder="If applicable">
+                    <div class="col-sm-2 ">
+                        <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                        <input type="number" min="1" name="sale_price_AU" class="form-control required" placeholder="If applicable" style=" padding-left: 26px;padding-top: 3px;">
                     </div>
                     <label class="col-sm-1 control-label" for="demo-hor-5">  <?php echo translate('bundle_sale_price');?> (HKD)</label>
-                    <div class="col-sm-2 customform">
-                        <span> $ </span>
-                        <input type="number" min="1" name="sale_price_HK" class="form-control" placeholder="If applicable">
+                    <div class="col-sm-2 ">
+                        <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                        <input type="number" min="1" name="sale_price_HK" class="form-control" placeholder="If applicable" style=" padding-left: 26px;padding-top: 3px;">
                     </div>
                     <label class="col-sm-1 control-label" for="demo-hor-5">  <?php echo translate('bundle_sale_price');?> (JP Yen)</label>
-                    <div class="col-sm-2 customform">
-                        <span> $ </span>
-                        <input type="number" min="1" name="sale_price_JP" class="form-control" placeholder="If applicable">
+                    <div class="col-sm-2 ">
+                        <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                        <input type="number" min="1" name="sale_price_JP" class="form-control" placeholder="If applicable" style=" padding-left: 26px;padding-top: 3px;">
                     </div>
                     <label class="col-sm-1 control-label" for="demo-hor-5"> <?php echo translate('bundle_sale_price');?> (SGD)</label>
-                    <div class="col-sm-2 customform">
-                        <span> $ </span>
-                        <input type="number" min="1" name="sale_price_SG" class="form-control" placeholder="If applicable">
+                    <div class="col-sm-2 ">
+                        <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                        <input type="number" min="1" name="sale_price_SG" class="form-control" placeholder="If applicable" style=" padding-left: 26px;padding-top: 3px;">
                     </div>
                 </div>
                 <div class="form-group btm_border" style="display: none;">
@@ -222,18 +206,19 @@
                 
                 <!-- test Percentage -->
                 <div class="form-group btm_border test_hide_show_field">
-
-                    <div class="form-group btm_border test_hide_show_field">
                         <div class="col-sm-3">
                             <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" class="form-control">
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" name="test_title_ch" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
+                            <input type="text" name="test_title_ch" id="demo-hor-65" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" name="test_title_jp" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
+                            <input type="text" name="test_title_jp" id="demo-hor-75" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
                         </div>
                     </div>
+                <div class="form-group btm_border test_hide_show_field">
+
+                    
 
                     <div class="col-sm-3">
                         <select name="test1_name" id="demo-hor-65"  class="form-control">
@@ -712,10 +697,7 @@
                     <div class="col-sm-3">
                         <select name="food_name1" class="form-control food_name" data-id="1">
                             <option value=""><?php echo "Pairing 1";//translate('food_pairing_1');?>...</option>
-                                <option value="Appetizer">Appetizers</option>
-                                <option value="Snacks">Snacks(peanuts,crackers)</option>
-                                <option value="Beef">Beef</option>
-                                <option value="Lamb">Lamb</option>
+                             <option value="Lamb">Lamb</option>
                               <option value="Veal">Veal</option>
                               <option value="Pork">Pork</option>
                               <option value="Game">Game(deer,venison)</option>
@@ -986,14 +968,15 @@
         </div>
         <div class="panel-footer">
             <div class="row">
-                <div class="col-md-11">
-                    <span class="btn btn-success btn-md btn-labeled fa fa-upload pull-right enterer" onclick="form_submit('product_add','<?php echo translate('product_has_been_uploaded!'); ?>');proceed('to_add');" ><?php echo translate('upload');?></span>
-                </div>
                 <div class="col-md-1">
                     <span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn pull-right" 
                         onclick="ajax_set_full('add','<?php echo translate('add_product'); ?>','<?php echo translate('successfully_added!'); ?>','product_add',''); "><?php echo translate('reset');?>
                     </span>
                 </div>
+                <div class="col-md-11">
+                    <span class="btn btn-success btn-md btn-labeled fa fa-upload pull-right enterer" onclick="form_submit('product_add','<?php echo translate('product_has_been_uploaded!'); ?>');proceed('to_add');" ><?php echo translate('upload');?></span>
+                </div>
+                
             </div>
         </div>
         </form>
@@ -1505,17 +1488,5 @@
         padding-bottom: 15px;   
     }
 
-    .customform span{
-        position: absolute;
-        top: 7px;
-        left: 28px;
-        color: grey;
-        font-weight: bold;
-    }
-
-    .customform .form-control{
-        padding-left: 26px;
-        padding-top: 3px;
-    }
 
 </style>

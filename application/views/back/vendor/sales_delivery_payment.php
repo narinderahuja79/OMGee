@@ -46,7 +46,25 @@
                     <textarea class="form-control textarea" name="comment"><?php echo $comment; ?></textarea>
                 </div>
             </div>
-
+             <div class="form-group">
+                <label class="col-sm-4 control-label" for="demo-hor-2"><?php echo translate('Shipping Company'); ?></label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="shipping_company" value="<?php echo $shipping_company; ?>">
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="col-sm-4 control-label" for="demo-hor-2"><?php echo translate('Tracking ID'); ?></label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="tracking_id" value="<?php echo $tracking_id; ?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="demo-hor-2"><?php echo translate('Dispatch date'); ?></label>
+                <div class="col-sm-6">
+                    <input type="date" class="form-control" name="dispatch_date" value="<?php echo $dispatch_date; ?>">
+                </div>
+            </div>
+            
         </div>
     </form>
     <?php

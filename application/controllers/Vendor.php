@@ -2237,56 +2237,52 @@ class Vendor extends CI_Controller
             }
             $this->db->where('sale_id', $para2);
             $this->db->delete('sale');
-        } elseif ($para1 == 'list') {
-            $all = $this->db->get_where('sale',array('payment_type' => 'go'))->result_array();
-            foreach ($all as $row) {
-                if((time()-$row['sale_datetime']) > 600){
-                    $this->db->where('sale_id', $row['sale_id']);
-                    $this->db->delete('sale');
-                }
-            }
-            $this->db->order_by('sale_id', 'desc');
-
-            // $all_sales = $this->db->get('sale')->result_array();
-            // if(!empty($all_sales)){
-            //     foreach($all_sales as )
-            // }
-
+        }
+        elseif ($para1 == 'list') 
+        {
+            $vendor_data = array("vendor"=>$this->session->userdata('vendor_id'),"status"=>"paid");
+            $array[] = json_encode($vendor_data);
 
             $productinfo = array();
             $sale=$this->Webservice_model->getDataFromTabel('sale', '*');
-            if(!empty($sale)){
-                foreach($sale as $key => $val){
+            if(!empty($sale))
+            {
+                foreach($sale as $key => $val)
+                {
                     if(!empty($val->product_details)){
-                        $saledata = json_decode($val->product_details);    
-                        $getCountry = !empty($val->shipping_address) ? json_decode($val->shipping_address) : "";    
 
-                        $country = !empty($getCountry) ? $getCountry->country : "";
-                        foreach($saledata as $data){
-                            $saleArr = array();
+                        $sale_vendor_id = json_decode($val->payment_status);
+                        if($sale_vendor_id[0]->vendor == $this->session->userdata('vendor_id'))
+                        {
+                            $saledata = json_decode($val->product_details);    
+                            $getCountry = !empty($val->shipping_address) ? json_decode($val->shipping_address) : "";    
 
-                            $getoption = !empty($data->option) ? json_decode($data->option) : "";   
-                            if(!empty($getoption->productid)){
-                                $productInfo=$this->Webservice_model->getDataFromTabel('product', 'category,current_stock,title,wholesale,wholesale_EXCL_WET_GST,shipping_cost',array('product_id'=>$getoption->productid));
+                            $country = !empty($getCountry) ? $getCountry->country : "";
+                            foreach($saledata as $data){
+                                $saleArr = array();
 
-                                $productInfo = !empty($productInfo) ? $productInfo[0] : 0;
-                                $saleArr['product_id'] = $getoption->productid;
-                                $saleArr['country'] = $country;
-                                $saleArr['buyer'] = !empty($val->buyer) ?$val->buyer: "";
-                                $saleArr['sale_code'] = !empty($val->sale_code) ?$val->sale_code: "";
-                                $saleArr['sale_id'] = !empty($val->sale_id) ?$val->sale_id: "";
-                                $saleArr['grand_total'] = !empty($val->grand_total) ?$val->grand_total: "";
-                                $saleArr['sale_datetime'] = !empty($val->sale_datetime) ?$val->sale_datetime: "";
-                                $saleArr['qty'] = $data->qty;
-                                $saleArr['current_stock'] = !empty($cate_id) ? $cate_id->current_stock : 0;
-                                $saleArr['wholesale'] = !empty($productInfo) ? $productInfo->wholesale : 0;
-                                $saleArr['title'] = !empty($productInfo) ? $productInfo->title : "";
-                                $saleArr['wholesaleEXCLWETGST'] = !empty($productInfo) ? $productInfo->wholesale_EXCL_WET_GST : 0;
-                                $saleArr['shipping_cost'] = !empty($productInfo) ? $productInfo->shipping_cost : 0;
-                                $productinfo[]=$saleArr;
+                                $getoption = !empty($data->option) ? json_decode($data->option) : "";   
+                                if(!empty($getoption->productid)){
+                                    $productInfo=$this->Webservice_model->getDataFromTabel('product', 'category,current_stock,title,wholesale,wholesale_EXCL_WET_GST,shipping_cost',array('product_id'=>$getoption->productid));
+
+                                    $productInfo = !empty($productInfo) ? $productInfo[0] : 0;
+                                    $saleArr['product_id'] = $getoption->productid;
+                                    $saleArr['country'] = $country;
+                                    $saleArr['buyer'] = !empty($val->buyer) ?$val->buyer: "";
+                                    $saleArr['sale_code'] = !empty($val->sale_code) ?$val->sale_code: "";
+                                    $saleArr['sale_id'] = !empty($val->sale_id) ?$val->sale_id: "";
+                                    $saleArr['grand_total'] = !empty($val->grand_total) ?$val->grand_total: "";
+                                    $saleArr['sale_datetime'] = !empty($val->sale_datetime) ?$val->sale_datetime: "";
+                                    $saleArr['qty'] = $data->qty;
+                                    $saleArr['current_stock'] = !empty($cate_id) ? $cate_id->current_stock : 0;
+                                    $saleArr['wholesale'] = !empty($productInfo) ? $productInfo->wholesale : 0;
+                                    $saleArr['title'] = !empty($productInfo) ? $productInfo->title : "";
+                                    $saleArr['wholesaleEXCLWETGST'] = !empty($productInfo) ? $productInfo->wholesale_EXCL_WET_GST : 0;
+                                    $saleArr['shipping_cost'] = !empty($productInfo) ? $productInfo->shipping_cost : 0;
+                                    $productinfo[]=$saleArr;
+                                }
                             }
-                        }
-
+                        }    
                     }
                     
                 }
@@ -2323,16 +2319,37 @@ class Vendor extends CI_Controller
             $page_data['payment_details'] = $this->db->get_where('sale', array(
                 'sale_id' => $para2
             ))->row()->payment_details;
+
+            $page_data['shipping_company'] = $this->db->get_where('sale', array(
+                'sale_id' => $para2
+            ))->row()->shipping_company;
+
+            $page_data['tracking_id'] = $this->db->get_where('sale', array(
+                'sale_id' => $para2
+            ))->row()->tracking_id;
+
+            $page_data['dispatch_date'] = $this->db->get_where('sale', array(
+                'sale_id' => $para2
+            ))->row()->dispatch_date;
+
+            
+            
             $delivery_status = json_decode($this->db->get_where('sale', array(
                 'sale_id' => $para2
             ))->row()->delivery_status,true);
-            foreach ($delivery_status as $row) {
-                if(isset($row['vendor'])){
-                    if($row['vendor'] == $this->session->userdata('vendor_id')){
+            foreach ($delivery_status as $row) 
+            {
+                if(isset($row['vendor']))
+                {
+                    if($row['vendor'] == $this->session->userdata('vendor_id'))
+                    {
                         $page_data['delivery_status'] = $row['status'];
-                        if(isset($row['comment'])){
+                        if(isset($row['comment']))
+                        {
                             $page_data['comment'] = $row['comment'];
-                        } else {
+                        }
+                        else
+                        {
                             $page_data['comment'] = '';
                         }
                     }
@@ -2341,21 +2358,27 @@ class Vendor extends CI_Controller
             $payment_status = json_decode($this->db->get_where('sale', array(
                 'sale_id' => $para2
             ))->row()->payment_status,true);
-            foreach ($payment_status as $row) {
-                if(isset($row['vendor'])){
-                    if($row['vendor'] == $this->session->userdata('vendor_id')){
+            foreach ($payment_status as $row) 
+            {
+                if(isset($row['vendor']))
+                {
+                    if($row['vendor'] == $this->session->userdata('vendor_id'))
+                    {
                         $page_data['payment_status'] = $row['status'];
                     }
                 }
             }
             
             $this->load->view('back/vendor/sales_delivery_payment', $page_data);
-        } elseif ($para1 == 'delivery_payment_set') {
+        }
+        elseif ($para1 == 'delivery_payment_set') 
+        {
             $delivery_status = json_decode($this->db->get_where('sale', array(
                 'sale_id' => $para2
             ))->row()->delivery_status,true);
             $new_delivery_status = array();
-            foreach ($delivery_status as $row) {
+            foreach ($delivery_status as $row) 
+            {
                 if(isset($row['vendor'])){
                     if($row['vendor'] == $this->session->userdata('vendor_id')){
                         $new_delivery_status[] = array('vendor'=>$row['vendor'],'status'=>$this->input->post('delivery_status'),'comment'=>$this->input->post('comment'),'delivery_time'=>time());
@@ -2383,24 +2406,34 @@ class Vendor extends CI_Controller
                     $new_payment_status[] = array('admin'=>'','status'=>$row['status']);
                 }
             }
-            var_dump($new_payment_status);
             $data['payment_status']  = json_encode($new_payment_status);
             $data['delivery_status'] = json_encode($new_delivery_status);
             $data['payment_details'] = $this->input->post('payment_details');
+            $data['shipping_company'] = $this->input->post('shipping_company');
+            $data['tracking_id'] = $this->input->post('tracking_id');
+            $data['dispatch_date'] = $this->input->post('dispatch_date');
             $this->db->where('sale_id', $para2);
             $this->db->update('sale', $data);
-        } elseif ($para1 == 'add') {
+        }
+        elseif ($para1 == 'add') 
+        {
             $this->load->view('back/vendor/sales_add');
-        } elseif ($para1 == 'total') {
+        }
+        elseif ($para1 == 'total')
+        {
             $sales = $this->db->get('sale')->result_array();
             $i = 0;
-            foreach($sales as $row){
-                if($this->crud_model->is_sale_of_vendor($row['sale_id'],$this->session->userdata('vendor_id'))){
+            foreach($sales as $row)
+            {
+                if($this->crud_model->is_sale_of_vendor($row['sale_id'],$this->session->userdata('vendor_id')))
+                {
                     $i++;
                 }
             }
             echo $i;
-        } else {
+        }
+        else
+        {
             $page_data['page_name']      = "sales";
             $page_data['all_categories'] = $this->db->get('sale')->result_array();
             $this->load->view('back/index', $page_data);
