@@ -1835,7 +1835,7 @@
             $res['message'] = 'Added to cart';
         }else{
             $whereIs = array('product_id'=>$product_id, 'user_id'=>$user_id);
-             ;
+            $returnData = $this->Webservice_model->update_data('forCart',$dataUp, $where);
 
             $res['status'] = 1;
             $res['message'] = 'Cart updated';
