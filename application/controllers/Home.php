@@ -2586,20 +2586,19 @@ class Home extends CI_Controller
                     }
                 }
             }
-            ?>
-            <?php
+
             $this->form_validation->set_rules('titlename', 'Title', 'required');
             $this->form_validation->set_rules('name', 'First Name', 'required');
             $this->form_validation->set_rules('titlename', 'Title', 'required');
             $this->form_validation->set_rules('email', 'Email', 'valid_email|required|is_unique[vendor.email]',array('required' => 'You have not provided %s.', 'is_unique' => 'This %s already exists.'));
-            $this->form_validation->set_rules('password1', 'Password', 'required|min_length[6]|max_length[20]|matches[password2]');
-            $this->form_validation->set_rules('password2', 'Confirm Password', 'required|min_length[6]|max_length[20]');
+            $this->form_validation->set_rules('password1', 'Password', 'required|matches[password2]');
+            $this->form_validation->set_rules('password2', 'Confirm Password', 'required');
             $this->form_validation->set_rules('address1', 'Address Line 1', 'required');
             $this->form_validation->set_rules('state', 'State', 'required');
             $this->form_validation->set_rules('country', 'Country', 'required');
             $this->form_validation->set_rules('city', 'City', 'required');
             $this->form_validation->set_rules('zip', 'Zip', 'required');
-            $this->form_validation->set_rules('terms_check', 'Terms & Conditions', 'required', array('required' => translate('I Accept Terms and Conditions for Vendor Agreement')));
+            $this->form_validation->set_rules('terms_check', 'Terms & Conditions', 'required', array('required' => translate('Vendor must Read & Tick Vendor Agreement("Before even can Create Account")')));
             if ($this->form_validation->run() == FALSE)
             {
                 echo validation_errors();
@@ -2680,11 +2679,11 @@ class Home extends CI_Controller
 
 
                                 $msg = 'done';
-                                if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
+                                /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
                                     $msg = 'done_but_not_sent';
                                 }else{
                                     $msg = 'done_and_sent';
-                                }
+                                }*/
                             }
                             echo $msg;
                         } else {
@@ -2788,7 +2787,7 @@ class Home extends CI_Controller
 
 
                             $msg = 'done';
-                            if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
+                            /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
                             {
                                if($this->email_model->vendor_reg_email_to_admin($data['email'], $password) == false){
                                     $msg = 'done_but_not_sent';
@@ -2797,7 +2796,7 @@ class Home extends CI_Controller
                                 }
                             }else{
                                 $msg = 'done_and_sent';
-                            }
+                            }*/
                         }
                         echo $msg;
                     }
