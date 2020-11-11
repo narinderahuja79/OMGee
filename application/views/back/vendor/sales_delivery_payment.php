@@ -41,7 +41,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label" for="demo-hor-2"><?php echo translate('details_on_delivery_status'); ?></label>
+                <label class="col-sm-4 control-label" for="demo-hor-2"><?php echo translate('details_dispatched_status'); ?></label>
                 <div class="col-sm-6">
                     <textarea class="form-control textarea" name="comment"><?php echo $comment; ?></textarea>
                 </div>
