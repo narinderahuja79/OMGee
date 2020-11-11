@@ -2711,7 +2711,7 @@ class Crud_model extends CI_Model
             }
             for($img=0; $img <= count($total_img['name']); $img++) 
             { 
-                $file_name = str_replace(' ', '',$total_img["name"][$img]);
+                $file_name = preg_replace("/\s+/", "", $total_img["name"][$img]);
                 $file_tmp = $total_img["tmp_name"][$img];
                 $ext=pathinfo($file_name,PATHINFO_EXTENSION);
 
@@ -2728,7 +2728,7 @@ class Crud_model extends CI_Model
         {
             for($img=0; $img <=count($total_img['name']); $img++) 
             { 
-                $file_name = $total_img["name"][$img];
+                $file_name = preg_replace("/\s+/", "",$total_img["name"][$img]);
                 $file_tmp = $total_img["tmp_name"][$img];
                 $ext=pathinfo($file_name,PATHINFO_EXTENSION);
 
