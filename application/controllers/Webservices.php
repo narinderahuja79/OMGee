@@ -1200,7 +1200,7 @@
                 $lat_sale_price2 = $total_orp*6;
                 $lat_sale_price3 = $total_orp*12;
 
-
+                 // $wholesale = $row['wholesale'];
 
                 // if($row['limited_release']=="Yes"){
                 //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
@@ -1223,6 +1223,8 @@
                 // $lat_sale_price2 = $total_orp*6;
                 // $lat_sale_price3 = $total_orp*12;
 
+                $community_arr['orp'] = $orp;
+
                 $community_arr['discount'] = (string)$discount;
                 $community_arr['Each'] = currency($orp *1);
                 $community_arr['Six'] = currency($orp *6); 
@@ -1244,6 +1246,16 @@
 
         // echo "<pre>"; print_r($results_array);die;
     }
+
+
+
+
+
+    // //brand list
+    // public function getFinalPrice(){
+        
+    // }
+
 
 
 
