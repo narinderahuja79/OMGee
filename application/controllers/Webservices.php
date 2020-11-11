@@ -3342,6 +3342,215 @@
 
 
 
+function check_out(){
+        $addressArr = array();
+        $amount =  $this->input->post('amount');
+        
+        $user_id =  $this->input->post('user_id');
+        $amount = $this->input->post('amount');
+        $stripe_token = $this->input->post('stripe_token');
+        $payment_type=$this->input->post('payment_type');
+        $query = "SELECT forCart_id,user_id,product_id,qty  FROM `forCart` WHERE user_id =".$user_id;
+        $SQL = $this->db->query($query);
+        $carted = $SQL->result_array();
+
+
+        // $total    = $this->cart->total();
+        $exchange = exchange('usd');
+        $vat_per  = '';
+        $vat      = $this->crud_model->cart_total_it('tax');
+        
+        // $shipping = ($this->session->userdata('ishipping_total_price')) ? $this->session->userdata('ishipping_total_price') : 0;
+        $grand_total     = $total + $shipping;
+        $product_details = json_encode($carted);
+    
+        if ($payment_type == 'wallet') {
+            $balance = $this->wallet_model->user_balance();
+            $balance = !empty($balance) ? $balance : "10000";
+            
+            if($balance >= $grand_total){
+                $data['buyer']             = $user_id;
+                $data['product_details']   = $product_details;
+                $data['shipping_address']  = json_encode($addressArr);
+                $data['vat']               = !empty($vat) ? $vat : '0';
+                $data['vat_percent']       = !empty($vat_per) ? $vat_per : '0';
+                $data['shipping']          = $shipping;
+                $data['delivery_status']   = '[]';
+                $data['payment_type']      = 'wallet';
+                $data['payment_status']    = '[]';
+                $data['payment_details']   = '';
+                $data['grand_total']       = $grand_total;
+                $data['sale_datetime']     = time();
+                $data['delivary_datetime'] = '';
+                $this->db->insert('sale', $data);
+                $sale_id  = $this->db->insert_id();
+                // $sale_id = "842";
+                $vendors = $this->crud_model->vendors_in_sale($sale_id);
+                
+                $delivery_status = array();
+                $payment_status = array();
+                foreach ($vendors as $p) {
+                    $delivery_status[] = array('vendor'=>$p,'status'=>'pending','delivery_time'=>'');
+                    $payment_status[] = array('vendor'=>$p,'status'=>'paid');
+                }
+                if($this->crud_model->is_admin_in_sale($sale_id)){
+                    $delivery_status[] = array('admin'=>'','status'=>'pending','delivery_time'=>'');
+                    $payment_status[] = array('admin'=>'','status'=>'paid');
+                }
+                $data['sale_code'] = date('Ym', $data['sale_datetime']) . $sale_id;
+                $data['delivery_status'] = json_encode($delivery_status);
+                $data['payment_status'] = json_encode($payment_status);
+
+
+                $this->db->where('sale_id', $sale_id);
+                $this->db->update('sale', $data);
+                $total_coupon_price = 0;
+
+                foreach ($carted as $value) {
+                    // $optiondata = json_decode($value['option'],true);
+                    // $total_coupon_price += $optiondata['coupon_price'];                            
+
+                    $this->crud_model->decrease_quantity($value['product_id'], $value['qty']);
+                    $data1['type']    = 'destroy';
+                    $data1['category']     = $this->db->get_where('product', array(
+                            'product_id' => $value['product_id']
+                        ))->row()->category;
+                        $data1['sub_category'] = $this->db->get_where('product', array(
+                            'product_id' => $value['product_id']
+                        ))->row()->sub_category;
+                    $data1['product']      = $value['product_id'];
+                    $data1['quantity']     = $value['qty'];
+                    $data1['total']        = 0;
+                    $data1['reason_note']  = 'sale';
+                    $data1['sale_id']      = $sale_id;
+                    $data1['datetime']     = time();
+
+
+                    $this->db->insert('stock', $data1);
+                }
+
+                // $this->wallet_model->reduce_user_balance($grand_total,$user_id);
+                // $this->crud_model->digital_to_customer($sale_id);
+                // $this->crud_model->email_invoice($sale_id);
+                // $this->cart->destroy();
+                // $this->session->set_userdata('couponer','');
+                //echo $sale_id;
+                // redirect(base_url() . 'home/thankyou/' . $sale_id, 'refresh');
+
+                
+                $this->Webservice_model->deleteRow('forCart',array('user_id'=>$user_id));
+
+                $res['status'] = 1;
+                $res['message'] = 'product checkout Successfully';
+
+                
+            } 
+        } else if ($payment_type == 'stripe') {
+            if(!empty($stripe_token)) {
+                // require_once(APPPATH . 'libraries/stripe-php/init.php');
+                // $stripe_api_key = $this->db->get_where('business_settings' , array('type' => 'stripe_secret'))->row()->value;
+                // \Stripe\Stripe::setApiKey($stripe_api_key); //system payment settings
+                // $customer_email = $this->db->get_where('user' , array('user_id' => $user_id))->row()->email;
+                // $customer = \Stripe\Customer::create(array(
+                //     'email' => $customer_email, // customer email id
+                //     'card'  => $stripe_token
+                // ));
+                // echo "<br>";
+                // echo "1";
+                // echo "<br>";
+                // $charge = \Stripe\Charge::create(array(
+                //     'customer'  => $customer->id,
+                //     'amount'    => ceil($amount*100/$exchange),
+                //     'currency'  => 'USD'
+                // ));
+                // echo "<br>";
+                // echo "2";
+                // echo "<br>";
+                // if($charge->paid == true){
+                    // echo "<br>";
+                    // echo "3";
+                    // echo "<br>";
+                    $customer = (array) $customer;
+                    $charge = (array) $charge; 
+
+                    $data['product_details']   = $product_details;
+                    $data['shipping_address']  = "";
+                    $data['vat']               = !empty($vat) ? $vat : 0;
+                    $data['vat_percent']       = !empty($vat_per) ? $vat_per : 0;
+                    $data['shipping']          = !empty($shipping) ? $shipping : 0;
+                    $data['delivery_status']   = 'pending';
+                    $data['payment_type']      = 'stripe';
+                    $data['payment_status']    = 'paid';
+                    $data['buyer']             = $user_id; 
+                    // $data['payment_details']   = "Customer Info: \n".json_encode($customer,true)."\n \n Charge Info: \n".json_encode($charge,true);
+                    $data['grand_total']       = $grand_total;
+                    $data['sale_datetime']     = time();
+                    $data['delivary_datetime'] = '';
+                    
+                //      echo "<br>";
+                // echo "sale data";
+                // echo "<br>";
+                    // echo "<pre>";print_r($data);echo "<pre>";
+
+                    $this->db->insert('sale', $data);
+                        //echo $this->db->last_query();
+                    $sale_id = $this->db->insert_id();
+                        
+                    $vendors = $this->crud_model->vendors_in_sale($sale_id);
+                        
+                    //  echo "<br>";
+                    // echo "vendor";
+                    // echo "<br>";     
+                    // echo "<pre>";print_r($data);echo "<pre>";
+
+                    $delivery_status = array();
+                    $payment_status = array();
+
+                    foreach ($vendors as $p) {
+                        $delivery_status[] = array('vendor'=>$p,'status'=>'pending','comment'=> '','delivery_time'=>'');
+                        $payment_status[] = array('vendor'=>$p,'status'=>'paid');
+                    }
+                    // echo "<br>";
+                    // echo "45";
+                    // echo "<br>";  
+                    if($this->crud_model->is_admin_in_sale($sale_id)){
+                        $delivery_status[] = array('admin'=>'','status'=>'pending','comment'=> '','delivery_time'=>'');
+                        $payment_status[] = array('admin'=>'','status'=>'paid');
+                    }
+                    // echo "<br>";
+                    // echo "55";
+                    // echo "<br>";  
+                    $data['sale_code'] = date('Ym', $data['sale_datetime']) . $sale_id;
+                    $data['delivery_status'] = json_encode($delivery_status);
+                    $data['payment_status'] = json_encode($payment_status);
+                    // echo "<br>";
+                    // echo "60";
+                    // echo "<br>";  
+
+                    // if($data['sale_code']){
+                    //     $data['ishipping_request_response'] = $this->send_order_ishipping($data['sale_code'],$user_id);
+                    // }
+                    $this->db->where('sale_id', $sale_id);
+                    $this->db->update('sale', $data);
+
+                    // echo "<br>";
+                    // echo "final";
+                    // echo "<br>";  
+                    $total_coupon_price = 0;
+                    $this->Webservice_model->deleteRow('forCart',array('user_id'=>$user_id));
+                // }
+                    // $this->cart->destroy();
+                     
+                $res['status'] = 1;
+                $res['message'] = 'product checkout Successfully';
+            }else{
+                $res['status'] = 0;
+                $res['message'] = 'Invalid stripe token';
+            }
+        }
+        exit(json_encode($res)); 
+    }
+    
 
 
 
