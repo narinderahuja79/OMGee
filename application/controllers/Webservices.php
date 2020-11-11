@@ -620,12 +620,12 @@
             $results_array['wine_test'] = $newarr2;
 
             $wish = $this->Webservice_model->is_wished($row->product_id,$user_id); 
-            if(!empty($wish)){
+            $is_wished='0';
+            if($wish=="yes"){
                 $is_wished='1';
-            }else{
-                $is_wished='0';
+            }else if($wish=="no"){
+                $is_wished='1';{
             }
-
             // $results_array['orp']=$this->get_orp($row->bundle_sale1,$wholesale,$row->bundle_discount1,$row->limited_release);
             
             //  $food_paring = array();
@@ -702,10 +702,11 @@
                     }
 
                     $wish = $this->Webservice_model->is_wished($pkey['product_id'],$user_id); 
-                    if(!empty($wish)){
+                    $is_wished='0';
+                    if($wish=="yes"){
                         $is_wished='1';
-                    }else{
-                        $is_wished='0';
+                    }else if($wish=="no"){
+                        $is_wished='1';{
                     }
 
                     $resp['is_wished'] = $is_wished;
@@ -1297,11 +1298,12 @@
 
 
             $wish = $this->Webservice_model->is_wished($row['product_id'],$user_id); 
-            
-            if(!empty($wish)){
+            // echo "<pre>"; print_r($wish);die;
+            $is_wished='0';
+            if($wish=="yes"){
                 $is_wished='1';
-            }else{
-                $is_wished='0';
+            }else if($wish=="no"){
+                $is_wished='1';{
             }
 
         
@@ -1359,10 +1361,11 @@
 
             $wish = $this->Webservice_model->is_wished($row['product_id'],$user_id); 
             // $wish = $this->crud_model->is_wished($row['product_id']); 
-            if(!empty($wish)){
+            $is_wished='0';
+            if($wish=="yes"){
                 $is_wished='1';
-            }else{
-                $is_wished='0';
+            }else if($wish=="no"){
+                $is_wished='1';{
             }
             $community_arr['is_wished']= $is_wished;
             $productKey = $this->searchArrayKeyVal("productid", $row['product_id'], $already_add_product_arr);
@@ -1595,6 +1598,9 @@
 
     public function my_wish_list(){
         $user_id =  $this->input->post('user_id');
+        $currency_type = $this->input->post('currency_type');
+        $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
+
         // $language_type = $this->input->post('language_type');
         $where = array('user_id'=>$user_id);
         $wishlistData = $this->Webservice_model->get_data_where('user',$where);
@@ -1606,6 +1612,21 @@
                 $resp = array();  
                 $productInfo=$this->Webservice_model->getDataFromTabel('product', '*', array('product_id'=>$key));
                 if(!empty($productInfo)){
+
+                    $default_price = !empty($productInfo[0]->sale_price_AU) ? $productInfo[0]->sale_price_AU : '0';
+                    if($currencyType=="AUD"){
+                        $sale_price = $default_price;
+                    }else if($currencyType=="HKD"){
+                        $sale_price = !empty($productInfo[0]->sale_price_HK) ? $productInfo[0]->sale_price_HK : $default_price;
+                    }else if($currencyType=="JPY"){
+                        $sale_price = !empty($productInfo[0]->sale_price_JP) ? $productInfo[0]->sale_price_JP : $default_price;
+                    }else if($currencyType=="SGD"){
+                        $sale_price = !empty($productInfo[0]->sale_price_SG) ? $productInfo[0]->sale_price_SG : $default_price;
+                    }else{
+                        $sale_price = $default_price;
+                    }
+
+
                     if($productInfo[0]->num_of_imgs !=NULL){
                         $num_of_img = explode(",", $productInfo[0]->num_of_imgs); 
                         $first_image = base_url('uploads/product_image/'.$productInfo[0]->num_of_imgs);
@@ -1622,9 +1643,9 @@
                     $resp['product_image'] = $first_image;
                     $resp['title'] = $productInfo[0]->title;
                     $resp['product_status'] = $in_stock;
-                    $resp['product_price'] = $productInfo[0]->bundle_sale1;
-                    $resp['discount_price'] = $productInfo[0]->bundle_discount1;
-                    $resp['rating'] = '0';
+                    $resp['product_price'] = $sale_price;
+                    $resp['discount_price'] =$productInfo[0]->discount;
+                    $resp['rating'] = $this->crud_model->getProductRating($productInfo[0]->product_id);
                     
                     $response[] = $resp;
                 }
