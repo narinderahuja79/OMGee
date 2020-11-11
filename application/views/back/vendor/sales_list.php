@@ -81,7 +81,7 @@
                         data-original-title="Edit" data-container="body"><?php echo translate('view'); ?>
                 </a>
                 
-                <a class="btn btn-success btn-xs btn-labeled fa fa-usd" data-toggle="tooltip" 
+                <a class="btn btn-success btn-xs btn-labeled fa fa-wrench" data-toggle="tooltip" 
                     onclick="ajax_modal('delivery_payment','<?php echo translate('delivery_payment'); ?>','<?php echo translate('successfully_edited!'); ?>','delivery_payment','<?php echo $row['sale_id']; ?>')" 
                         data-original-title="Edit" data-container="body">
                             <?php echo translate('update'); ?>

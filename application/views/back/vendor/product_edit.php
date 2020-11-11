@@ -83,6 +83,25 @@
                                     <?php echo $this->crud_model->select_html('sub_category','sub_category','sub_category_name','edit','demo-chosen-select ',$row['sub_category'],'category',$row['category'],'get_brnd'); ?>
                                 </div>
                             </div>
+
+                            <div class="form-group btm_border" >
+                                <label class="col-sm-4 control-label" for="demo-hor-4"><?php echo translate('brand');?></label>
+                                <div class="col-sm-6" >
+                                    <select class="demo-chosen-select form-control required" name="brand">
+                                        <option value="">Select...</option>
+                                        <?php
+                                        $brands = $this->db->get_where('vendorbrands',array('user_id'=> $this->session->userdata('vendor_id')))->result_array();
+                                        foreach ($brands as $key => $value) 
+                                        {
+                                            ?>
+                                            <option <?php if($row['brand']==$value['id']) { echo "selected"; } ?>  value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="form-group btm_border">
                                 <label class="col-sm-4 control-label" for="demo-hor-84"><?php echo translate('variety');?></label>
                                 <div class="col-sm-6">
@@ -92,13 +111,13 @@
                             <div class="form-group btm_border">
                                 <label class="col-sm-3 control-label" for="demo-hor-1"><?php echo "Product Name"; ?></label>
                                 <div class="col-sm-3">
-                                    <input type="text" name="title" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" value="<?php echo $row['title']; ?>" class="form-control required">English
+                                    <input type="text" name="title" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" value="<?php echo $row['title']; ?>" class="form-control required"><span style="color: grey">English</span>
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="text" name="title_ch" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" value="<?php echo $row['title_ch']; ?>" class="form-control">Chinese
+                                    <input type="text" name="title_ch" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" value="<?php echo $row['title_ch']; ?>" class="form-control"><span style="color: grey">Chinese</span>
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="text" name="title_jp" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" value="<?php echo $row['title_jp']; ?>" class="form-control">Japanese
+                                    <input type="text" name="title_jp" id="demo-hor-1" placeholder="<?php echo "Product Name"; ?>" value="<?php echo $row['title_jp']; ?>" class="form-control"><span style="color: grey">Japanese</span>
                                 </div>
                             </div>
                             <div class="form-group btm_border">
@@ -199,19 +218,23 @@
                             <div class="form-group btm_border" >
                                 <label class="col-sm-1 control-label" for="demo-hor-5"><?php echo translate('bundle_sale_price');?> (AUD)</label>
                                 <div class="col-sm-2">
-                                    <input type="number" min="1" name="sale_price_AU" class="form-control required" value="<?php echo $row['sale_price_AU']; ?>"  placeholder="If applicable">
+                                    <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                                    <input type="number" min="1" name="sale_price_AU" class="form-control required" value="<?php echo $row['sale_price_AU']; ?>"  placeholder="If applicable" style=" padding-left: 26px;padding-top: 3px;">
                                 </div> 
                                 <label class="col-sm-1 control-label" for="demo-hor-5"><?php echo translate('bundle_sale_price');?> (HKD)</label>
                                 <div class="col-sm-2">
-                                    <input type="number" min="1" name="sale_price_HK" class="form-control" value="<?php echo $row['sale_price_HK']; ?>"  placeholder="If applicable">
+                                    <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                                    <input type="number" min="1" name="sale_price_HK" class="form-control" value="<?php echo $row['sale_price_HK']; ?>"  placeholder="If applicable" style=" padding-left: 26px;padding-top: 3px;">
                                 </div>
                                 <label class="col-sm-1 control-label" for="demo-hor-5"><?php echo translate('bundle_sale_price');?> (JP Yen)</label>
                                 <div class="col-sm-2">
-                                    <input type="number" min="1" name="sale_price_JP" class="form-control" value="<?php echo $row['sale_price_JP']; ?>"  placeholder="If applicable">
+                                    <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                                    <input type="number" min="1" name="sale_price_JP" class="form-control" value="<?php echo $row['sale_price_JP']; ?>"  placeholder="If applicable" style=" padding-left: 26px;padding-top: 3px;"> 
                                 </div>
                                 <label class="col-sm-1 control-label" for="demo-hor-5"><?php echo translate('bundle_sale_price');?> (SGD)</label>
                                 <div class="col-sm-2">
-                                    <input type="number" min="1" name="sale_price_SG" class="form-control" value="<?php echo $row['sale_price_SG']; ?>"  placeholder="If applicable">
+                                    <span style="position: absolute;top: 7px;left: 28px;color: grey;font-weight: bold;"> $ </span>
+                                    <input type="number" min="1" name="sale_price_SG" class="form-control" value="<?php echo $row['sale_price_SG']; ?>"  placeholder="If applicable" style=" padding-left: 26px;padding-top: 3px;">
                                 </div>                              
                             </div>
                             <div class="form-group btm_border"  style="display: none;">
@@ -228,11 +251,34 @@
                                </div>
                             </div>
 
-                            
                             <div class="form-group btm_border test_hide_show_field">
+                                <div class="col-sm-3">
+                                    <input type="text" name="test_title_en" id="demo-hor-55" placeholder="<?php echo translate('Taste Meter Rate English');?>" min="1" max="100" value="<?php echo $row['test_title_en']; ?>" class="form-control">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" name="test_title_ch" id="demo-hor-55" value="<?php echo $row['test_title_ch']; ?>" placeholder="<?php echo translate('Taste Meter Rate Chinese');?>" min="1" max="100" class="form-control">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" name="test_title_jp" id="demo-hor-55"  value="<?php echo $row['test_title_jp']; ?>" placeholder="<?php echo translate('Taste Meter Rate Japanese');?>" min="1" max="100" class="form-control">
+                                </div>
+                            </div> 
+                            <div class="form-group btm_border test_hide_show_field">
+
                     <div class="col-sm-3">
+                        
                         <select name="test1_name" id="demo-hor-65"  class="form-control">
                             <option value=""><?php echo translate('taste');?></option>
+                            <option <?php if($row['test1_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test1_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test1_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test1_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test1_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test1_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test1_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test1_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test1_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test1_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test1_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test1_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test1_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -241,9 +287,6 @@
                             <option <?php if($row['test1_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test1_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test1_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test1_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test1_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test1_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -264,6 +307,17 @@
                     <div class="col-sm-3">
                         <select name="test11_name" id="demo-hor-67"   class="form-control">
                             <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test11_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test11_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test11_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test11_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test11_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test11_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test11_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test11_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test11_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test11_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test11_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test11_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test11_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -272,9 +326,6 @@
                             <option <?php if($row['test11_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test11_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test11_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test11_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test11_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test11_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -297,6 +348,17 @@
                     <div class="col-sm-3">
                         <select name="test2_name" id="demo-hor-69"   class="form-control">
                             <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test2_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test2_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test2_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test2_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test2_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test2_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test2_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test2_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test2_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test2_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test2_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test2_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test2_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -305,9 +367,6 @@
                             <option <?php if($row['test2_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test2_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test2_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test2_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test2_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test2_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -328,6 +387,17 @@
                     <div class="col-sm-3">
                         <select name="test22_name" id="demo-hor-71"   class="form-control">
                             <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test22_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test22_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test22_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test22_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test22_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test22_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test22_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test22_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test22_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test22_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test22_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test22_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test22_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -336,9 +406,6 @@
                             <option <?php if($row['test22_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test22_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test22_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test22_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test22_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test22_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -361,6 +428,17 @@
                     <div class="col-sm-3">
                         <select name="test3_name" id="demo-hor-73"   class="form-control">
                             <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test3_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test3_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test3_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test3_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test3_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test3_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test3_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test3_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test3_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test3_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test3_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test3_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test3_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -369,9 +447,6 @@
                             <option <?php if($row['test3_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test3_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test3_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test3_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test3_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test3_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -392,6 +467,17 @@
                     <div class="col-sm-3">
                         <select name="test33_name" id="demo-hor-75"   class="form-control">
                             <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test33_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test33_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test33_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test33_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test33_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test33_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test33_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test33_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test33_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test33_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test33_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test33_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test33_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -400,9 +486,6 @@
                             <option <?php if($row['test33_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test33_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test33_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test33_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test33_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test33_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -425,6 +508,17 @@
                     <div class="col-sm-3">
                         <select name="test4_name" id="demo-hor-73"   class="form-control">
                             <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test4_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test4_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test4_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test4_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test4_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test4_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test4_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test4_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test4_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test4_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test4_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test4_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test4_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -433,9 +527,6 @@
                             <option <?php if($row['test4_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test4_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test4_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test4_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test4_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test4_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -456,6 +547,17 @@
                     <div class="col-sm-3">
                         <select name="test44_name" id="demo-hor-73"   class="form-control">
                             <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test44_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test44_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test44_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test44_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test44_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test44_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test44_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test44_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test44_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test44_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test44_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test44_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test44_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -464,9 +566,6 @@
                             <option <?php if($row['test44_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test44_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test44_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test44_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test44_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test44_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -488,7 +587,17 @@
                 <div class="form-group btm_border test_hide_show_field">
                     <div class="col-sm-3">
                         <select name="test5_name" id="demo-hor-73"   class="form-control">
-                            <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test5_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test5_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test5_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test5_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test5_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test5_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test5_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test5_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test5_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test5_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test5_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test5_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test5_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -497,9 +606,6 @@
                             <option <?php if($row['test5_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test5_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test5_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test5_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test5_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test5_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -520,6 +626,17 @@
                     <div class="col-sm-3">
                         <select name="test55_name" id="demo-hor-73"   class="form-control">
                             <option value=""><?php echo translate('taste');?>..</option>
+                            <option <?php if($row['test55_name'] == 'Wine') { echo  "selected"; } ?> value="Wine">Wine</option>
+                            <option <?php if($row['test55_name'] == 'Dry') { echo  "selected"; } ?> value="Dry">Dry</option>
+                            <option <?php if($row['test55_name'] == 'Sweet') { echo  "selected"; } ?> value="Sweet">Sweet</option>
+                            <option <?php if($row['test55_name'] == 'Fruity') { echo  "selected"; } ?> value="Fruity">Fruity</option>
+                            <option <?php if($row['test55_name'] == 'Citrus') { echo  "selected"; } ?> value="Citrus">Citrus</option>
+                            <option <?php if($row['test55_name'] == 'Floral') { echo  "selected"; } ?> value="Floral">Floral</option>
+                            <option <?php if($row['test55_name'] == 'Oak') { echo  "selected"; } ?> value="Oak">Oak</option>
+                            <option <?php if($row['test55_name'] == 'Creamy') { echo  "selected"; } ?> value="Creamy">Creamy</option>
+                            <option <?php if($row['test55_name'] == 'Rich') { echo  "selected"; } ?> value="Rich">Rich</option>
+                            <option <?php if($row['test55_name'] == 'Body') { echo  "selected"; } ?> value="Body">Body</option>
+
                             <option <?php if($row['test55_name'] == 'Sparkling') { echo  "selected"; } ?> value="Sparkling">Sparkling</option>
                             <option <?php if($row['test55_name'] == 'Dry White') { echo  "selected"; } ?> value="Dry White">Dry White</option>
                             <option <?php if($row['test55_name'] == 'Sweet White') { echo  "selected"; } ?> value="Sweet White">Sweet White</option>
@@ -528,9 +645,6 @@
                             <option <?php if($row['test55_name'] == 'Light Red') { echo  "selected"; } ?> value="Light Red">Light Red</option>
                             <option <?php if($row['test55_name'] == 'Medium Red') { echo  "selected"; } ?> value="Medium Red">Medium Red</option>
                             <option <?php if($row['test55_name'] == 'Bold Red') { echo  "selected"; } ?> value="Bold Red">Bold Red</option>
-                            <option <?php if($row['test55_name'] == 'Dessert') { echo  "selected"; } ?> value="Dessert">Dessert</option>
-                            <option <?php if($row['test55_name'] == 'Fortified') { echo  "selected"; } ?> value="Fortified">Fortified</option>
-                            <option <?php if($row['test55_name'] == 'Non-Alcohol') { echo  "selected"; } ?> value="Non-Alcohol">Non-Alcohol</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -601,7 +715,7 @@
                     </div>
                 </div>
                 <div class="form-group btm_border hide_show_field">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_preparation_1" class="form-control">
                             <option value="">Select <?php echo translate('food_preparation_1');?>...</option>
                             <option <?php if($row['food_preparation_1'] == 'Spicy') { echo "selected"; } ?> value="Spicy">Spicy</option>
@@ -627,7 +741,7 @@
                             <option  <?php if($row['food_preparation_1'] == 'Braised') { echo "selected"; } ?> value="Braised">Braised</option>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_origin_1" class="form-control">
                             <option value="">Select <?php echo translate('food_origin_1');?>...</option>
                             <option <?php if($row['food_origin_1'] == 'Chinese') { echo "selected"; } ?> value="Chinese">Chinese</option>
@@ -681,7 +795,7 @@
                     </div>
                 </div>
                 <div class="form-group btm_border hide_show_field">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_preparation_2" class="form-control">
                             <option value="">Select <?php echo translate('food_preparation_2');?>...</option>
                              <option <?php if($row['food_preparation_2'] == 'Spicy') { echo "selected"; } ?> value="Spicy">Spicy</option>
@@ -707,7 +821,7 @@
                             <option  <?php if($row['food_preparation_2'] == 'Braised') { echo "selected"; } ?> value="Braised">Braised</option>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_origin_2" class="form-control">
                             <option value="">Select <?php echo translate('food_origin_2');?>...</option>
                             <option <?php if($row['food_origin_2'] == 'Chinese') { echo "selected"; } ?> value="Chinese">Chinese</option>
@@ -761,7 +875,7 @@
                     </div>
                 </div>
                 <div class="form-group btm_border hide_show_field">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_preparation_3" class="form-control">
                             <option value="">Select <?php echo translate('food_preparation_3');?>...</option>
                              <option <?php if($row['food_preparation_3'] == 'Spicy') { echo "selected"; } ?> value="Spicy">Spicy</option>
@@ -787,7 +901,7 @@
                             <option  <?php if($row['food_preparation_3'] == 'Braised') { echo "selected"; } ?> value="Braised">Braised</option>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_origin_3" class="form-control">
                             <option value="">Select <?php echo translate('food_origin_3');?>...</option>
                             <option <?php if($row['food_origin_3'] == 'Chinese') { echo "selected"; } ?> value="Chinese">Chinese</option>
@@ -841,7 +955,7 @@
                     </div>
                 </div>
                 <div class="form-group btm_border hide_show_field">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_preparation_4" class="form-control">
                             <option value="">Select <?php echo translate('food_preparation_4');?>...</option>
                             <option <?php if($row['food_preparation_4'] == 'Spicy') { echo "selected"; } ?> value="Spicy">Spicy</option>
@@ -867,7 +981,7 @@
                             <option  <?php if($row['food_preparation_4'] == 'Braised') { echo "selected"; } ?> value="Braised">Braised</option>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="display: none;">
                         <select name="food_origin_4" class="form-control">
                             <option value="">Select <?php echo translate('food_origin_4');?>...</option>
                              <option <?php if($row['food_origin_4'] == 'Chinese') { echo "selected"; } ?> value="Chinese">Chinese</option>
@@ -926,12 +1040,12 @@
             </div>
             <div class="panel-footer">
                 <div class="row">
-                    <div class="col-md-11">
+                    <div class="col-md-1">
                         <span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn pull-right" 
                             onclick="ajax_set_full('edit','<?php echo translate('edit_product'); ?>','<?php echo translate('successfully_edited!'); ?>','product_edit','<?php echo $row['product_id']; ?>') "><?php echo translate('reset');?>
                         </span>
                      </div>
-                     <div class="col-md-1">
+                     <div class="col-md-11">
                         <span class="btn btn-success btn-md btn-labeled fa fa-wrench pull-right enterer" onclick="form_submit('product_edit','<?php echo translate('successfully_edited!'); ?>');proceed('to_add');" ><?php echo translate('edit');?></span> 
                      </div>
                 </div>

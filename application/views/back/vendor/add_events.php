@@ -1,3 +1,9 @@
+
+<style type="text/css">
+   .select2-selection--multiple .select2-search--inline .select2-search__field {
+width: auto !important;
+}
+</style>
 <div class="row">
     <div class="col-md-12">
         <?php
@@ -52,9 +58,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label"><?php echo translate('product');?></label>
+                    <label class="col-sm-4 control-label"><?php echo translate('Choose one or multiple products to promote');?></label>
                     <div class="col-sm-6">
-                        <select data-placeholder="<?php echo translate('Choose one or multiple products to promote');?>" name='choose_product[]' class="form-control chosen-select required" multiple tabindex="2" required>
+                        <select data-placeholder="<?php echo translate('Choose...');?>" name='choose_product[]' class="form-control chosen-select required" multiple tabindex="2" >
                             <?php
                                 $products = $this->db->get_where('product',array('added_by'=>json_encode(array('type'=>'vendor','id'=>$this->session->userdata('vendor_id')))))->result_array();
                                 foreach ($products as $row) 
@@ -267,7 +273,9 @@
     });    
     var $chosen = $('.chosen-select').chosen({
         max_selected_options: 10,
+        width: '100%'
     });
+    $('select').chosen({width: '100%'});
     
     $chosen.change(function () 
     {

@@ -456,6 +456,7 @@
 
                                      <div id="agreement" class="tab-pane fade">
                                             <p><?php echo date('h:m:s m-d-Y',$row['create_timestamp']); ?> You Have accepted vendor agreement <input type="checkbox" checked="checked" disabled="disabled"></p>
+                                            <a href="<?php echo base_url().'/uploads/WET_-_Bought_under_Quote.pdf'; ?>"  download ><u>WET bought under quote</u></a>
                                     </div>
                                     <!-- other details_end -->
                                     
