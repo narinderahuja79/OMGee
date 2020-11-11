@@ -452,10 +452,72 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                             <?php
                                             if($row['discount'] > 0)
                                             {
-                                                ?>
-                                            <td><del><?php echo currency($orp *1); ?></del></td>
-                                            <td><del><?php echo currency($orp *6); ?></del></td>
-                                            <td><del><?php echo currency($orp *12); ?></del></td>
+                                                if($this->session->userdata('currency') == '2')
+                                                {
+                                                    ?>
+                                                    <td><del><?php echo currency($orp *1); ?></del></td>
+                                                    <td><del><?php echo currency($orp *6); ?></del></td>
+                                                    <td><del><?php echo currency($orp *12); ?></del></td>
+                                                    <?php
+                                                }
+                                                if($this->session->userdata('currency') == '10')
+                                                {
+                                                    if($row['sale_price_HK'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency().$orp *1; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *6; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *12; ?></del></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency($orp *1); ?></del></td>
+                                                        <td><del><?php echo currency($orp *6); ?></del></td>
+                                                        <td><del><?php echo currency($orp *12); ?></del></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '13')
+                                                {
+                                                    if($row['sale_price_JP'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency().$orp *1; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *6; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *12; ?></del></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency($orp *1); ?></del></td>
+                                                        <td><del><?php echo currency($orp *6); ?></del></td>
+                                                        <td><del><?php echo currency($orp *12); ?></del></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '22')
+                                                {
+                                                    if($row['sale_price_SG'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency().$orp *1; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *6; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *12; ?></del></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency($orp *1); ?></del></td>
+                                                        <td><del><?php echo currency($orp *6); ?></del></td>
+                                                        <td><del><?php echo currency($orp *12); ?></del></td>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
                                             <?php
                                         }
                                         else
@@ -469,9 +531,73 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                         ?>
                                         </tr>
                                         <tr class="newpricetag">
-                                            <td><?php echo currency($lat_sale_price1); ?></td>
-                                            <td><?php echo currency($lat_sale_price2); ?></td>
-                                            <td><?php echo currency($lat_sale_price3); ?></td>
+                                            <?php
+                                                if($this->session->userdata('currency') == '2')
+                                                {
+                                                    ?>
+                                                    <td><?php echo currency($lat_sale_price1); ?></td>
+                                                    <td><?php echo currency($lat_sale_price2); ?></td>
+                                                    <td><?php echo currency($lat_sale_price3); ?></td>
+                                                    <?php
+                                                }
+                                                if($this->session->userdata('currency') == '10')
+                                                {
+                                                    if($row['sale_price_HK'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '13')
+                                                {
+                                                    if($row['sale_price_JP'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '22')
+                                                {
+                                                    if($row['sale_price_SG'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
                                         </tr>
                                     </table>
                                     <?php
@@ -696,14 +822,75 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                             <th class="text-center <?php if($row['discount'] == 0) { echo 'th_firstdata'; } ?>">Six</span></th>   
                                             <th class="text-center <?php if($row['discount'] == 0) { echo 'th_firstdata'; } ?>">Twelve</span></th>   
                                         </thead>
-                                        <tr>
-                                            <?php
-                                            if($row['discount'] >0)
+                                       <?php
+                                            if($row['discount'] > 0)
                                             {
-                                                ?>
-                                            <td><del><?php echo currency($orp *1); ?></del></td>
-                                            <td><del><?php echo currency($orp *6); ?></del></td>
-                                            <td><del><?php echo currency($orp *12); ?></del></td>
+                                                if($this->session->userdata('currency') == '2')
+                                                {
+                                                    ?>
+                                                    <td><del><?php echo currency($orp *1); ?></del></td>
+                                                    <td><del><?php echo currency($orp *6); ?></del></td>
+                                                    <td><del><?php echo currency($orp *12); ?></del></td>
+                                                    <?php
+                                                }
+                                                if($this->session->userdata('currency') == '10')
+                                                {
+                                                    if($row['sale_price_HK'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency().$orp *1; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *6; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *12; ?></del></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency($orp *1); ?></del></td>
+                                                        <td><del><?php echo currency($orp *6); ?></del></td>
+                                                        <td><del><?php echo currency($orp *12); ?></del></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '13')
+                                                {
+                                                    if($row['sale_price_JP'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency().$orp *1; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *6; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *12; ?></del></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency($orp *1); ?></del></td>
+                                                        <td><del><?php echo currency($orp *6); ?></del></td>
+                                                        <td><del><?php echo currency($orp *12); ?></del></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '22')
+                                                {
+                                                    if($row['sale_price_SG'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency().$orp *1; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *6; ?></del></td>
+                                                        <td><del><?php echo currency().$orp *12; ?></del></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><del><?php echo currency($orp *1); ?></del></td>
+                                                        <td><del><?php echo currency($orp *6); ?></del></td>
+                                                        <td><del><?php echo currency($orp *12); ?></del></td>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
                                             <?php
                                         }
                                         else
@@ -717,9 +904,73 @@ function searchArrayKeyVal($sKey, $id, $array) {
                                         ?>
                                         </tr>
                                         <tr class="newpricetag">
-                                            <td><?php echo currency($lat_sale_price1); ?></td>
-                                            <td><?php echo currency($lat_sale_price2); ?></td>
-                                            <td><?php echo currency($lat_sale_price3); ?></td>
+                                            <?php
+                                                if($this->session->userdata('currency') == '2')
+                                                {
+                                                    ?>
+                                                    <td><?php echo currency($lat_sale_price1); ?></td>
+                                                    <td><?php echo currency($lat_sale_price2); ?></td>
+                                                    <td><?php echo currency($lat_sale_price3); ?></td>
+                                                    <?php
+                                                }
+                                                if($this->session->userdata('currency') == '10')
+                                                {
+                                                    if($row['sale_price_HK'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '13')
+                                                {
+                                                    if($row['sale_price_JP'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '22')
+                                                {
+                                                    if($row['sale_price_SG'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
                                         </tr>
                                     </table>
                                     <?php

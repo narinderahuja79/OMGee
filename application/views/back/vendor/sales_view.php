@@ -1,6 +1,6 @@
 <?php
 	foreach($sale as $row){
-        if($this->crud_model->is_sale_of_vendor($row['sale_id'],$this->session->userdata('vendor_id'))){
+       /* if($this->crud_model->is_sale_of_vendor($row['sale_id'],$this->session->userdata('vendor_id'))){*/
         $info = json_decode($row['shipping_address'],true);
         //invoice and map
 ?>
@@ -289,7 +289,7 @@
 </script>
 
 <?php
-        }
+        /*}*/
 	}
 ?>
 <style>
