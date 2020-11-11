@@ -134,19 +134,19 @@
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description English</label>
                     <div class="col-sm-6">
-                        <textarea rows="5"  class="form-control required" name="description_en"></textarea>
+                        <textarea rows="5" maxlength="900" class="form-control required" name="description_en"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description Chinese</label>
                     <div class="col-sm-6">
-                        <textarea rows="5"  class="form-control" name="description_ch"></textarea>
+                        <textarea rows="5" maxlength="900"  class="form-control" name="description_ch"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description Japanese</label>
                     <div class="col-sm-6">
-                        <textarea rows="5"  class="form-control" name="description_jp"></textarea>
+                        <textarea rows="5" maxlength="900" class="form-control" name="description_jp"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border" >
@@ -1154,7 +1154,7 @@
         var paring = $(this).val();
         var Appetizer = ['antipesto.jpeg','Bread_dip.jpeg','Bruschetta.jpeg','curry_puff.jpeg','japanese_squid_ball_Takoyaki.jpeg','meatball.jpeg','mini_quiche_pastry.jpeg','nuts.jpeg','olives.jpeg','Pate.jpeg','rice-cracker.jpg','savoury_pastry.jpeg','smoked_salmon_cream_cheese.jpeg','soup.jpeg','spring_roll.jpeg','yum_cha_dim_sim.jpeg'];        
 
-        var Snacks=['antipesto.jpeg','Bread_dip.jpeg','Bruschetta.jpeg','curry puff.jpeg','japanese_squid_ball_Takoyaki.jpeg','meatball.jpeg','mini_quiche_pastry.jpeg','nuts.jpeg','olives.jpeg','Pate.jpeg','rice-cracker.jpg','savoury_pastry.jpeg','smoked_salmon_cream_cheese.jpeg','Soup.jpeg','spring_roll.jpeg','yum_cha_dim_sim.jpeg'];
+        var Snacks=['antipesto.jpeg','Bread_dip.jpeg','Bruschetta.jpeg','curry_puff.jpeg','japanese_squid_ball_Takoyaki.jpeg','meatball.jpeg','mini_quiche_pastry.jpeg','nuts.jpeg','olives.jpeg','Pate.jpeg','rice-cracker.jpg','savoury_pastry.jpeg','smoked_salmon_cream_cheese.jpeg','Soup.jpeg','spring_roll.jpeg','yum_cha_dim_sim.jpeg'];
         var Beef = ['BBQ_Grill.jpg','beef-rendang1.jpg','Curry_meat.jpg','Deep_fry_or_stir fry.jpeg','Grill_BBQ_Lamb.jpeg','Grill_BBQ_Roast.jpeg','hotpot_Lamb_Beef.jpeg','hot-pot-meat.jpg','lamb-shank.jpeg','Meat-salad.jpg','pie-pastry.jpg','skewer-Grill meat.jpeg','Smoked-meat.jpg','Stew.jpg','Stirfry_Spicy.jpeg','Waygu-Beef.jpeg'];
         var Lamb=['BBQ_Grill.jpg','beef-rendang1.jpg','Curry_meat.jpg','Deep_fry_or_stir_fry.jpeg','Grill_BBQ Lamb.jpeg','Grill_BBQ_Roast.jpeg','hotpot_Lamb_Beef.jpeg','hot-pot_meat.jpg','lamb_shank.jpeg','Meat_salad.jpg','pie_pastry.jpeg','skewer_Grill_meat.jpeg','Smoked_meat.jpg','Stew.jpg','Stirfry_Spicy.jpeg','Waygu_Beef.jpeg'];
         var Veal=['Babi_Kecap-pork_dish.jpeg','Chinese_BBQ_roast_pork.jpeg','crumbed_veal.jpeg','Deep_fried_Pork.jpeg','Pork_Belly.jpeg','pork_dumpling.jpeg','Pork Katsu_curry.jpg','Pork ribs.jpeg','Pork_Skwer.jpeg','Pork_stew.jpeg','pull_pork_salad.jpeg','roast_pork.jpeg','spicy_pork.jpeg','Steamed_poach_Boiled.jpg','stir_fry_pork_mince.jpeg','Veal.jpeg'];

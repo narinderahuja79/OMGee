@@ -214,18 +214,13 @@
                                         <div class="form-group btm_border">
                                             <h4 class="text-thin "><?php echo translate('add_brands'); ?></h4>
                                         </div>
-                                        <div class="col-sm-12">
-                                                    <div id="more_btn" class="btn btn-mint btn-labeled fa fa-plus pull-right">
-                                                    <?php echo translate('add_more');?></div> 
-                                        </div>
                                           <div class="form-group">
                                                 <div class="col-sm-3">
-                                                    
-                                                    <input type="text" multiple name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control" >
+                                                    <input type="text" multiple name="brands1" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control" >
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="col-sm-13">
-                                                        <input type="file" name="brand_image[]" onchange="previewbrand(this);" id="demo-hor-inputpass0" class="form-control">
+                                                        <input type="file" name="brand_image1" id="demo-hor-inputpass0" class="form-control">
                                                         </span>
                                                     </div>
                                                 </div>
@@ -233,7 +228,7 @@
                                                     <?php
                                                         $categories = $this->db->get('category')->result_array();
                                                     ?>
-                                                    <select name="category[]" class="form-control">
+                                                    <select name="category" class="form-control category_name1" multiple="multiple">
                                                     <?php
                                                         foreach ($categories as $cat) {
                                                             ?>  
@@ -242,6 +237,10 @@
                                                         }
                                                     ?>
                                                     </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="btn btn-mint add_brand"><?php echo translate('Add Brands');?></div> 
+                                                    <div id="more_btn" class="btn btn-mint btn-labeled fa fa-plus pull-right"><?php echo translate('add_more');?></div> 
                                                 </div>
                                             </div>
                                         <div id="more_additional_fields"></div>
@@ -254,12 +253,12 @@
                                             <div class="remove<?php echo $val['id']; ?>">
                                                 <div class="form-group">
                                                     <div class="col-sm-3">
-                                                        <input type="text" multiple name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control brands_name<?php echo $val['id']; ?>" value="<?php echo $val['name']; ?>">
+                                                        <input type="text" multiple name="brands" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control brands_name<?php echo $val['id']; ?>" value="<?php echo $val['name']; ?>">
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <div class="col-sm-13">
-                                                            <input type="file" name="brand_image[]" onchange="previewbrand(this);" id="demo-hor-inputpass0" class="form-control brand_image<?php echo $val['id']; ?>">
-                                                            <input type="hidden" name="last_brand_image[]" class="last_brand_image<?php echo $val['id']; ?>" value="<?php echo $val['image']; ?>">
+                                                            <input type="file" name="brand_image"  id="demo-hor-inputpass0" class="form-control brand_image<?php echo $val['id']; ?>">
+                                                            <input type="hidden" name="last_brand_image" class="last_brand_image<?php echo $val['id']; ?>" value="<?php echo $val['image']; ?>">
                                                             </span>
                                                             <br><br>
                                                             <?php if($val['image']) { ?>
@@ -272,7 +271,7 @@
                                                         <?php
                                                             $categories = $this->db->get('category')->result_array();
                                                         ?>
-                                                        <select name="category[]" class="form-control category_name<?php echo $val['id']; ?>" multiple="multiple">
+                                                        <select name="category" class="form-control category_name<?php echo $val['id']; ?>" multiple="multiple">
                                                         <?php
                                                             foreach ($categories as $cat) {
                                                                 ?>  
@@ -393,15 +392,7 @@
                                             </div>
                                         </div>
 
-                                       <!--  <div class="form-group btm_border">
-                                            <label class="col-sm-3 control-label">
-                                            <?php echo translate('category');?>
-                                            </label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="category" placeholder="<?php echo translate('category'); ?>" value="<?php echo ucwords($row['category']); ?>"  class="form-control">
-                                            </div>
-                                        </div>
-                                         -->
+                                     
                                         <div class="form-group btm_border">
                                             <label class="col-sm-3 control-label">
                                             <?php echo translate('minimum_wholesale_value_for_free_delivery_to_banksmeadow_NSW_2019');?>
@@ -920,36 +911,20 @@
         }
     }
 
-    /*window.previewbrand = function (input) 
+    var x=1;
+    $("#more_btn").click(function()
     {
-        console.log(input);
-        if (input.files && input.files[0]) 
-        {
-            $(".previewbrandImg").html('');
-            $(input.files).each(function () 
-            {
-                var reader = new FileReader();
-                reader.readAsDataURL(this);
-                reader.onload = function (e) {
-                    $(".previewbrandImg").append("<div style='float:left;border:4px solid #303641;padding:5px;margin:5px;'><img height='80' src='" + e.target.result + "'></div>");
-                }
-            });
-        }
-    }*/
-
-    var x=0;
-    $("#more_btn").click(function(){
         x++;
         $("#more_additional_fields").append('<div class="remove'+x+'">'
             +'<div class="form-group">'
             +'    <div class="col-sm-3  ">'
-            +'         <input type="text" name="brands[]" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control ">'
+            +'         <input type="text" name="brands'+x+'" placeholder="<?php echo translate('brand_name'); ?>"  class="form-control ">'
             +'    </div>'
             +'    <div class="col-sm-3">'
-            +'        <input type="file" name="brand_image[]" class="form-control">'
+            +'        <input type="file" name="brand_image'+x+'" class="form-control">'
             +'    </div>'
             +'    <div class="col-sm-3">'
-            +'        <select name="category[]" class="form-control" multiple="multiple">  <?php  foreach ($categories as $cat) { ?> <option value="<?php echo $cat['category_id'] ?>"><?php echo $cat['category_name'] ?></option>  <?php } ?></select>'
+            +'        <select  class="form-control category_name'+x+'"  multiple="multiple">  <?php  foreach ($categories as $cat) { ?> <option value="<?php echo $cat['category_id'] ?>"><?php echo $cat['category_name'] ?></option>  <?php } ?></select>'
             +'    </div>'
 
             +'    <div class="col-sm-2">'
@@ -957,8 +932,7 @@
             +'    </div>'
             +'</div>'
             +'</div>'
-        );
-        
+        );        
     });
     function delete_row(x)
     {
@@ -1039,6 +1013,56 @@
                 });
                 setTimeout(function(){ window.location.reload(); }, 3000);
  
+            } 
+        }); 
+           
+
+    });
+    $('.add_brand').click(function()
+    {
+        var here = $(this);
+        var total_brands = x;
+        var name = [];    
+        var category = []; 
+        var images = [];   
+        for(var i = 1; i <= total_brands; i++) 
+        {
+            name.push($('input[name="brands'+i+'"]').val());
+
+            var selected=[];
+            $('.category_name'+i+' :selected').each(function()
+            {
+                if($(this).val()  > 0)
+                {
+                    selected.push($(this).val());
+                }
+            });
+            category.push(selected);
+            selected=[];
+            images.push($('input[name="brand_image'+i+'"]')[0].files[0]);
+        }
+                
+        var fd = new FormData();
+        fd.append('brands',name);
+        fd.append('category',category);
+        fd.append('brand_image',images);
+
+        $.ajax({ 
+            url: base_url+user_type+'/manage_vendor/add_brand/', 
+            data : fd,
+            method : 'post',
+            contentType: false,
+            processData: false,
+            success: function(data)
+            { 
+                $.activeitNoty({ 
+                    type: 'success', 
+                    icon : 'fa fa-check', 
+                    message : 'Brand add Successfully', 
+                    container : 'floating', 
+                    timer : 3000 
+                });
+                //setTimeout(function(){ window.location.reload(); }, 3000);
             } 
         }); 
            
