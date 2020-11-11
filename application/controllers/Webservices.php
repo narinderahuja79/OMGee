@@ -1169,18 +1169,21 @@
             $community_arr['title'] = $row['title'];
             $community_arr['rrp'] = $row['bundle_sale1'];
                                 
-            if($row['bundle_qty1']){
-                $rrp = $row['bundle_sale1'];
+            if($row['sale_price_AU']){
+                $rrp = $row['sale_price_AU'];
 
                 $wholesale = $row['wholesale'];
-                $discount = ($row['bundle_discount1']) ? ($row['bundle_discount1']/100) : 0;
-                    
+                // $discount = ($row['bundle_discount1']) ? ($row['bundle_discount1']/100) : 0;
+                
 
+                $wholesale = $row['wholesale'];
+                $discount = ($row['discount']) ? ($row['discount']/100) : 0;
+                
                 if($row['limited_release']=="Yes"){
                     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
-                    
+                
                     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
-                }else{
+                } else {
                     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
                 
                     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
@@ -1191,11 +1194,34 @@
                 $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
                 $total_discount = $orp * $discount;
                 $total_orp = $orp - $total_discount;
-                
+            
 
                 $lat_sale_price1 = $total_orp*1;
                 $lat_sale_price2 = $total_orp*6;
                 $lat_sale_price3 = $total_orp*12;
+
+
+
+                // if($row['limited_release']=="Yes"){
+                //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
+                    
+                //     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
+                // }else{
+                //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
+                
+                //     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
+                // }
+
+                // $gap_revenue = $rrp - $wholesale;
+                // $gap_revenue_commission = $gap_revenue * $commission_amount;    
+                // $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
+                // $total_discount = $orp * $discount;
+                // $total_orp = $orp - $total_discount;
+                
+
+                // $lat_sale_price1 = $total_orp*1;
+                // $lat_sale_price2 = $total_orp*6;
+                // $lat_sale_price3 = $total_orp*12;
 
                 $community_arr['discount'] = (string)$discount;
                 $community_arr['Each'] = currency($orp *1);
