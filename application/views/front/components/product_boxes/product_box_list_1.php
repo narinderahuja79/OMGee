@@ -16,8 +16,8 @@
                                 {
                                     $first_image = base_url('uploads/product_image/default.jpg');
                                 }
-                            ?>
-                                <img class="first-img" src="<?php echo $first_image;?>" alt="">
+                                ?>
+                            <img class="first-img" src="<?php echo $first_image;?>" alt="">
                             </a>
                             <div class="quick-view">
                                 <a class="quick_view" href="#" data-link-action="quickview" title="Quick view" data-toggle="modal" data-target="#exampleModal">
@@ -25,45 +25,43 @@
                                 </a>
                             </div>
                         </div>
-                       
                         <ul class="product-flag tagpro ">
-                        <?php
-                        $latest=$this->crud_model->product_list_set('latest','');
-                            foreach($latest as $row)
-                            {
-                                if($product_id == $row['product_id'])
-                                {
-                                ?>    
-                                    <li class="new">New</li>
-                                <?php    
-                                }
-                            }
-                            ?>
-                           <?php
-                            $popular_products = $this->db->get_where('product',array('featured'=>'ok','status'=>'ok'))->result_array();
-                            foreach ($popular_products as $pdtvalue) 
-                            {
-                                if($product_id == $pdtvalue['product_id'])
-                                {
-                                ?>    
-                                    <li class="new">Popular</li>
-                                <?php    
-                                }
-                            }
-                            ?>
-
                             <?php
-                            $topdeal_products = $this->db->get_where('product',array('deal'=>'ok','status'=>'ok'))->result_array();
-                            foreach ($topdeal_products as $value) 
-                            {
-                                if($product_id == $value['product_id'])
-                                {
-                                ?>    
-                                    <li class="new">Top Deals</li>
-                                <?php    
+                                $latest=$this->crud_model->product_list_set('latest','');
+                                    foreach($latest as $row)
+                                    {
+                                        if($product_id == $row['product_id'])
+                                        {
+                                        ?>    
+                            <li class="new">New</li>
+                            <?php    
                                 }
-                            }
-                            ?>
+                                }
+                                ?>
+                            <?php
+                                $popular_products = $this->db->get_where('product',array('featured'=>'ok','status'=>'ok'))->result_array();
+                                foreach ($popular_products as $pdtvalue) 
+                                {
+                                    if($product_id == $pdtvalue['product_id'])
+                                    {
+                                    ?>    
+                            <li class="new">Popular</li>
+                            <?php    
+                                }
+                                }
+                                ?>
+                            <?php
+                                $topdeal_products = $this->db->get_where('product',array('deal'=>'ok','status'=>'ok'))->result_array();
+                                foreach ($topdeal_products as $value) 
+                                {
+                                    if($product_id == $value['product_id'])
+                                    {
+                                    ?>    
+                            <li class="new">Top Deals</li>
+                            <?php    
+                                }
+                                }
+                                ?>
                         </ul>
                     </div>
                 </div>
@@ -84,8 +82,9 @@
                                     {
                                         echo " ,".$sub_category;
                                     }
-                                ?>
-                            </a></h2>
+                                    ?>
+                                </a>
+                            </h2>
                             <div class="rating-product">
                                 <?php
                                     $recently_rating = $this->crud_model->getProductRating($product_id);
@@ -115,6 +114,11 @@
                                         if($this->session->userdata('currency') == '2')
                                         {
                                             $rrp = $sale_price_AU;
+                                            $wholesale = $wholesale;
+                                        }
+                                        else
+                                        {
+                                            $wholesale = $wholesale_EXCL_WET_GST;
                                         }
                                         if($this->session->userdata('currency') == '10')
                                         {
@@ -149,7 +153,7 @@
                                                 $rrp = $sale_price_AU;
                                             }
                                         }
-    
+                                    
                                         $wholesale = $wholesale;
                                         $discount = ($discount) ? ($discount/100) : 0;
                                         
@@ -165,52 +169,176 @@
                                         
                                             $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
                                         }
-
+                                    
                                         $gap_revenue = $rrp - $wholesale;
                                         $gap_revenue_commission = $gap_revenue * $commission_amount;    
                                         $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
                                         $total_discount = $orp * $discount;
                                         $total_orp = $orp - $total_discount;
                                     
-
+                                    
                                         $lat_sale_price1 = $total_orp*1;
                                         $lat_sale_price2 = $total_orp*6;
                                         $lat_sale_price3 = $total_orp*12;
-
+                                    
                                     ?>
-                                    <table class="table table-striped" width="100%">
-                                        <thead>
-                                            <th class="text-center <?php if($row['discount'] == 0) { echo 'th_firstdata'; } ?>">Each</span></th>   
-                                            <th class="text-center <?php if($row['discount'] == 0) { echo 'th_firstdata'; } ?>">Six</span></th>   
-                                            <th class="text-center <?php if($row['discount'] == 0) { echo 'th_firstdata'; } ?>">Twelve</span></th>   
-                                        </thead>
-                                        <tr>
-                                            <?php
-                                            if($discount > 0)
-                                            {
-                                                ?>
-                                            <td><del><?php echo currency($orp *1); ?></del></td>
-                                            <td><del><?php echo currency($orp *6); ?></del></td>
-                                            <td><del><?php echo currency($orp *12); ?></del></td>
-                                            <?php
-                                        }
-                                        else
-                                        {
-                                            ?>
-                                            <td><del></del></td>
-                                            <td><del></del></td>
-                                            <td><del></del></td>
-                                            <?php
-                                        }
-                                        ?>
-                                        </tr>
-                                        <tr class="newpricetag">
-                                            <td><?php echo currency($lat_sale_price1); ?></td>
-                                            <td><?php echo currency($lat_sale_price2); ?></td>
-                                            <td><?php echo currency($lat_sale_price3); ?></td>
-                                        </tr>
-                                    </table>
-                                    <?php   }  ?>
+                                <table class="table table-striped" width="100%">
+                                    <thead>
+                                        <th class="text-center <?php if($discount == 0) { echo 'th_firstdata'; } ?>">Each</span></th>
+                                        <th class="text-center <?php if($discount == 0) { echo 'th_firstdata'; } ?>">Six</span></th>
+                                        <th class="text-center <?php if($discount == 0) { echo 'th_firstdata'; } ?>">Twelve</span></th>
+                                    </thead>
+                                    <?php
+                        if($discount > 0)
+                        {
+                            if($this->session->userdata('currency') == '2')
+                            {
+                                ?>
+                                <td><del><?php echo currency($orp *1); ?></del></td>
+                                <td><del><?php echo currency($orp *6); ?></del></td>
+                                <td><del><?php echo currency($orp *12); ?></del></td>
+                                <?php
+                            }
+                            if($this->session->userdata('currency') == '10')
+                            {
+                                if($sale_price_HK > 0)
+                                {
+                                    ?>
+                                    <td><del><?php echo currency().$orp *1; ?></del></td>
+                                    <td><del><?php echo currency().$orp *6; ?></del></td>
+                                    <td><del><?php echo currency().$orp *12; ?></del></td>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <td><del><?php echo currency($orp *1); ?></del></td>
+                                    <td><del><?php echo currency($orp *6); ?></del></td>
+                                    <td><del><?php echo currency($orp *12); ?></del></td>
+                                    <?php
+                                }
+                            }
+                            if($this->session->userdata('currency') == '13')
+                            {
+                                if($sale_price_JP > 0)
+                                {
+                                    ?>
+                                    <td><del><?php echo currency().$orp *1; ?></del></td>
+                                    <td><del><?php echo currency().$orp *6; ?></del></td>
+                                    <td><del><?php echo currency().$orp *12; ?></del></td>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <td><del><?php echo currency($orp *1); ?></del></td>
+                                    <td><del><?php echo currency($orp *6); ?></del></td>
+                                    <td><del><?php echo currency($orp *12); ?></del></td>
+                                    <?php
+                                }
+                            }
+                            if($this->session->userdata('currency') == '22')
+                            {
+                                if($sale_price_SG > 0)
+                                {
+                                    ?>
+                                    <td><del><?php echo currency().$orp *1; ?></del></td>
+                                    <td><del><?php echo currency().$orp *6; ?></del></td>
+                                    <td><del><?php echo currency().$orp *12; ?></del></td>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <td><del><?php echo currency($orp *1); ?></del></td>
+                                    <td><del><?php echo currency($orp *6); ?></del></td>
+                                    <td><del><?php echo currency($orp *12); ?></del></td>
+                                    <?php
+                                }
+                            }
+                        ?>
+                        <?php
+                    }
+                    else
+                    {
+                        ?>
+                        <td><del></del></td>
+                        <td><del></del></td>
+                        <td><del></del></td>
+                        <?php
+                    }
+                    ?>
+                    </tr>
+                    <tr class="newpricetag">
+                        <?php
+                            if($this->session->userdata('currency') == '2')
+                            {
+                                ?>
+                                <td><?php echo currency($lat_sale_price1); ?></td>
+                                <td><?php echo currency($lat_sale_price2); ?></td>
+                                <td><?php echo currency($lat_sale_price3); ?></td>
+                                <?php
+                            }
+                            if($this->session->userdata('currency') == '10')
+                            {
+                                if($sale_price_HK > 0)
+                                {
+                                    ?>
+                                    <td><?php echo currency().$lat_sale_price1; ?></td>
+                                    <td><?php echo currency().$lat_sale_price2; ?></td>
+                                    <td><?php echo currency().$lat_sale_price3; ?></td>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <td><?php echo currency($lat_sale_price1); ?></td>
+                                    <td><?php echo currency($lat_sale_price2); ?></td>
+                                    <td><?php echo currency($lat_sale_price3); ?></td>
+                                    <?php
+                                }
+                            }
+                            if($this->session->userdata('currency') == '13')
+                            {
+                                if($sale_price_JP > 0)
+                                {
+                                    ?>
+                                    <td><?php echo currency().$lat_sale_price1; ?></td>
+                                    <td><?php echo currency().$lat_sale_price2; ?></td>
+                                    <td><?php echo currency().$lat_sale_price3; ?></td>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <td><?php echo currency($lat_sale_price1); ?></td>
+                                    <td><?php echo currency($lat_sale_price2); ?></td>
+                                    <td><?php echo currency($lat_sale_price3); ?></td>
+                                    <?php
+                                }
+                            }
+                            if($this->session->userdata('currency') == '22')
+                            {
+                                if($sale_price_SG > 0)
+                                {
+                                    ?>
+                                    <td><?php echo currency().$lat_sale_price1; ?></td>
+                                    <td><?php echo currency().$lat_sale_price2; ?></td>
+                                    <td><?php echo currency().$lat_sale_price3; ?></td>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <td><?php echo currency($lat_sale_price1); ?></td>
+                                    <td><?php echo currency($lat_sale_price2); ?></td>
+                                    <td><?php echo currency($lat_sale_price3); ?></td>
+                                    <?php
+                                }
+                            }
+                        ?>
+                                </table>
+                                <?php   }  ?>
                             </div>
                         </div>
                     </div>
