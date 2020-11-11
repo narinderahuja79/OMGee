@@ -22,7 +22,12 @@ class Email_model extends CI_Model
     
     
     function password_reset_email($account_type = '', $id = '', $pass = '')
-    {
+    {   
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
         //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -49,6 +54,10 @@ class Email_model extends CI_Model
 			$email_body      = str_replace('[[account_type]]',$account_type,$email_body);
 			$email_body      = str_replace('[[password]]',$pass,$email_body);
 			$email_body      = str_replace('[[from]]',$from_name,$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
 			
             $background = $this->db->get_where('ui_settings',array('type' => 'email_theme_style'))->row()->value;
 			if($background !== 'style_1'){
@@ -69,9 +78,9 @@ class Email_model extends CI_Model
     {
         //$this->load->database();
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.base_url().'uploads/logo_image/facebook_logo.png"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.base_url().'uploads/logo_image/instagram_logo.png"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.base_url().'uploads/logo_image/linkdin_logo.png"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.base_url().'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.base_url().'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.base_url().'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
 
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -103,7 +112,7 @@ class Email_model extends CI_Model
             }
 			$email_body      = $this->db->get_where('email_template', array('email_template_id' => 2))->row()->body;
             $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
-             $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
             $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
             $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
 			$email_body      = str_replace('[[to]]',$to_name,$email_body);
@@ -134,6 +143,11 @@ class Email_model extends CI_Model
     
     function membership_upgrade_email($vendor)
     {
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
         //$this->load->database();
         $account_type = 'vendor';
 
@@ -167,6 +181,10 @@ class Email_model extends CI_Model
 			$email_body      = str_replace('[[email]]',$to,$email_body);
 			$email_body      = str_replace('[[package]]',$package,$email_body);
 			$email_body      = str_replace('[[from]]',$from_name,$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
 			
             $background = $this->db->get_where('ui_settings',array('type' => 'email_theme_style'))->row()->value;
 			if($background !== 'style_1'){
@@ -186,6 +204,11 @@ class Email_model extends CI_Model
 
     function vendor_payment($vendor,$amount)
     {
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
         //$this->load->database();
         $account_type = 'vendor';
 
@@ -211,6 +234,10 @@ class Email_model extends CI_Model
             $email_body      = str_replace('[[vendor_name]]',$vendor_name,$email_body);
             $email_body      = str_replace('[[amount]]',$amount,$email_body);
             $email_body      = str_replace('[[from]]',$from_name,$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
             
             $background = $this->db->get_where('ui_settings',array('type' => 'email_theme_style'))->row()->value;
             if($background !== 'style_1'){
@@ -230,6 +257,11 @@ class Email_model extends CI_Model
 
     function membership_upgrade_email_to_admin($vendor)
     {
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
         //$this->load->database();
         $account_type = 'vendor';
 
@@ -265,6 +297,10 @@ class Email_model extends CI_Model
             $email_body      = str_replace('[[vendor_package]]',$package,$email_body);
             $email_body      = str_replace('[[package_amount]]',$amount,$email_body);
             $email_body      = str_replace('[[from]]',$from_name,$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
             
             $background = $this->db->get_where('ui_settings',array('type' => 'email_theme_style'))->row()->value;
             if($background !== 'style_1'){
@@ -286,9 +322,9 @@ class Email_model extends CI_Model
     {
         //$this->load->database();
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.base_url().'uploads/logo_image/facebook_logo.png"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.base_url().'uploads/logo_image/instagram_logo.png"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.base_url().'uploads/logo_image/linkdin_logo.png"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
 
 
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
@@ -366,6 +402,11 @@ class Email_model extends CI_Model
     }
     function withdrawal_amount($account_type = '', $id = '',$status = '', $amount = '')
     {
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
         if($protocol == 'smtp'){
@@ -387,6 +428,10 @@ class Email_model extends CI_Model
             $email_body      = str_replace('[[amount]]',$amount,$email_body);
             $email_body      = str_replace('[[status]]',$status,$email_body);
             $email_body      = str_replace('[[from]]',$from_name,$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
             
             $background = $this->db->get_where('ui_settings',array('type' => 'email_theme_style'))->row()->value;
             $to=$this->db->get_where('general_settings', array('type' => 'contact_email'))->row()->value;
@@ -411,6 +456,11 @@ class Email_model extends CI_Model
 
     function create_event($account_type = '', $email = '')
     {
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
         //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -441,6 +491,10 @@ class Email_model extends CI_Model
             $email_body      = str_replace('[[password]]',$pass,$email_body);
             $email_body      = str_replace('[[url]]',$url,$email_body);
             $email_body      = str_replace('[[from]]',$from_name,$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
             
             $background = $this->db->get_where('ui_settings',array('type' => 'email_theme_style'))->row()->value;
             if($background !== 'style_1'){
@@ -465,6 +519,11 @@ class Email_model extends CI_Model
 
     function vendor_event_email_to_admin($account_type = '',$email = '')
     {
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
        //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -497,6 +556,10 @@ class Email_model extends CI_Model
             $email_body      = str_replace('[[url]]',$url,$email_body);
             $email_body      = str_replace('[[email]]',$email,$email_body);
             $email_body      = str_replace('[[from]]',$from_name,$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
             
             $background = $this->db->get_where('ui_settings',array('type' => 'email_theme_style'))->row()->value;
             $to = $this->db->get_where('general_settings', array('type' => 'contact_email'))->row()->value;
@@ -521,6 +584,11 @@ class Email_model extends CI_Model
     }
     function approved_event($account_type = '', $email = '',$youtube_id = '', $youtube_password = '',$video_link = '')
     {
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
         //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -577,6 +645,11 @@ class Email_model extends CI_Model
  
     function vendor_reg_email_to_admin($email = '', $pass = '')
     {
+        $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        
        //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -611,6 +684,10 @@ class Email_model extends CI_Model
             $email_body      = str_replace('[[suburb]]',$suburb,$email_body);
             $email_body      = str_replace('[[state]]',$state,$email_body);
             $email_body      = str_replace('[[from]]',$from_name,$email_body);
+            $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
+            $email_body      = str_replace('[[fb_image_url]]',$fb_image_url,$email_body);
+            $email_body      = str_replace('[[insta_image_url]]',$insta_image_url,$email_body);
+            $email_body      = str_replace('[[linkdin_image_url]]',$linkdin_image_url,$email_body);
             
             $background = $this->db->get_where('ui_settings',array('type' => 'email_theme_style'))->row()->value;
             $to=$this->db->get_where('general_settings', array('type' => 'contact_email'))->row()->value;
@@ -638,6 +715,7 @@ class Email_model extends CI_Model
     
     function newsletter($title = '', $text = '', $email = '', $from = '')
     {
+
         $from_name  = $this->db->get_where('general_settings', array('type' => 'system_name'))->row()->value;
         $this->do_email($from, $from_name, $email, $title, $text);
     }
@@ -646,7 +724,7 @@ class Email_model extends CI_Model
     function email_invoice($sale_id){
         $CI =& get_instance();
         $CI->load->model('crud_model');
-        
+
         $from_name  = $this->db->get_where('general_settings', array('type' => 'system_name'))->row()->value;
         $protocol   = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
         if($protocol == 'smtp'){

@@ -12491,3 +12491,8 @@ textarea {
     background-image: linear-gradient(to right, #f6da76 0%, #c8a233 51%, #f6da76 100%) !important;
 
 }
+
+/*Add by prashant use in controller*/
+.controller_error {
+     color: red;
+}
