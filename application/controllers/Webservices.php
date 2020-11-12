@@ -3535,7 +3535,7 @@ function check_out(){
 
 
             if($data['sale_code']){
-                $data['ishipping_request_response'] = $this->send_order_ishipping($data['sale_code'],$_POST);
+                $data['ishipping_request_response'] = ""; //$this->send_order_ishipping($data['sale_code'],$_POST);
             }
             $this->db->where('sale_id', $sale_id);
             $this->db->update('sale', $data);
