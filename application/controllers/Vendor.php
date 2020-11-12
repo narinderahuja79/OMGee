@@ -1040,6 +1040,9 @@ class Vendor extends CI_Controller
                 $s_cat_name = $this->db->get_where('sub_category',array('sub_category_id'=>$row['sub_category']))->row()->sub_category_name;
                 $res['sub-category'] = ucwords($s_cat_name);
 
+                $cat_name = $this->db->get_where('category',array('category_id'=>$row['category_id']))->row()->category_name;
+                $res['category'] = ucwords($cat_name);
+
                 $res['variety'] = ucwords($row['variety']);
 
                 $res['whlsale_gst'] = $row['wholesale_EXCL_WET_GST'];

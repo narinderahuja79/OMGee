@@ -8,6 +8,9 @@
                 <th data-field="title" data-align="center" data-sortable="true">
                     <?php echo translate('product');?><br> Name
                 </th>
+                <th data-field="category" data-align="center" data-sortable="true">
+                    <?php echo translate('category');?><br> 
+                </th>
                 <th data-field="sub-category" data-align="center" data-sortable="true">
                     <?php echo translate('sub');?><br> Category
                 </th>
