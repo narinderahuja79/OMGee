@@ -72,7 +72,7 @@
                                 <div class="row">
                                     <div class="col-sm-4 selectpro">
                                         <div class="select-wrapper">
-                                            <select name="titlename">
+                                            <select name="titlename" id="title">
                                                 <option value="">Title</option>
                                                 <option value="Mr">Mr</option>
                                                 <option value="Miss">Miss</option>
@@ -81,12 +81,13 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-8"> 
-                                        <input name="name" type="text" placeholder="First Name">
+                                        <input name="name" type="text" id="firstname" placeholder="First Name" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-4"> 
-                                <input name="last_name" type="text" placeholder=" Last Name">
+                                <input name="last_name" type="text" id="lastname" placeholder=" Last Name">
+                                <span class="last_name"></span>
                             </div>
                             <div class="col-sm-6">
                                 <!-- <label><?php echo translate('company');?></label> -->
@@ -98,12 +99,12 @@
                             </div>
                             <div class="col-sm-6">
                                 <!-- <label>Email Address</label> -->
-                                <input name="website" type="email" placeholder="Website">
+                                <input name="website" type="email"  placeholder="Website">
                             </div>
                             <div class="col-sm-6"></div>
                             <div class="col-sm-6">
                                 <!--<label>Address Line 1</label>   -->
-                                <textarea name="address1" placeholder="<?php echo translate('address_line_1');?>" rows="3"></textarea>
+                                <textarea name="address1" id="address1" placeholder="<?php echo translate('address_line_1');?>" rows="3"></textarea>
                             </div>
                             <div class="col-sm-6">
                                 <!-- <label>Address Line 2</label>   -->
@@ -111,15 +112,15 @@
                             </div>
                             <div class="col-sm-6">
                                 <!--  <label>City</label> -->
-                                <input type="text" name="city" placeholder="<?php echo translate('suburb');?>">
+                                <input type="text" name="city" id="city" placeholder="<?php echo translate('suburb');?>">
                             </div>
                             <div class="col-sm-6">
                                 <!--  <label>State</label>  -->
-                                <input type="text" name="state" placeholder="<?php echo translate('state');?>">
+                                <input type="text" name="state" id="states" placeholder="<?php echo translate('state');?>">
                             </div>
                             <div class="col-sm-6">
                                 <!-- <label>Post Code</label>  -->
-                                <input type="text" name="zip" placeholder="<?php echo translate('Post Code');?>">
+                                <input type="text" name="zip" id="zip" placeholder="<?php echo translate('Post Code');?>">
                             </div>
                             <div class="col-sm-6 selectpro">
                                 <input type="hidden" name="country"value="Null">
@@ -149,7 +150,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input type="text" name="phone" placeholder="<?php echo translate('phone');?>"onkeypress="isInputNumber(event)">
+                                        <input type="text" id="phone" name="phone" placeholder="<?php echo translate('phone');?>"onkeypress="isInputNumber(event)">
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +158,7 @@
                                 <div class="row">
                                     <div class="col-sm-4 selectpro" style="display: none;">
                                         <div class="select-wrapper">
-                                            <select name="countrycode">
+                                            <select name="phone_code">
                                                 <option value="">Code</option>
                                                 <option value="61">(+61) Australia</option>
                                                 <option value="81">(+81) Japan</option>
@@ -173,13 +174,13 @@
                             </div>
                             <div class="col-sm-6">
                                 <!-- <label>Email Address</label> -->
-                                <input name="email" type="email" placeholder="<?php echo translate('email');?>">
+                                <input name="email" type="email" id="mail" placeholder="<?php echo translate('email');?>">
                             </div>
                             <div class="col-sm-6"></div>
                             <div class="col-sm-6">
                                 <!-- <label>Password</label>  -->
                                 <div class="passfield">
-                                    <input type="password" name="password1" minlength="6" id="password1" placeholder="<?php echo translate('password');?>" />
+                                    <input type="password" name="password1" id="pass1" minlength="6" id="password1" placeholder="<?php echo translate('password');?>" />
                                     <i class="fa fa-eye password1" onclick="rpassword_hideshow()"></i>
                                 </div>
                                
@@ -187,7 +188,7 @@
                             <div class="col-sm-6">
                                 <!--  <label>Confirm Password</label>  -->
                                 <div class="passfield">
-                                    <input type="password" name="password2" minlength="6" id="password2" placeholder="<?php echo translate('confirm_password');?>" />
+                                    <input type="password" name="password2" id="pass2" minlength="6" id="password2" placeholder="<?php echo translate('confirm_password');?>" />
                                     <i class="fa fa-eye password2" onclick="rcpassword_hideshow()"></i>
                                 </div>
                               
@@ -248,7 +249,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-5 offset-sm-7">
-                                <button type="button" class="btn signup logup_btn"onclick="if(!this.form.checkbox.checked){alert('Vendor must Read & Tick Vendor Agreement('Before even can Create Account').');return false} ">Create Account</button>
+                                <button id="submit"  onsubmit="fName_Changed(this)"  type="button" class="btn signup logup_btn"onclick="if(!this.form.checkbox.checked){alert('Vendor must Read & Tick Vendor Agreement('Before even can Create Account').');return false} ">Create Account</button>
                             </div>
                         </div>
                         <hr>
@@ -300,5 +301,158 @@
     $(document).ready(function() {
         $('.mcat').select2();
     });
+
+    $('#submit').click(function(event) {
+
+      var firstname = $('#firstname').val();
+      var lastname = $('#lastname').val();
+      var title = $('#title').val();
+      var mail = $('#mail').val();
+      var pass1 = $('#pass1').val();
+      var pass2 = $('#pass2').val();
+
+      var mail = $('#mail').val();
+      var phone = $('#phone').val();
+      var address1 = $('#address1').val();
+      var city = $('#city').val();
+      var state = $('#states').val();
+
+    if (firstname.trim() == '')
+    {
+        $('#firstname').css({
+          'border': '1px solid red'
+        });
+    }
+    else{
+        $('#firstname').css({
+          'border': '1px solid #e2e2e2'
+        });
+    } 
+
+    if(phone.trim() == '')   
+    {    
+        $('#phone').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#phone').css({
+          'border': '1px solid #e2e2e2'
+        });
+    } 
+
+    if(lastname.trim() == '')  
+    {  
+        $('#lastname').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#lastname').css({
+          'border': '1px solid #e2e2e2'
+        });
+    } 
+
+    if(title.trim() == '')
+    {    
+        $('#title').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#title').css({
+          'border': '1px solid #e2e2e2'
+        });
+    }
+
+    if(mail.trim() == '')
+    {
+        $('#mail').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#mail').css({
+          'border': '1px solid #e2e2e2'
+        });
+    }
+
+    if(pass1.trim() == '')
+    {   
+        $('#pass1').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#pass1').css({
+          'border': '1px solid #e2e2e2'
+        });
+    }
+
+    if(pass2.trim() == '')
+    {
+        $('#pass2').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#pass2').css({
+          'border': '1px solid #e2e2e2'
+        });
+    }
+
+    if(zip.trim() == '')
+    {
+        $('#zip').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#zip').css({
+          'border': '1px solid #e2e2e2'
+        });
+    }
+
+    if(city.trim() == '')
+    {    
+        $('#city').css({
+          'border': '1px solid red'
+        });
+    }
+    if(state.trim() == '')
+    {
+        $('#states').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#states').css({
+          'border': '1px solid #e2e2e2'
+        });
+    }
+
+    if(address1.trim() == '')
+    {
+        $('#address1').css({
+          'border': '1px solid red'
+        });
+    }
+    else  
+    {    
+        $('#address1').css({
+          'border': '1px solid #e2e2e2'
+        });
+    }
+
+});
+
 
 </script>
