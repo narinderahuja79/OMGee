@@ -1546,6 +1546,92 @@
 
 
 
+
+
+
+
+
+
+
+
+    public function getSubcategoryProduct() {
+        $results_array = array();
+        $sub_category = $this->input->post('sub_category');
+
+        $currency_type = $this->input->post('currency_type');
+        $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
+
+        $product = $this->Webservice_model->getDataFromTabel('product','*', array('sub_category'=>$sub_category));
+        
+        // echo "<pre>"; print_r($product);die;
+        if(!empty($product)){
+            foreach ($product as $key) {
+                $respo = array();
+                // echo "<pre>"; print_r($key);die;
+         
+                $default_price = !empty($key->sale_price_AU) ? $key->sale_price_AU : '0';
+                if($currencyType=="AUD"){
+                    $sale_price = $default_price;
+                }else if($currencyType=="HKD"){
+                    $sale_price = !empty($key->sale_price_HK) ? $key->sale_price_HK : $default_price;
+                }else if($currencyType=="JPY"){
+                    $sale_price = !empty($key->sale_price_JP) ? $key->sale_price_JP : $default_price;
+                }else if($currencyType=="SGD"){
+                    $sale_price = !empty($key->sale_price_SG) ? $key->sale_price_SG : $default_price;
+                }else{
+                    $sale_price = $default_price;
+                }
+
+                $respo['product_id']   = $key->product_id;
+                $respo['title']   = $key->title;
+                $respo['description'] = $key->description;
+                $respo['sale_price'] = $sale_price;
+                $respo['rating'] = $this->crud_model->getProductRating($key->product_id);
+
+                // $bundle_sale1=!empty($key->bundle_sale1)?$key->bundle_sale1:0;
+                $wholesale=!empty($key->wholesale)?$key->wholesale:0;
+                $discount=!empty($key->discount)?$key->discount:0;
+                $limited_release=!empty($key->limited_release)?$key->limited_release:0;
+                // $respo['rrp'] = $sale_price;
+                $orpData = $this->get_orp($sale_price,$wholesale,$discount,$limited_release);
+
+
+                $orp = !empty($orpData['orp']) ? $orpData['orp'] : '0';
+                $discount_orp = !empty($orpData['discount_orp']) ? $orpData['discount_orp'] : '0';
+
+
+                $respo['discount_orp'] = $discount_orp;
+                $respo['orp'] = $orp;
+
+
+
+                if(!empty($key->num_of_imgs)){
+                    $num_of_imgs = explode(",", $key->num_of_imgs); 
+                    // echo "<pre>"; print_r($num_of_imgs);die;
+                    $respo['image'] = base_url('uploads/product_image/'.$num_of_imgs[0]);
+                }else{
+                    $respo['image'] = base_url('uploads/product_image/default.jpg');
+                }
+                $results_array[] = $respo;
+            }
+            $res['status'] = 1;
+            $res['message'] = 'Data found'; 
+            $res['data'] = $results_array;    
+        }else{
+            $res['status'] = 0;
+            $res['message'] = 'Data not found'; 
+        }
+        exit(json_encode($res));
+    }
+
+
+
+
+
+
+
+
+
     // public function getFinalPrice(){
         
     // }
@@ -1557,6 +1643,7 @@
     //brand list
     public function brandList(){
         $brand = $this->Webservice_model->getDataFromTabel('brand','*');
+
         // echo "<pre>";print_r($brand);die();  
         $response = array();
         if(!empty($brand)){
