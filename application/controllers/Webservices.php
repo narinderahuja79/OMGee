@@ -3454,7 +3454,7 @@ function check_out(){
     $addressArr = array();
                 
     $user_id =  $this->input->post('user_id');
-    $amount = $this->input->post('amount');
+    $total = $this->input->post('amount');
     $stripe_token = $this->input->post('stripe_token');
     $payment_type=$this->input->post('payment_type');
     $currency_type = $this->input->post('currency_type');
