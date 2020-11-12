@@ -2598,7 +2598,7 @@ class Home extends CI_Controller
             $this->form_validation->set_rules('country', 'Country', 'required');
             $this->form_validation->set_rules('city', 'City', 'required');
             $this->form_validation->set_rules('zip', 'Zip', 'required');
-            $this->form_validation->set_rules('terms_check', 'Terms & Conditions', 'required', array('required' => translate('Vendor must Read & Tick Vendor Agreement("Before even can Create Account")')));
+            $this->form_validation->set_rules('terms_check', 'Terms & Conditions', 'required', array('required' => translate('I Accept Terms and Conditions for Vendor Agreement')));
             if ($this->form_validation->run() == FALSE)
             {
                 echo validation_errors();
@@ -2615,18 +2615,14 @@ class Home extends CI_Controller
 
                             $data['last_name']               = $this->input->post('last_name');
 
-
                              $data['mobile']               = $this->input->post('mobile');
 
-
-
                             $data['website']               = $this->input->post('website');
-
                               
                            $data['acn_and_abn']               = $this->input->post('abn');
 
-
                             $data['email']              = $this->input->post('email');
+                            $data['phone_code']         = $this->input->post('phone_code');
                             $data['phone']              = $this->input->post('phone');
                             $data['address1']           = $this->input->post('address1');
                             $data['address2']           = $this->input->post('address2');
@@ -2639,7 +2635,7 @@ class Home extends CI_Controller
                             $data['approve_timestamp']  = 0;
                             $data['approve_timestamp']  = 0;
                             $data['membership']         = 0;
-                            $data['status']             = 'complete';
+                            $data['status']             = 'pending';
                             $data['vendor_status']             = 'pending';
                             $data['verification_key'] = uniqid();
 
@@ -2666,24 +2662,14 @@ class Home extends CI_Controller
 
                                     }
 
-
-
                                 }
 
-
-
-
-
-
-
-
-
                                 $msg = 'done';
-                                /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
+                                if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
                                     $msg = 'done_but_not_sent';
                                 }else{
                                     $msg = 'done_and_sent';
-                                }*/
+                                }
                             }
                             echo $msg;
                         } else {
@@ -2700,20 +2686,13 @@ class Home extends CI_Controller
 
                           $data['mobile']               = $this->input->post('mobile');
 
-
-
                           $data['website']               = $this->input->post('website');  
-
 
 
                          $data['acn_and_abn']               = $this->input->post('abn');
 
-
-
-
-
-
                         $data['email']              = $this->input->post('email');
+                        $data['phone_code']              = $this->input->post('phone_code');
                         $data['phone']              = $this->input->post('phone');
                         $data['address1']           = $this->input->post('address1');
                         $data['address2']           = $this->input->post('address2');
@@ -2728,14 +2707,14 @@ class Home extends CI_Controller
                         $data['approve_timestamp']  = 0;
                         $data['membership']         = 0;
                         $data['vendor_status']             = 'pending';
-                        $data['status']             = 'complete';
+                        $data['status']             = 'pending';
                         $data['verification_key'] = uniqid();
                         
                         if ($this->input->post('password1') == $this->input->post('password2')) {
                             $password         = $this->input->post('password1');
                             $data['password'] = sha1($password);
                             $this->db->insert('vendor', $data);
-                           // echo $this->db->last_query();
+                           //echo $this->db->last_query();
 
 
 
@@ -2787,7 +2766,7 @@ class Home extends CI_Controller
 
 
                             $msg = 'done';
-                            /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
+                            if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
                             {
                                if($this->email_model->vendor_reg_email_to_admin($data['email'], $password) == false){
                                     $msg = 'done_but_not_sent';
@@ -2796,7 +2775,7 @@ class Home extends CI_Controller
                                 }
                             }else{
                                 $msg = 'done_and_sent';
-                            }*/
+                            }
                         }
                         echo $msg;
                     }
