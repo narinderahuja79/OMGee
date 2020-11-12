@@ -2301,28 +2301,28 @@
 
             
             // if(!empty($deliveryAdd)){
-                if(count($deliveryAdd)=='1'){
-                    $name =  $deliveryAdd[0]->name;
-                    $mobile =  $deliveryAdd[0]->mobile;
-                    $city =  $deliveryAdd[0]->city;
-                    $state =  $deliveryAdd[0]->state;
-                    $country =  $deliveryAdd[0]->country;
+                // if(count($deliveryAdd)=='1'){
+                //     $name =  $deliveryAdd[0]->name;
+                //     $mobile =  $deliveryAdd[0]->mobile;
+                //     $city =  $deliveryAdd[0]->city;
+                //     $state =  $deliveryAdd[0]->state;
+                //     $country =  $deliveryAdd[0]->country;
 
-                    $post_code =  $deliveryAdd[0]->post_code;
-                    $country_code =  $deliveryAdd[0]->country_code;
-                    $address1 =  $deliveryAdd[0]->address1;
+                //     $post_code =  $deliveryAdd[0]->post_code;
+                //     $country_code =  $deliveryAdd[0]->country_code;
+                //     $address1 =  $deliveryAdd[0]->address1;
 
-                }else{
-                    $name =  $deliveryAdd[1]->name;
-                    $mobile =  $deliveryAdd[1]->mobile;
-                    $city =  $deliveryAdd[1]->city;
-                    $state =  $deliveryAdd[1]->state;
-                    $country =  $deliveryAdd[1]->country;
+                // }else{
+                //     $name =  $deliveryAdd[1]->name;
+                //     $mobile =  $deliveryAdd[1]->mobile;
+                //     $city =  $deliveryAdd[1]->city;
+                //     $state =  $deliveryAdd[1]->state;
+                //     $country =  $deliveryAdd[1]->country;
 
-                    $post_code =  $deliveryAdd[1]->post_code;
-                    $country_code =  $deliveryAdd[1]->country_code;
-                    $address1 =  $deliveryAdd[1]->address1;
-                } 
+                //     $post_code =  $deliveryAdd[1]->post_code;
+                //     $country_code =  $deliveryAdd[1]->country_code;
+                //     $address1 =  $deliveryAdd[1]->address1;
+                // } 
 
                 // $Streetlines = array($address1);
                 // $data = array(
