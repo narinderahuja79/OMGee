@@ -969,7 +969,7 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-md-1">
-                    <span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn pull-right" 
+                    <span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn" 
                         onclick="ajax_set_full('add','<?php echo translate('add_product'); ?>','<?php echo translate('successfully_added!'); ?>','product_add',''); "><?php echo translate('reset');?>
                     </span>
                 </div>
