@@ -1026,7 +1026,7 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-md-1">
-                        <span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn pull-right" 
+                        <span class="btn btn-purple btn-labeled fa fa-refresh pro_list_btn" 
                             onclick="ajax_set_full('edit','<?php echo translate('edit_product'); ?>','<?php echo translate('successfully_edited!'); ?>','product_edit','<?php echo $row['product_id']; ?>') "><?php echo translate('reset');?>
                         </span>
                      </div>
