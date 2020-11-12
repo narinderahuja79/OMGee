@@ -2356,57 +2356,31 @@
             $deliveryAdd=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
 
             
-            // if(!empty($deliveryAdd)){
-                // if(count($deliveryAdd)=='1'){
-                //     $name =  $deliveryAdd[0]->name;
-                //     $mobile =  $deliveryAdd[0]->mobile;
-                //     $city =  $deliveryAdd[0]->city;
-                //     $state =  $deliveryAdd[0]->state;
-                //     $country =  $deliveryAdd[0]->country;
+            if(!empty($deliveryAdd)){
+                if(count($deliveryAdd)=='1'){
+                    $name =  $deliveryAdd[0]->name;
+                    $mobile =  $deliveryAdd[0]->mobile;
+                    $city =  $deliveryAdd[0]->city;
+                    $state =  $deliveryAdd[0]->state;
+                    $country =  $deliveryAdd[0]->country;
 
-                //     $post_code =  $deliveryAdd[0]->post_code;
-                //     $country_code =  $deliveryAdd[0]->country_code;
-                //     $address1 =  $deliveryAdd[0]->address1;
+                    $post_code =  $deliveryAdd[0]->post_code;
+                    $country_code =  $deliveryAdd[0]->country_code;
+                    $address1 =  $deliveryAdd[0]->address1;
 
-                // }else{
-                //     $name =  $deliveryAdd[1]->name;
-                //     $mobile =  $deliveryAdd[1]->mobile;
-                //     $city =  $deliveryAdd[1]->city;
-                //     $state =  $deliveryAdd[1]->state;
-                //     $country =  $deliveryAdd[1]->country;
+                }else{
+                    $name =  $deliveryAdd[1]->name;
+                    $mobile =  $deliveryAdd[1]->mobile;
+                    $city =  $deliveryAdd[1]->city;
+                    $state =  $deliveryAdd[1]->state;
+                    $country =  $deliveryAdd[1]->country;
 
-                //     $post_code =  $deliveryAdd[1]->post_code;
-                //     $country_code =  $deliveryAdd[1]->country_code;
-                //     $address1 =  $deliveryAdd[1]->address1;
-                // } 
+                    $post_code =  $deliveryAdd[1]->post_code;
+                    $country_code =  $deliveryAdd[1]->country_code;
+                    $address1 =  $deliveryAdd[1]->address1;
+                } 
 
-                // $Streetlines = array($address1);
-                // $data = array(
-                //     "api_key" =>"p6RertCvahmbQm28Byky",
-                //     "type" => "overseas",
-                //     "alcohol_list" => $alcohol_list,
-                //     "volume_list" => $volume_list,
-                //     "price_list" => $price_list,
-                //     "quantity_list" => $quantity_list,
-                //     "weight_list"=> $weight_list,
-                //     "category_product_list" => $category_product_list,
-                //     "category_product_sum" => 1,
-                //     "total_quantity" => 1,
-                //     "recipient_details" => array(
-                //         "PersonName" => $name,
-                //         "CompanyName" => "Google",
-                //         "PhoneNumber" => $mobile,
-                //         "Address" => array(
-                //             "Streetlines" => $Streetlines,
-                //             "City" => $city,
-                //             "StateOrProvinceCode" => $country_code,
-                //             "PostalCode" => $post_code,
-                //             "CountryCode" => $country_code,
-                //             "Residental" => false
-                //         )
-                //     )
-                // );
-                $Streetlines = array('3 Chome-5-4 Shinjuku, Shinjuku City, Tokyo 160-0022, Japan');
+                $Streetlines = array($address1);
                 $data = array(
                     "api_key" =>"p6RertCvahmbQm28Byky",
                     "type" => "overseas",
@@ -2419,19 +2393,46 @@
                     "category_product_sum" => 1,
                     "total_quantity" => 1,
                     "recipient_details" => array(
-                        "PersonName" => 'John William',
+                        "PersonName" => $name,
                         "CompanyName" => "Google",
-                        "PhoneNumber" => "0452593389",
+                        "PhoneNumber" => $mobile,
                         "Address" => array(
                             "Streetlines" => $Streetlines,
-                            "City" => "Tokyo",
-                            "StateOrProvinceCode" => "JP",
-                            "PostalCode" => "160-0022",
-                            "CountryCode" => "JP",
+                            "City" => $city,
+                            "StateOrProvinceCode" => $country_code,
+                            "PostalCode" => $post_code,
+                            "CountryCode" => $country_code,
                             "Residental" => false
                         )
                     )
                 );
+
+                // $Streetlines = array('3 Chome-5-4 Shinjuku, Shinjuku City, Tokyo 160-0022, Japan');
+                // $data = array(
+                //     "api_key" =>"p6RertCvahmbQm28Byky",
+                //     "type" => "overseas",
+                //     "alcohol_list" => $alcohol_list,
+                //     "volume_list" => $volume_list,
+                //     "price_list" => $price_list,
+                //     "quantity_list" => $quantity_list,
+                //     "weight_list"=> $weight_list,
+                //     "category_product_list" => $category_product_list,
+                //     "category_product_sum" => 1,
+                //     "total_quantity" => 1,
+                //     "recipient_details" => array(
+                //         "PersonName" => 'John William',
+                //         "CompanyName" => "Google",
+                //         "PhoneNumber" => "0452593389",
+                //         "Address" => array(
+                //             "Streetlines" => $Streetlines,
+                //             "City" => "Tokyo",
+                //             "StateOrProvinceCode" => "JP",
+                //             "PostalCode" => "160-0022",
+                //             "CountryCode" => "JP",
+                //             "Residental" => false
+                //         )
+                //     )
+                // );
 
 
                 $url = 'http://www.ishipping.com.au/API/V1/php/Rate/calculate_rate.php';
@@ -2449,10 +2450,12 @@
                 $result = curl_exec($ch);
                 
                 curl_close($ch);   
-
-
-
                 $cart_array['ishipping_data'] = json_decode($result);
+            }else{
+                $cart_array['ishipping_data'] = "";
+            }
+
+                
                 
 
                 $res['status'] = 1;
