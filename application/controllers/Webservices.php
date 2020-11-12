@@ -888,9 +888,10 @@
         // $events_array = array();
         $slider_array = array();
         
-        $cart_pro = $this->Webservice_model->getProductCount($user_id);
-        $results_array['total_cart_item'] = !empty($cart_pro[0]->qty) ? $cart_pro[0]->qty : 0;
-        // echo "<pre>"; print_r($cart_pro);die;
+
+        $cartitem = $this->Webservice_model->countResult('forCart', array('user_id' => $user_id));
+        $results_array['total_cart_item'] = !empty($cartitem) ? $cartitem : 0;
+        // echo "<pre>"; print_r($cartitem);die;
 
         $already_add_product_arr = array();
         $this->db->where('status','approved');
@@ -1894,11 +1895,10 @@
         $where = array('product_id'=>$product_id, 'user_id'=>$user_id);
         $cartData = $this->Webservice_model->get_data_where('forCart',$where);
 
-        
-        $cart_pro = $this->Webservice_model->getProductCount($user_id);
-        $res['total_cart_item'] = !empty($cart_pro[0]->qty) ? $cart_pro[0]->qty : 0;
 
-        
+        $cartitem = $this->Webservice_model->countResult('forCart', array('user_id' => $user_id));
+        $res['total_cart_item'] = !empty($cartitem) ? $cartitem : 0;
+
         if (empty($cartData)) {
             $rtrnInsertId = $this->Webservice_model->insert_data('forCart',$data);
             $res['status'] = 1;
@@ -3245,6 +3245,10 @@
         $product_id = $this->input->post('product_id');
         $where = array('user_id' => $user_id,'product_id' => $product_id);
         $affectedRows = $this->Webservice_model->deleteRow('forCart',$where);
+
+        $cartitem = $this->Webservice_model->countResult('forCart', array('user_id' => $user_id));
+        $res['total_cart_item'] = !empty($cartitem) ? $cartitem : 0;
+
         if($affectedRows == 1){
             $res['status'] = 1;
             $res['message'] = ' Successfully removed from cart';
