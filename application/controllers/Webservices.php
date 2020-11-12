@@ -2297,7 +2297,7 @@
             $category_product_list = array('WINE');
           
             
-            // $deliveryAdd=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
+            $deliveryAdd=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
 
             
             // if(!empty($deliveryAdd)){
