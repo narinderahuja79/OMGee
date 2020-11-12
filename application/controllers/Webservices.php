@@ -574,22 +574,36 @@
 
 
 
-            if($row->limited_release=="Yes"){
+            // if($row->limited_release=="Yes"){
+            //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
+            
+            //     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
+            // }else{
+            //     $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
+            
+            //     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
+            // }
+
+
+            // $discount = ($row['discount']) ? ($row['discount']/100) : 0;
+    
+
+            if($row->limited_release=="Yes")
+            {
                 $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_orp_commission_amount'))->row()->value)/100;
             
                 $commission_amount = ($this->db->get_where('business_settings', array('type' => 'limit_admin_commission_amount'))->row()->value)/100;   
-            }else{
+            }
+            else
+            {
                 $orp_commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_orp_commission_amount'))->row()->value)/100;
             
                 $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
             }
 
-
-
-
-            $results_array['each'] = $this->price_formula($rrp,$wholesale,$commission_amount,$orp_commission_amount,$discount)*1;
-            $results_array['six'] = $this->price_formula($rrp,$wholesale,$commission_amount,$orp_commission_amount,$discount)*6;
-            $results_array['twelve'] = $this->price_formula($rrp,$wholesale,$commission_amount,$orp_commission_amount,$discount)*12;
+            $results_array['each'] = $this->price_formula($sale_price,$wholesale,$commission_amount,$orp_commission_amount,$discount)*1;
+            $results_array['six'] = $this->price_formula($sale_price,$wholesale,$commission_amount,$orp_commission_amount,$discount)*6;
+            $results_array['twelve'] = $this->price_formula($sale_price,$wholesale,$commission_amount,$orp_commission_amount,$discount)*12;
 
 
 
@@ -1896,9 +1910,6 @@
         $cartData = $this->Webservice_model->get_data_where('forCart',$where);
 
 
-        $cartitem = $this->Webservice_model->countResult('forCart', array('user_id' => $user_id));
-        $res['total_cart_item'] = !empty($cartitem) ? $cartitem : 0;
-
         if (empty($cartData)) {
             $rtrnInsertId = $this->Webservice_model->insert_data('forCart',$data);
             $res['status'] = 1;
@@ -1911,6 +1922,11 @@
             $res['status'] = 1;
             $res['message'] = 'Cart updated';
         }
+
+        $cartitem = $this->Webservice_model->countResult('forCart', array('user_id' => $user_id));
+        $res['total_cart_item'] = !empty($cartitem) ? $cartitem : 0;
+
+        
          exit(json_encode($res));
     }
 
@@ -2095,6 +2111,9 @@
 
 
         $user_id =  $this->input->post('user_id');
+
+        $cartitem = $this->Webservice_model->countResult('forCart', array('user_id' => $user_id));
+
 
         $currency_type = $this->input->post('currency_type');
         $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
@@ -2383,6 +2402,8 @@
 
                 $res['status'] = 1;
                 $res['message'] = ' Showing cart items ';
+                $res['total_cart_item'] = !empty($cartitem) ? $cartitem : 0;
+
                 $res['cart_total'] = $cart_array;
                 $res['cart_data'] = $itemArr;
 
