@@ -528,6 +528,63 @@
     }
 
 
+
+
+
+
+    // function subcategoryProduct($search='',$filter="",$brand_id){
+    //   //$filter = newArrival,highToLow,lowToHigh,brands,atoz,ztoa,yearWine,abv,cashback,promotion
+    //   $this->db->select('product.*,brand.brand_id,brand.name as brand_name');
+    //   $this->db->from('product');
+    //   $this->db->join('brand','brand.brand_id = product.brand','left');
+    //   // $this->db->join('cities','cities.id = users.city_id','left');
+    //   if(!empty($brand_id) && $filter=='Brands'){
+    //     $this->db->where('brand.brand_id',$brand_id);  
+    //   }
+
+    //   if(!empty($brand_id) && $filter=='Brands'){
+    //     $this->db->where('brand.brand_id',$brand_id);  
+    //   }
+
+      
+    //   if(!empty($filter)){
+    //     if($filter=="NewArrivals"){
+    //       $newarrival="`product`.`created_date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY AND `created_date` < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY";
+
+    //       $this->db->where($newarrival);     
+    //     }else if($filter=="HighToLow"){
+    //       $this->db->order_by('product.bundle_sale1', 'DESC');
+    //     }else if($filter=="LowToHigh"){
+    //       $this->db->order_by('product.bundle_sale1', 'ASC');
+    //     }else if($filter=="AtoZ"){  
+    //       $this->db->order_by('product.title', 'ASC');
+    //     }else if($filter=="ZtoA"){  
+    //       $this->db->order_by('product.title', 'DESC');
+    //     }else if($filter=="Year"){  
+    //       $this->db->order_by('product.bundle_sale1', 'ASC');
+    //     }else if($filter=="ABV"){  
+    //       $this->db->order_by('product.bundle_sale1', 'ASC');
+    //     }else if($filter=="Cashback"){  
+    //       $this->db->order_by('product.bundle_sale1', 'ASC');
+    //     }else if($filter=="Promotion"){  
+    //       $this->db->order_by('product.bundle_sale1', 'ASC');
+    //     }
+    //   }else{
+    //     $this->db->order_by('product.product_id', 'DESC');        
+    //   }
+
+    //   if(!empty($search)){
+    //     $this->db->where("(product.title LIKE '%".$search."%' OR product.description LIKE '%".$search."%' OR product.bundle_sale1 LIKE '%".$search."%')", NULL, FALSE);  
+    //   }
+      
+    //   $query=$this->db->get(); 
+    //   // echo $this->db->last_query();die;
+    //   return $query->result();
+    // }
+
+
+
+
     public function vendorProductList($vendor_id)
     {
       $this->db->select('*');
