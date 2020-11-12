@@ -2598,7 +2598,7 @@ class Home extends CI_Controller
             $this->form_validation->set_rules('country', 'Country', 'required');
             $this->form_validation->set_rules('city', 'City', 'required');
             $this->form_validation->set_rules('zip', 'Zip', 'required');
-            $this->form_validation->set_rules('terms_check', 'Terms & Conditions', 'required', array('required' => translate('I Accept Terms and Conditions for Vendor Agreement')));
+            $this->form_validation->set_rules('terms_check', 'Terms & Conditions', 'required', array('required' => translate('Vendor must Read & Tick Vendor Agreement("Before even can Create Account")')));
             if ($this->form_validation->run() == FALSE)
             {
                 echo validation_errors();
@@ -2615,14 +2615,18 @@ class Home extends CI_Controller
 
                             $data['last_name']               = $this->input->post('last_name');
 
+
                              $data['mobile']               = $this->input->post('mobile');
 
+
+
                             $data['website']               = $this->input->post('website');
+
                               
                            $data['acn_and_abn']               = $this->input->post('abn');
 
+
                             $data['email']              = $this->input->post('email');
-                            $data['phone_code']         = $this->input->post('phone_code');
                             $data['phone']              = $this->input->post('phone');
                             $data['address1']           = $this->input->post('address1');
                             $data['address2']           = $this->input->post('address2');
@@ -2635,7 +2639,7 @@ class Home extends CI_Controller
                             $data['approve_timestamp']  = 0;
                             $data['approve_timestamp']  = 0;
                             $data['membership']         = 0;
-                            $data['status']             = 'pending';
+                            $data['status']             = 'complete';
                             $data['vendor_status']             = 'pending';
                             $data['verification_key'] = uniqid();
 
@@ -2662,14 +2666,24 @@ class Home extends CI_Controller
 
                                     }
 
+
+
                                 }
 
+
+
+
+
+
+
+
+
                                 $msg = 'done';
-                                if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
+                                /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
                                     $msg = 'done_but_not_sent';
                                 }else{
                                     $msg = 'done_and_sent';
-                                }
+                                }*/
                             }
                             echo $msg;
                         } else {
@@ -2686,13 +2700,20 @@ class Home extends CI_Controller
 
                           $data['mobile']               = $this->input->post('mobile');
 
+
+
                           $data['website']               = $this->input->post('website');  
+
 
 
                          $data['acn_and_abn']               = $this->input->post('abn');
 
+
+
+
+
+
                         $data['email']              = $this->input->post('email');
-                        $data['phone_code']              = $this->input->post('phone_code');
                         $data['phone']              = $this->input->post('phone');
                         $data['address1']           = $this->input->post('address1');
                         $data['address2']           = $this->input->post('address2');
@@ -2707,14 +2728,14 @@ class Home extends CI_Controller
                         $data['approve_timestamp']  = 0;
                         $data['membership']         = 0;
                         $data['vendor_status']             = 'pending';
-                        $data['status']             = 'pending';
+                        $data['status']             = 'complete';
                         $data['verification_key'] = uniqid();
                         
                         if ($this->input->post('password1') == $this->input->post('password2')) {
                             $password         = $this->input->post('password1');
                             $data['password'] = sha1($password);
                             $this->db->insert('vendor', $data);
-                           //echo $this->db->last_query();
+                           // echo $this->db->last_query();
 
 
 
@@ -2766,7 +2787,7 @@ class Home extends CI_Controller
 
 
                             $msg = 'done';
-                            if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
+                            /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
                             {
                                if($this->email_model->vendor_reg_email_to_admin($data['email'], $password) == false){
                                     $msg = 'done_but_not_sent';
@@ -2775,7 +2796,7 @@ class Home extends CI_Controller
                                 }
                             }else{
                                 $msg = 'done_and_sent';
-                            }
+                            }*/
                         }
                         echo $msg;
                     }
@@ -3761,8 +3782,8 @@ class Home extends CI_Controller
 
                     if($this->session->userdata('currency') == '2')
                     {
-                        $with_currency_saving = currency($saving);
-                        $with_currency_promocode = currency($promocode);
+                        $with_currency_saving = ($saving > 0) ? currency($saving) : '-';
+                        $with_currency_promocode = ($promocode > 0) ? currency($promocode) : '-';
                         $with_currency_total_sub_total_orp= currency($total_sub_total_orp);
                         $with_currency_rrp= currency($rrp);
                         $with_currency_orp= currency($orp);
@@ -3771,16 +3792,16 @@ class Home extends CI_Controller
                     {
                         if($product_details->sale_price_HK > 0)
                         {
-                            $with_currency_saving = currency().$saving;
-                            $with_currency_promocode = currency().$promocode;
+                            $with_currency_saving = ($saving > 0) ? currency().$saving : '-';
+                            $with_currency_promocode = ($promocode > 0) ? currency().$promocode : '-';
                             $with_currency_total_sub_total_orp= currency().$total_sub_total_orp;
                             $with_currency_rrp= currency().$rrp;
                             $with_currency_orp= currency().$orp;
                         }
                         else
                         {
-                            $with_currency_saving = currency($saving);
-                            $with_currency_promocode = currency($promocode);
+                            $with_currency_saving = ($saving > 0) ? currency($saving) : '-';
+                            $with_currency_promocode = ($promocode > 0) ? currency($promocode) : '-';
                             $with_currency_total_sub_total_orp= currency($total_sub_total_orp);
                             $with_currency_rrp= currency($rrp);
                             $with_currency_orp= currency($orp);
@@ -3790,16 +3811,16 @@ class Home extends CI_Controller
                     {
                         if($product_details->sale_price_JP > 0)
                         {
-                            $with_currency_saving = currency().$saving;
-                            $with_currency_promocode = currency().$promocode;
+                            $with_currency_saving = ($saving > 0) ? currency().$saving : '-';
+                            $with_currency_promocode = ($promocode > 0) ? currency().$promocode : '-';
                             $with_currency_total_sub_total_orp= currency().$total_sub_total_orp;
                             $with_currency_rrp= currency().$rrp;
                             $with_currency_orp= currency().$orp;
                         }
                         else
                         {
-                            $with_currency_saving = currency($saving);
-                            $with_currency_promocode = currency($promocode);
+                            $with_currency_saving = ($saving > 0) ? currency($saving) : '-';
+                            $with_currency_promocode = ($promocode > 0) ? currency($promocode) : '-';
                             $with_currency_total_sub_total_orp= currency($total_sub_total_orp);
                             $with_currency_rrp= currency($rrp);
                             $with_currency_orp= currency($orp);
@@ -3809,30 +3830,33 @@ class Home extends CI_Controller
                     {
                         if($product_details->sale_price_SG > 0)
                         {
-                            $with_currency_saving = currency().$saving;
-                            $with_currency_promocode = currency().$promocode;
+                            $with_currency_saving = ($saving > 0) ? currency().$saving : '-';
+                            $with_currency_promocode = ($promocode > 0) ? currency().$promocode : '-';
                             $with_currency_total_sub_total_orp= currency().$total_sub_total_orp;
                             $with_currency_rrp= currency().$rrp;
                             $with_currency_orp= currency().$orp;
                         }
                         else
                         {
-                            $with_currency_saving = currency($saving);
-                            $with_currency_promocode = currency($promocode);
+                            $with_currency_saving = ($saving > 0) ? currency($saving) : '-';
+                            $with_currency_promocode = ($promocode > 0) ? currency($promocode) : '-';
                             $with_currency_total_sub_total_orp= currency($total_sub_total_orp);
                             $with_currency_rrp= currency($rrp);
                             $with_currency_orp= currency($orp);
                         }
                     }
 
-                    if($discount > 0)
+
+                    $return  = array('discount' =>  $with_currency_saving,'promocode_price'=>$with_currency_promocode, 'subtotal'=> $with_currency_total_sub_total_orp,'rrp'=>$with_currency_rrp,'orp'=>$with_currency_orp,'rrp'=>$with_currency_rrp);
+
+                    /*if($discount > 0)
                     {                
                         $return  = array('discount' =>  $with_currency_saving,'promocode_price'=>$with_currency_promocode, 'subtotal'=> $with_currency_total_sub_total_orp,'rrp'=>$with_currency_rrp,'orp'=>$with_currency_orp,'rrp'=>$with_currency_rrp);
                     }
                     else
                     {
                         $return = array('discount'=>'','promocode_price'=>'','subtotal'=> $with_currency_total_sub_total_orp,'orp'=>$with_currency_orp,'rrp'=>$with_currency_rrp);
-                    }
+                    }*/
                 }
             }
             echo json_encode($return).'---'.$msg;
@@ -3987,7 +4011,9 @@ class Home extends CI_Controller
 
                     $promocode = ($variationqty_arr->promocode_cal_discount_price > 0) ? $variationqty_arr->promocode_cal_discount_price *$items['qty'] : 0;
 
-                    $saving = ($rrp - $orp)+$total_discount;
+
+
+                    $saving = ($rrp-$orp)+$total_discount;
 
                     $total_sub_total_orp = $orp - ($orp*($discount/100));
                                 
@@ -4034,7 +4060,6 @@ class Home extends CI_Controller
                     $coupon_price = currency($optiondata['coupon_price']);
                 
                 }
-
                 $ship  = currency($ship);
                 
                 $shipping = $this->session->userdata('ishipping_total_price');              
@@ -4823,7 +4848,7 @@ class Home extends CI_Controller
 
                         if($data['sale_code'])
                         {
-                        	$data['ishipping_request_response'] = $this->send_order_ishipping($data['sale_code'],$_POST);
+                            $data['ishipping_request_response'] = $this->send_order_ishipping($data['sale_code'],$_POST);
                         }
                         $this->db->where('sale_id', $sale_id);
                         $this->db->update('sale', $data);
@@ -6882,11 +6907,11 @@ class Home extends CI_Controller
         $shipping_price_arr = json_decode($result);
         if($shipping_price_arr->postage_result->status == 'success')
         {
-        	$shipping_price = $shipping_price_arr->postage_result->data->total_cost;
+            $shipping_price = $shipping_price_arr->postage_result->data->total_cost;
         }
         else
         {
-        	$shipping_price = 0;
+            $shipping_price = 0;
         }
 
         $this->session->set_userdata('ishipping_total_price',$shipping_price);
