@@ -205,16 +205,19 @@
                                     ?>
                                 <!--  Brand category -->       
                                 <div class="select-wrapper" id="select-wrapper">
-                                    <select  name="brandcategory[]" multiple="multiple"size="1">
-                                        <option value="wine">Wine</option>
-                                        <?php foreach($row->result() as $cat){
-                                            if($cat->category_name=="Wine"){    
-                                             continue;
-                                                }
-                                              else{
+                                    <select  name="brandcategory0[]" multiple="multiple"size="1">
+                                        <option value="23">Wine</option>
+                                        <?php foreach($row->result() as $cat)
+                                        {
+                                            if($cat->category_id=="23")
+                                            {    
+                                                continue;
+                                            }
+                                            else
+                                            {
                                             
                                             ?>
-                                        <option value="<?php  echo $cat->category_name; ?>"> <?php echo$cat->category_name; ?></option>
+                                        <option value="<?php  echo $cat->category_id; ?>"> <?php echo$cat->category_name; ?></option>
                                         <?php   } }  ?>
                                     </select>
                                 </div>
@@ -275,15 +278,16 @@
         var wrapper = $('.field_wrapper'); //Input field wrapper
         var fieldHTML = '<div><input type="text" name="brand[]" placeholder="Brand Name"value=""/><a href="javascript:void(0);" class="remove_button">  <img src="https://img.icons8.com/android/24/000000/minus.png" width="12"height="12"style="position:relative;right:-240px;top:-36px;"/></a></div>'; //New input field html 
         var x = 1; //Initial field counter is 1
-        
         //Once add button is clicked
         $(addButton).click(function(){
             //Check maximum number of input fields
-            if(x < maxField){ 
-                x++; //Increment field counter
+            if(x < maxField)
+            { 
+                 //Increment field counter
                 $(wrapper).append(fieldHTML); //Add field html
     
-                $('#select-wrapper').append("<div class='mcx'><Select name='brandcategory[]'' size='1'multiple><?php foreach($row->result() as $cat){?><option value'<?php  echo$cat->category_name?>'> <?php echo$cat->category_name; ?></option><?php   }   ?>?></Select></div>");
+                $('#select-wrapper').append("<div class='mcx'><Select name='brandcategory"+x+"[]'' size='1'multiple><?php foreach($row->result() as $cat){?><option value='<?php  echo $cat->category_id; ?>'> <?php echo$cat->category_name; ?></option><?php   }   ?>?></Select></div>");
+                x++;
             }
         });
         

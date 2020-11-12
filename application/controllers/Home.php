@@ -2669,21 +2669,12 @@ class Home extends CI_Controller
 
 
                                 }
-
-
-
-
-
-
-
-
-
                                 $msg = 'done';
-                                /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
+                                if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
                                     $msg = 'done_but_not_sent';
                                 }else{
                                     $msg = 'done_and_sent';
-                                }*/
+                                }
                             }
                             echo $msg;
                         } else {
@@ -2731,72 +2722,43 @@ class Home extends CI_Controller
                         $data['status']             = 'complete';
                         $data['verification_key'] = uniqid();
                         
-                        if ($this->input->post('password1') == $this->input->post('password2')) {
+                        if ($this->input->post('password1') == $this->input->post('password2')) 
+                        {
                             $password         = $this->input->post('password1');
                             $data['password'] = sha1($password);
                             $this->db->insert('vendor', $data);
-                           // echo $this->db->last_query();
-
-
-
-
-                               $newvendor_id=$this->db->insert_id();
+                             $newvendor_id=$this->db->insert_id();
 
                                 if(!empty($newvendor_id))
                                 {
-                                  $brand=$_POST["brand"];
-
-                                  $category_name=$_POST['brandcategory'];
-
-                              for($i=0;$i<count($brand);$i++) 
-                              {
-
-
-
-                                     $name=$brand[$i];
-
-
-                                     $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$name);
-
-                                      $this->db->insert('vendorbrands',$vendor_brands); 
-
-                                    $newbrand_id=$this->db->insert_id();
-
-                                    if(!empty($newbrand_id))
+                                    $brand=$_POST["brand"];
+                                    for($i=0;$i<=count($brand);$i++) 
                                     {
-                                        $category_name=$category_name[$i];
-                          $brandcategory=array('brand_id'=>$newbrand_id,'category_name'=>$category_name);
-
-                               $this->db->insert('brand_category',$brandcategory);
+                                        $categoryids = $_POST["brandcategory".$i][$i];
                                         
+                                        $name = $brand[$i];
+                                        
+                                        $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$name,'category'=>$categoryids);
+                                        $this->db->insert('vendorbrands',$vendor_brands);             
                                     }
-
-
-                                      
-                                  }
-
-
-                               /*   $vendor_brands=array('user_id'=>$newvendor_id,'name'=>$vendor_brands);
-
-
-                                  $this->db->insert('vendorbrands',$vendor_brands);  */
-
-
                                 }
-
-
-
                             $msg = 'done';
-                            /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
+
+                            if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
                             {
-                               if($this->email_model->vendor_reg_email_to_admin($data['email'], $password) == false){
+                                if($this->email_model->vendor_reg_email_to_admin($data['email'], $password) == false)
+                                {
                                     $msg = 'done_but_not_sent';
-                                }else{
+                                }
+                                else
+                                {
                                     $msg = 'done_and_sent';
                                 }
-                            }else{
+                            }
+                            else
+                            {
                                 $msg = 'done_and_sent';
-                            }*/
+                            }
                         }
                         echo $msg;
                     }
