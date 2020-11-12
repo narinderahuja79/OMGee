@@ -1,4 +1,8 @@
 <?php
+
+// echo "<pre>";
+// print_r($row);
+// exit;
     $max_stock = 72;
     $coupon_price = 0;
     $cashback_product = $this->db->get_where('coupon')->result_array();
@@ -56,13 +60,16 @@
 	        }
 	    }
 	    return $ret;
-
 	}
-	
 
 	if($this->session->userdata('currency') == '2')
     {
         $rrp = $row['sale_price_AU'];
+    	$wholesale = $row['wholesale'];
+    }
+    else
+    {
+        $wholesale = $row['wholesale_EXCL_WET_GST'];
     }
     if($this->session->userdata('currency') == '10')
     {
@@ -98,7 +105,6 @@
         }
     }
 	
-	$wholesale = $row['wholesale'];
 	$discount = ($row['discount']) ? ($row['discount']/100) : 0;
 	
 
@@ -285,7 +291,7 @@ z-index: 1 !important;
 	            	?>
 		            <!-- new section -->
 		            <div class="section-title">
-		               <h2 class="section-heading tas_lik"><?php echo ucwords($row['test_title']); ?></h2>
+		               <h2 class="section-heading tas_lik"><?php /*echo $row['test_title'] ? ucwords($row['test_title']) : 'Taste Meter'*/ ?>Taste Meter</h2>
 		            </div>
 		            <?php
               		foreach ($newarr2 as $key => $value) 
@@ -362,6 +368,9 @@ z-index: 1 !important;
 	         <div class="col-xl-6 col-lg-6 col-md-12">
 	            <div class="product-details-content">
 	            	<div class="product_right_fix">
+	            	    
+	            	    
+	            
 	            	<div class="product_h2sec">
 	               <h2><?php echo ucwords($row['title']);?></h2>
 	               <?php
@@ -428,15 +437,80 @@ z-index: 1 !important;
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><?php echo currency($lat_sale_price1); ?></td>
-                                            <td><?php echo currency($lat_sale_price2); ?></td>
-                                            <td><?php echo currency($lat_sale_price3); ?></td>
+                                            <?php
+                                                if($this->session->userdata('currency') == '2')
+                                                {
+                                                    ?>
+                                                    <td><?php echo currency($lat_sale_price1); ?></td>
+                                                    <td><?php echo currency($lat_sale_price2); ?></td>
+                                                    <td><?php echo currency($lat_sale_price3); ?></td>
+                                                    <?php
+                                                }
+                                                if($this->session->userdata('currency') == '10')
+                                                {
+                                                    if($row['sale_price_HK'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '13')
+                                                {
+                                                    if($row['sale_price_JP'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                                if($this->session->userdata('currency') == '22')
+                                                {
+                                                    if($row['sale_price_SG'] > 0)
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency().$lat_sale_price1; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price2; ?></td>
+                                                        <td><?php echo currency().$lat_sale_price3; ?></td>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <td><?php echo currency($lat_sale_price1); ?></td>
+                                                        <td><?php echo currency($lat_sale_price2); ?></td>
+                                                        <td><?php echo currency($lat_sale_price3); ?></td>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
                                         </tr>
                                         <tr>
                                             <td class="plusview">
                                                 <div class="cart-plus-minus">
                                                 	<a href="javascript:void(0);" class="dec qtybutton minusbutton" data-productid="1">-</a>
-                                                    <input  class="cart-plus-minus-box cart-plus-minus-box1 quantity-multiply<?php echo $row['product_id']; ?>1 cart_quantity" disabled realqty="1" type="text" name="qtybutton" value="1" min="1" remainingmax="" />
+                                                    <input  class="cart-plus-minus-box cart-plus-minus-box1 quantity-multiply<?php echo $row['product_id']; ?>1 cart_quantity" 
+                                                    disabled realqty="1" type="text" name="qtybutton" value="1" min="1" remainingmax="" />
                                                     <input class="total_max quantity-field1" type="hidden"  value="1" min="1" max="" />
                                                     <a href="javascript:void(0);" class="inc qtybutton plusbutton" data-productid="1">+</a>
                                                 </div>
@@ -447,7 +521,8 @@ z-index: 1 !important;
                                             <td class="plusview">  
                                                 <div class="cart-plus-minus">
                                                     <a href="javascript:void(0);" class="dec qtybutton minusbutton" data-productid="2">-</a>
-                                                    <input  class="cart-plus-minus-box cart-plus-minus-box2 quantity-multiply<?php echo $row['product_id']; ?>2 cart_quantity" disabled realqty="6" type="text" name="qtybutton" value="6" min="1" remainingmax="" />
+                                                    <input  class="cart-plus-minus-box cart-plus-minus-box2 quantity-multiply<?php echo $row['product_id']; ?>2 cart_quantity" disabled realqty="6"
+                                                    type="text" name="qtybutton" value="6" min="1" remainingmax="" />
                                                     <input class="total_max quantity-field2" type="hidden"  value="1" min="1" max="" />
                                                     <a href="javascript:void(0);" class="inc qtybutton plusbutton" data-productid="2">+</a>
                                                 </div>
@@ -458,7 +533,8 @@ z-index: 1 !important;
                                             <td class="plusview">    
                                                 <div class="cart-plus-minus">
                                                     <a href="javascript:void(0);" class="dec qtybutton minusbutton" data-productid="3">-</a>
-                                                    <input  class="cart-plus-minus-box cart-plus-minus-box3 quantity-multiply<?php echo $row['product_id']; ?>3 cart_quantity" disabled realqty="12" type="text" name="qtybutton" value="12" min="1" remainingmax="" />
+                                                    <input  class="cart-plus-minus-box cart-plus-minus-box3 quantity-multiply<?php echo $row['product_id']; ?>3 cart_quantity"
+                                                    disabled realqty="12" type="text" name="qtybutton" value="12" min="1" remainingmax="" />
                                                     <input class="total_max quantity-field3" type="hidden"  value="1" min="1" max="" />
                                                     <a href="javascript:void(0);" class="inc qtybutton plusbutton" data-productid="3">+</a>
                                                 </div>
@@ -526,6 +602,16 @@ z-index: 1 !important;
 		               
 		            ?>
 	              </div>
+	              
+	              	    	<div class="product_h2sec" style="margin-top : 53px;">
+            	               <h2 >Taste Summary</h2>
+            	              
+            	           </div>
+            	           <div class="col-sm-8" style="margin-top: 20px; margin:bottom:20px;" >
+
+        
+                                <p><?php echo $row['test_sumary_en']; ?></p> 
+                            </div>
 	          </div>
 	              <div class="productright">
 	              	<?php 
@@ -753,10 +839,10 @@ z-index: 1 !important;
                 <div class="col-sm-6 col-12">
                     <div class="row">
                         <div class="col-sm-3 col-6 mixblock">
-                            <?php
+                           <?php
                             if($row['food_image1'])
                             { ?>
-                                <img src="<?php echo base_url('uploads/product_image/'.$row['food_image1']); ?>" class="img-responsive">
+                                <img src="<?php echo base_url('uploads/food_paring/'.ucwords($row['food_name1']).'/'.$row['food_image1']); ?>" class="img-responsive">
                                 <p><?php echo ucwords($row['food_name1']); ?></p>
                             <?php } ?>
                         </div>
@@ -764,7 +850,7 @@ z-index: 1 !important;
                             <?php
                             if($row['food_image2'])
                             { ?>
-                                <img src="<?php echo base_url('uploads/product_image/'.$row['food_image2']); ?>" class="img-responsive">
+                                <img src="<?php echo base_url('uploads/food_paring/'.ucwords($row['food_name2']).'/'.$row['food_image2']); ?>" class="img-responsive">
                                 <p><?php echo ucwords($row['food_name2']); ?></p>
                             <?php } ?>
                         </div>
@@ -772,7 +858,7 @@ z-index: 1 !important;
                             <?php
                             if($row['food_image3'])
                             { ?>
-                                <img src="<?php echo base_url('uploads/product_image/'.$row['food_image3']); ?>" class="img-responsive">
+                                <img src="<?php echo base_url('uploads/food_paring/'.ucwords($row['food_name3']).'/'.$row['food_image3']); ?>" class="img-responsive">
                                 <p><?php echo ucwords($row['food_name3']); ?></p>
                             <?php } ?>
                         </div>
@@ -780,7 +866,7 @@ z-index: 1 !important;
                             <?php
                             if($row['food_image4'])
                             { ?>
-                                <img src="<?php echo base_url('uploads/product_image/'.$row['food_image4']); ?>" class="img-responsive">
+                                <img src="<?php echo base_url('uploads/food_paring/'.ucwords($row['food_name4']).'/'.$row['food_image4']); ?>" class="img-responsive">
                                 <p><?php echo ucwords($row['food_name4']); ?></p>
                             <?php } ?>
                         </div>
@@ -799,6 +885,7 @@ z-index: 1 !important;
     var max_stock = <?php echo $max_stock; ?>;
     $('.cart-plus-minus-box').attr('remainingmax',parseInt(max_stock));
     $('.total_max').attr('max',parseInt(max_stock));
+    
     $('.minusbutton').click(function()
     {
     	var productid = $(this).attr('data-productid');	

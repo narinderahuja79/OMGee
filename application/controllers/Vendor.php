@@ -3666,49 +3666,39 @@ class Vendor extends CI_Controller
                 $this->db->where('vendor_id', $this->session->userdata('vendor_id'));
                 $this->db->update('vendor',$data);                               
         }
-        elseif ($para1 == 'add_brand') 
+        elseif($para1 == 'add_brand') 
         {
-            $images_arr = array();  
+            $brand_arr = explode(",",$this->input->post('brands'));
+            $cat_arr = json_decode($this->input->post('category'));     
+            $data1['user_id'] =  $this->session->userdata('vendor_id');
+
             $extension = array("jpeg","jpg","png","gif");
-            for($img=0; $img <=1; $img++) 
-            { 
-                $file_name = $_FILES["brand_image"]["name"][$img];
-                $file_tmp = $_FILES["brand_image"]["tmp_name"][$img];
+
+
+            foreach($brand_arr as $key => $br) 
+            {
+                $val= $key+1;
+                $data1['name'] = $br;
+                $data1['category'] = implode(",",$cat_arr[$key]->selected);
+
+                $file_name = preg_replace('/\s+/','',$_FILES["brand_images$val"]["name"]);
+
+                
+                $file_tmp = $_FILES["brand_images$val"]["tmp_name"];
                 $ext=pathinfo($file_name,PATHINFO_EXTENSION);
 
                 if(in_array($ext,$extension)) 
                 {
                     $filename = basename($file_name,$ext);
                     $newFileName = $filename.time().".".$ext;
-  
-                    $images_arr[] =  $newFileName; 
                     move_uploaded_file($file_tmp,"uploads/brand_image/".$newFileName);
-                    
-                } 
-            }
-
-
-            $brand_arr = explode(",",$this->input->post('brands'))  ;
-            $cat_arr = $this->input->post('category');     
-            print_r($cat_arr);
-            $data1['user_id'] =  $this->session->userdata('vendor_id');
-
-            /*foreach($brand_arr as $key => $br) 
-            {
-                $data1['name'] = $br;
-                $data1['category'] = $cat_arr[$key];
-                $this->db->insert('vendorbrands',$data1);
-                echo $this->db->last_query();
-                if($this->db->insert_id() > 0)
-                {
-                    $this->db->where('id', $this->db->insert_id());
-                    $this->db->update('vendorbrands', array('image'=>$images_arr[$key]));
                 }
-            }*/
+                $data1['image'] = $newFileName;
+                $this->db->insert('vendorbrands',$data1);
+            }
         }
         elseif($para1 == 'update_brand') 
-        {
-                   
+        {     
             $images_arr = array();  
             $extension = array("jpeg","jpg","png","gif");
 
@@ -3722,8 +3712,7 @@ class Vendor extends CI_Controller
                 $newFileName = $filename.time().".".$ext; 
                 move_uploaded_file($file_tmp,"uploads/brand_image/".$newFileName);
             } 
-             
-
+            
             if($newFileName)
             {
                 $change_image = $newFileName;

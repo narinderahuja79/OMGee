@@ -137,19 +137,19 @@
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description English</label>
                     <div class="col-sm-6">
-                        <textarea rows="5" maxlength="900" class="form-control required" name="description_en"></textarea>
+                        <textarea rows="5" maxlength="900" class="form-control required" name="description_en" placeholder="Max 900 characters"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description Chinese</label>
                     <div class="col-sm-6">
-                        <textarea rows="5" maxlength="900"  class="form-control" name="description_ch"></textarea>
+                        <textarea rows="5" placeholder="Max 900 characters" maxlength="900"  class="form-control" name="description_ch"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border">
                     <label class="col-sm-4 control-label" for="demo-hor-13">Product Description Japanese</label>
                     <div class="col-sm-6">
-                        <textarea rows="5" maxlength="900" class="form-control" name="description_jp"></textarea>
+                        <textarea rows="5" placeholder="Max 900 characters" maxlength="900" class="form-control" name="description_jp"></textarea>
                     </div>
                 </div>
                 <div class="form-group btm_border" >

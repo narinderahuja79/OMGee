@@ -4,7 +4,6 @@ if (!defined('BASEPATH'))
 
 class Home extends CI_Controller
 {
-    
     /*  
      *  Developed by: Active IT zone
      *  Date    : 14 July, 2015
@@ -2385,6 +2384,7 @@ class Home extends CI_Controller
     /* FUNCTION: Loads Product View Page */
     function product_view($para1 = "",$para2 = "")
     {
+        
         /*$is_bundle = $this->db->get_where('product', array('product_id' => $para1))->row()->is_bundle;
         if ($this->crud_model->get_type_name_by_id('general_settings','82','value') == 'ok') {
         }*/
@@ -2586,20 +2586,19 @@ class Home extends CI_Controller
                     }
                 }
             }
-            ?>
-            <?php
+
             $this->form_validation->set_rules('titlename', 'Title', 'required');
             $this->form_validation->set_rules('name', 'First Name', 'required');
             $this->form_validation->set_rules('titlename', 'Title', 'required');
             $this->form_validation->set_rules('email', 'Email', 'valid_email|required|is_unique[vendor.email]',array('required' => 'You have not provided %s.', 'is_unique' => 'This %s already exists.'));
-            $this->form_validation->set_rules('password1', 'Password', 'required|min_length[6]|max_length[20]|matches[password2]');
-            $this->form_validation->set_rules('password2', 'Confirm Password', 'required|min_length[6]|max_length[20]');
+            $this->form_validation->set_rules('password1', 'Password', 'required|matches[password2]');
+            $this->form_validation->set_rules('password2', 'Confirm Password', 'required');
             $this->form_validation->set_rules('address1', 'Address Line 1', 'required');
             $this->form_validation->set_rules('state', 'State', 'required');
             $this->form_validation->set_rules('country', 'Country', 'required');
             $this->form_validation->set_rules('city', 'City', 'required');
             $this->form_validation->set_rules('zip', 'Zip', 'required');
-            $this->form_validation->set_rules('terms_check', 'Terms & Conditions', 'required', array('required' => translate('I Accept Terms and Conditions for Vendor Agreement')));
+            $this->form_validation->set_rules('terms_check', 'Terms & Conditions', 'required', array('required' => translate('Vendor must Read & Tick Vendor Agreement("Before even can Create Account")')));
             if ($this->form_validation->run() == FALSE)
             {
                 echo validation_errors();
@@ -2680,11 +2679,11 @@ class Home extends CI_Controller
 
 
                                 $msg = 'done';
-                                if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
+                                /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == false){
                                     $msg = 'done_but_not_sent';
                                 }else{
                                     $msg = 'done_and_sent';
-                                }
+                                }*/
                             }
                             echo $msg;
                         } else {
@@ -2788,7 +2787,7 @@ class Home extends CI_Controller
 
 
                             $msg = 'done';
-                            if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
+                            /*if($this->email_model->account_opening('vendor', $data['email'], $password, $data['verification_key']) == true)
                             {
                                if($this->email_model->vendor_reg_email_to_admin($data['email'], $password) == false){
                                     $msg = 'done_but_not_sent';
@@ -2797,7 +2796,7 @@ class Home extends CI_Controller
                                 }
                             }else{
                                 $msg = 'done_and_sent';
-                            }
+                            }*/
                         }
                         echo $msg;
                     }
@@ -3523,6 +3522,11 @@ class Home extends CI_Controller
             if($this->session->userdata('currency') == '2')
             {
                 $rrp = $product_details->sale_price_AU*$qty;
+                $wholesale = $product_details->wholesale*$qty;
+            }
+            else
+            {
+                $wholesale = $product_details->wholesale_EXCL_WET_GST*$qty;
             }
             if($this->session->userdata('currency') == '10')
             {
@@ -3557,7 +3561,7 @@ class Home extends CI_Controller
                     $rrp = $product_details->sale_price_AU*$qty;
                 }
             }
-            $wholesale = $product_details->wholesale*$qty;
+            
 
             if($product_details->limited_release =="Yes")
             {
@@ -3609,7 +3613,6 @@ class Home extends CI_Controller
             {
                 echo 'already';
             }
-            //var_dump($this->cart->contents());
         }
         
         if ($para1 == "added_list") 
@@ -3710,6 +3713,11 @@ class Home extends CI_Controller
                     if($this->session->userdata('currency') == '2')
                     {
                         $rrp = $product_details->sale_price_AU*$items['qty'];
+                        $wholesale = $product_details->wholesale*$items['qty'];;
+                    }
+                    else
+                    {
+                        $wholesale = $product_details->wholesale_EXCL_WET_GST*$items['qty'];;
                     }
                     if($this->session->userdata('currency') == '10')
                     {
@@ -3744,7 +3752,6 @@ class Home extends CI_Controller
                             $rrp = $product_details->sale_price_AU*$items['qty'];
                         }
                     }
-                    $wholesale = $product_details->wholesale*$items['qty'];
 
                     if($product_details->limited_release =="Yes")
                     {
@@ -3773,28 +3780,98 @@ class Home extends CI_Controller
 
                     $total_sub_total_orp = $orp - ($orp*($discount/100));
 
-                    if($discount > 0)
+                    if($this->session->userdata('currency') == '2')
                     {
-                        $return  = array('discount' =>  currency($saving),'promocode_price'=>currency($promocode), 'subtotal'=> currency($total_sub_total_orp),'rrp'=>currency($rrp),'orp'=>currency($orp));
+                        $with_currency_saving = currency($saving);
+                        $with_currency_promocode = currency($promocode);
+                        $with_currency_total_sub_total_orp= currency($total_sub_total_orp);
+                        $with_currency_rrp= currency($rrp);
+                        $with_currency_orp= currency($orp);
+                    }
+                    if($this->session->userdata('currency') == '10')
+                    {
+                        if($product_details->sale_price_HK > 0)
+                        {
+                            $with_currency_saving = currency().$saving;
+                            $with_currency_promocode = currency().$promocode;
+                            $with_currency_total_sub_total_orp= currency().$total_sub_total_orp;
+                            $with_currency_rrp= currency().$rrp;
+                            $with_currency_orp= currency().$orp;
+                        }
+                        else
+                        {
+                            $with_currency_saving = currency($saving);
+                            $with_currency_promocode = currency($promocode);
+                            $with_currency_total_sub_total_orp= currency($total_sub_total_orp);
+                            $with_currency_rrp= currency($rrp);
+                            $with_currency_orp= currency($orp);
+                        }
+                    }
+                    if($this->session->userdata('currency') == '13')
+                    {
+                        if($product_details->sale_price_JP > 0)
+                        {
+                            $with_currency_saving = currency().$saving;
+                            $with_currency_promocode = currency().$promocode;
+                            $with_currency_total_sub_total_orp= currency().$total_sub_total_orp;
+                            $with_currency_rrp= currency().$rrp;
+                            $with_currency_orp= currency().$orp;
+                        }
+                        else
+                        {
+                            $with_currency_saving = currency($saving);
+                            $with_currency_promocode = currency($promocode);
+                            $with_currency_total_sub_total_orp= currency($total_sub_total_orp);
+                            $with_currency_rrp= currency($rrp);
+                            $with_currency_orp= currency($orp);
+                        }
+                    }
+                    if($this->session->userdata('currency') == '22')
+                    {
+                        if($product_details->sale_price_SG > 0)
+                        {
+                            $with_currency_saving = currency().$saving;
+                            $with_currency_promocode = currency().$promocode;
+                            $with_currency_total_sub_total_orp= currency().$total_sub_total_orp;
+                            $with_currency_rrp= currency().$rrp;
+                            $with_currency_orp= currency().$orp;
+                        }
+                        else
+                        {
+                            $with_currency_saving = currency($saving);
+                            $with_currency_promocode = currency($promocode);
+                            $with_currency_total_sub_total_orp= currency($total_sub_total_orp);
+                            $with_currency_rrp= currency($rrp);
+                            $with_currency_orp= currency($orp);
+                        }
+                    }
+
+                    if($discount > 0)
+                    {                
+                        $return  = array('discount' =>  $with_currency_saving,'promocode_price'=>$with_currency_promocode, 'subtotal'=> $with_currency_total_sub_total_orp,'rrp'=>$with_currency_rrp,'orp'=>$with_currency_orp,'rrp'=>$with_currency_rrp);
                     }
                     else
                     {
-                        $return = array('discount'=>'','promocode_price'=>'','subtotal'=>currency($total_sub_total_orp),'rrp'=>currency($rrp),'orp'=>currency($orp));
+                        $return = array('discount'=>'','promocode_price'=>'','subtotal'=> $with_currency_total_sub_total_orp,'orp'=>$with_currency_orp,'rrp'=>$with_currency_rrp);
                     }
                 }
             }
             echo json_encode($return).'---'.$msg;
         }
-
-        if ($para1 == "remove_one") {
+        if($para1 == "remove_one") 
+        {
             $carted = $this->cart->contents();
-            foreach ($carted as $items) {
-                if ($items['rowid'] == $para2) {
+            foreach ($carted as $items) 
+            {
+                if($items['rowid'] == $para2) 
+                {
                     $data = array(
                         'rowid' => $items['rowid'],
                         'qty' => 0
                     );
-                } else {
+                }
+                else
+                {
                     $data = array(
                         'rowid' => $items['rowid'],
                         'qty' => $items['qty']
@@ -3864,8 +3941,49 @@ class Home extends CI_Controller
                     
                     $product_details = $this->db->get_where('product',array('product_id'=>$variationqty_arr->productid))->row();
 
-                    $rrp = $product_details->bundle_sale1*$items['qty'];
-                    $wholesale = $product_details->wholesale*$items['qty'];
+                    
+                    if($this->session->userdata('currency') == '2')
+                    {
+                        $rrp = $product_details->sale_price_AU*$items['qty'];
+                        $wholesale = $product_details->wholesale*$items['qty'];;
+                    }
+                    else
+                    {
+                        $wholesale = $product_details->wholesale_EXCL_WET_GST*$items['qty'];
+                    }
+                    if($this->session->userdata('currency') == '10')
+                    {
+                        if($product_details->sale_price_HK > 0)
+                        {
+                            $rrp = $product_details->sale_price_HK*$items['qty'];
+                        }
+                        else
+                        {
+                            $rrp = $product_details->sale_price_AU*$items['qty'];
+                        }
+                    }
+                    if($this->session->userdata('currency') == '13')
+                    {
+                        if($product_details->sale_price_JP > 0)
+                        {
+                            $rrp = $product_details->sale_price_JP*$items['qty'];
+                        }
+                        else
+                        {
+                            $rrp = $product_details->sale_price_AU*$items['qty'];
+                        }
+                    }
+                    if($this->session->userdata('currency') == '22')
+                    {
+                        if($product_details->sale_price_SG > 0)
+                        {
+                            $rrp = $product_details->sale_price_SG*$items['qty'];
+                        }
+                        else
+                        {
+                            $rrp = $product_details->sale_price_AU*$items['qty'];
+                        }
+                    }
 
                     if($product_details->limited_release =="Yes")
                     {
@@ -3884,7 +4002,7 @@ class Home extends CI_Controller
                     $gap_revenue_commission = $gap_revenue * $commission_amount;    
                     $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
 
-                    $discount = ($product_details->bundle_discount1) ? ($product_details->bundle_discount1) : 0; 
+                    $discount = ($product_details->discount) ? ($product_details->discount) : 0; 
 
                     $total_discount = ($orp*($discount/100));
 
@@ -3939,7 +4057,6 @@ class Home extends CI_Controller
                 }
 
                 $ship  = currency($ship);
-                //$tax   = print_r($ishipping);
                 
                 $shipping = $this->session->userdata('ishipping_total_price');              
                 $this->session->set_userdata('total_cashback_discount',$total_cashback_discount);
@@ -3967,8 +4084,83 @@ class Home extends CI_Controller
                 $tax = ($producttotal - $total_discounts)*($currency_tax/100);
                 $sub_total= ($total_sub_total + $tax)-$total_promocode;
                 $grand = $sub_total + $shipping;
-                
-                echo currency($producttotal) . '-' . $ship . '-' . currency($tax) . '-' . currency($grand) . '-' . $count . '-' . currency($total_saving) . '-' . $total_cashback_discount . '-' . currency($sub_total) . '-' . $coupon_price . '-' . currency($total_promocode);
+
+
+
+                if($this->session->userdata('currency') == '2')
+                {
+                    $with_currency_producttotal = currency($producttotal);
+                    $with_currency_tax = currency($tax);
+                    $with_currency_grand = currency($grand);
+                    $with_currency_total_saving = currency($total_saving);
+                    $with_currency_sub_total = currency($sub_total);
+                    $with_currency_total_promocode = currency($total_promocode);
+                }
+                if($this->session->userdata('currency') == '10')
+                {
+                    if($product_details->sale_price_HK > 0)
+                    {
+                        $with_currency_producttotal = currency().$producttotal;
+                        $with_currency_tax = currency().$tax;
+                        $with_currency_grand = currency().$grand;
+                        $with_currency_total_saving = currency().$total_saving;
+                        $with_currency_sub_total = currency().$sub_total;
+                        $with_currency_total_promocode = currency().$total_promocode;
+                    }
+                    else
+                    {
+                        $with_currency_producttotal = currency($producttotal);
+                        $with_currency_tax = currency($tax);
+                        $with_currency_grand = currency($grand);
+                        $with_currency_total_saving = currency($total_saving);
+                        $with_currency_sub_total = currency($sub_total);
+                        $with_currency_total_promocode = currency($total_promocode);
+                    }
+                }
+                if($this->session->userdata('currency') == '13')
+                {
+                    if($product_details->sale_price_JP > 0)
+                    {
+                        $with_currency_producttotal = currency().$producttotal;
+                        $with_currency_tax = currency().$tax;
+                        $with_currency_grand = currency().$grand;
+                        $with_currency_total_saving = currency().$total_saving;
+                        $with_currency_sub_total = currency().$sub_total;
+                        $with_currency_total_promocode = currency().$total_promocode;
+                    }
+                    else
+                    {
+                        $with_currency_producttotal = currency($producttotal);
+                        $with_currency_tax = currency($tax);
+                        $with_currency_grand = currency($grand);
+                        $with_currency_total_saving = currency($total_saving);
+                        $with_currency_sub_total = currency($sub_total);
+                        $with_currency_total_promocode = currency($total_promocode);
+                    }
+                }
+                if($this->session->userdata('currency') == '22')
+                {
+                    if($product_details->sale_price_SG > 0)
+                    {
+                        $with_currency_producttotal = currency().$producttotal;
+                        $with_currency_tax = currency().$tax;
+                        $with_currency_grand = currency().$grand;
+                        $with_currency_total_saving = currency().$total_saving;
+                        $with_currency_sub_total = currency().$sub_total;
+                        $with_currency_total_promocode = currency().$total_promocode;
+                    }
+                    else
+                    {
+                        $with_currency_producttotal = currency($producttotal);
+                        $with_currency_tax = currency($tax);
+                        $with_currency_grand = currency($grand);
+                        $with_currency_total_saving = currency($total_saving);
+                        $with_currency_sub_total = currency($sub_total);
+                        $with_currency_total_promocode = currency($total_promocode);
+                    }
+                }
+
+                echo $with_currency_producttotal. '-' . $ship . '-' .$with_currency_tax. '-' . $with_currency_grand . '-' . $count . '-' . $with_currency_total_saving . '-' . $total_cashback_discount . '-' . $with_currency_sub_total . '-' . $coupon_price . '-' . $with_currency_total_promocode;
 
                 $this->session->set_userdata('grand_total',$grand);
             }
@@ -4584,6 +4776,7 @@ class Home extends CI_Controller
             }
         } else if ($this->input->post('payment_type') == 'stripe') 
         {
+            
             if ($para1 == 'go') {
                 if(isset($_POST['stripeToken'])) 
                 {
