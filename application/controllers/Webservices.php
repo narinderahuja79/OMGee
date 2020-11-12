@@ -886,7 +886,11 @@
         $results_array = array();
         // $events_array = array();
         $slider_array = array();
-               
+        
+        $cart_pro = $this->Webservice_model->getProductCount($user_id);
+        $results_array['total_cart_item'] = !empty($cart_pro[0]->qty) ? $cart_pro[0]->qty : 0;
+        // echo "<pre>"; print_r($cart_pro);die;
+
         $already_add_product_arr = array();
         $this->db->where('status','approved');
         $this->db->order_by('events_id','desc');
@@ -1871,6 +1875,7 @@
     public function add_to_cart(){
         // echo "<pre>"; print_r($_POST);die;
         $user_id = $this->input->post('user_id');
+
         $product_id = $this->input->post('product_id');
         $qty = $this->input->post('qty');          
         $color = $this->input->post('color') ? $this->input->post('color') : "";
@@ -1888,6 +1893,11 @@
         $where = array('product_id'=>$product_id, 'user_id'=>$user_id);
         $cartData = $this->Webservice_model->get_data_where('forCart',$where);
 
+        
+        $cart_pro = $this->Webservice_model->getProductCount($user_id);
+        $res['total_cart_item'] = !empty($cart_pro[0]->qty) ? $cart_pro[0]->qty : 0;
+
+        
         if (empty($cartData)) {
             $rtrnInsertId = $this->Webservice_model->insert_data('forCart',$data);
             $res['status'] = 1;
@@ -1895,6 +1905,7 @@
         }else{
             $whereIs = array('product_id'=>$product_id, 'user_id'=>$user_id);
             $returnData = $this->Webservice_model->update_data('forCart',$dataUp, $where);
+
 
             $res['status'] = 1;
             $res['message'] = 'Cart updated';
