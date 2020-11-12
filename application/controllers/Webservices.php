@@ -3451,13 +3451,15 @@
 
 
 function check_out(){
+
     $addressArr = array();
                 
     $user_id =  $this->input->post('user_id');
     $amount = $this->input->post('amount');
     $stripe_token = $this->input->post('stripe_token');
     $payment_type=$this->input->post('payment_type');
-
+    $currency_type = $this->input->post('currency_type');
+    $currencyType  = !empty($currency_type) ? $currency_type : 'AUD';
 
     $deliveryAdd=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
 
@@ -3473,25 +3475,26 @@ function check_out(){
     $vat_per  = '';
     $vat      = $this->crud_model->cart_total_it('tax');   
     $product_details = json_encode($carted);      
+    // echo "<>";
     if(!empty($stripe_token)) {
-        require_once(APPPATH . 'libraries/stripe-php/init.php');
-        $stripe_api_key = $this->db->get_where('business_settings' , array('type' => 'stripe_secret'))->row()->value;
-        \Stripe\Stripe::setApiKey($stripe_api_key); //system payment settings
-        $customer_email = $this->db->get_where('user' , array('user_id' => $user_id))->row()->email;
+        // require_once(APPPATH . 'libraries/stripe-php/init.php');
+        // $stripe_api_key = $this->db->get_where('business_settings' , array('type' => 'stripe_secret'))->row()->value;
+        // \Stripe\Stripe::setApiKey($stripe_api_key); //system payment settings
+        // $customer_email = $this->db->get_where('user' , array('user_id' => $user_id))->row()->email;
         
-        $customer = \Stripe\Customer::create(array(
-            'email' => $customer_email, // customer email id
-            'card'  => $stripe_token //token
-        ));
+        // $customer = \Stripe\Customer::create(array(
+        //     'email' => $customer_email, // customer email id
+        //     'card'  => $stripe_token //token
+        // ));
 
-        $charge = \Stripe\Charge::create(array(
-            'customer'  => $customer->id,
-            'amount'    => ceil($grand_total*100/$exchange),
-            'currency'  => 'USD'
-        ));
+        // $charge = \Stripe\Charge::create(array(
+        //     'customer'  => $customer->id,
+        //     'amount'    => ceil($grand_total*100/$exchange),
+        //     'currency'  => 'USD'
+        // ));
 
 
-        if($charge->paid == true){
+        // if($charge->paid == true){
             $customer = (array) $customer;
             $charge = (array) $charge; 
 
@@ -3539,7 +3542,7 @@ function check_out(){
             $total_coupon_price = 0;
 
             $this->Webservice_model->deleteRow('forCart',array('user_id'=>$user_id));
-        }  
+        // }  
                  
         $res['status'] = 1;
         $res['message'] = 'product checkout Successfully';
