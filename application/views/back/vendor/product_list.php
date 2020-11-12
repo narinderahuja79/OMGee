@@ -76,8 +76,15 @@
                     <tr>
                         <td><img class="img-sm" style="height:auto !important; border:1px solid #ddd;padding:2px; border-radius:2px !important;" src="<?php echo $first_image.'?time='.strtotime($time); ?>"  /></td>
                         <td><?php echo ucwords($row['title']); ?></td>
+                        <td>
+                            <?php  
+                                $cat_name = $this->db->get_where('category',array('category_id'=>$row['category']))->row()->category_name; 
+                                echo ucwords($cat_name);
+                            ?>
+                        </td>
                         <td><?php $s_cat_name = $this->db->get_where('sub_category',array('sub_category_id'=>$row['sub_category']))->row()->sub_category_name;
                         echo ucwords($s_cat_name) ?></td>
+                       
                         <td><?php echo ucwords($row['variety']); ?></td>
                         <td><?php echo $row['wholesale_EXCL_WET_GST']; ?></td>
                         <td><?php echo $row['wholesale']; ?></td>
