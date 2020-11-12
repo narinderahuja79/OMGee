@@ -846,7 +846,8 @@
 
                 if(!empty($key->num_of_imgs)){
                     $num_of_imgs = explode(",", $key->num_of_imgs); 
-                    $respo['image'] = base_url('uploads/product_image/'.$num_of_imgs);
+                    // echo "<pre>"; print_r($num_of_imgs);die;
+                    $respo['image'] = base_url('uploads/product_image/'.$num_of_imgs[0]);
                 }else{
                     $respo['image'] = base_url('uploads/product_image/default.jpg');
                 }
