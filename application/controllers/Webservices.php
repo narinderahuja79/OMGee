@@ -2399,7 +2399,7 @@
                         "Address" => array(
                             "Streetlines" => $Streetlines,
                             "City" => $city,
-                            "StateOrProvinceCode" => $country_code,
+                            "StateOrProvinceCode" => $state,
                             "PostalCode" => $post_code,
                             "CountryCode" => $country_code,
                             "Residental" => false
@@ -2407,7 +2407,7 @@
                     )
                 );
 
-                echo "<pre>"; print_r($data);die;
+                // echo "<pre>"; print_r($data);die;
 
                 // $Streetlines = array('3 Chome-5-4 Shinjuku, Shinjuku City, Tokyo 160-0022, Japan');
                 // $data = array(
