@@ -2384,6 +2384,7 @@ class Home extends CI_Controller
     /* FUNCTION: Loads Product View Page */
     function product_view($para1 = "",$para2 = "")
     {
+        
         /*$is_bundle = $this->db->get_where('product', array('product_id' => $para1))->row()->is_bundle;
         if ($this->crud_model->get_type_name_by_id('general_settings','82','value') == 'ok') {
         }*/
@@ -4775,6 +4776,7 @@ class Home extends CI_Controller
             }
         } else if ($this->input->post('payment_type') == 'stripe') 
         {
+            
             if ($para1 == 'go') {
                 if(isset($_POST['stripeToken'])) 
                 {
