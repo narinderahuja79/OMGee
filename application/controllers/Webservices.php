@@ -1587,7 +1587,66 @@
 
 
 
+
     public function my_order(){
+        $final_data = array();
+        $user_id = $this->input->post('user_id');
+        // $language_type = $this->input->post('language_type');
+        $query = "SELECT * FROM `sale` WHERE `buyer`= ". $user_id ." ORDER BY `sale_datetime` DESC";
+        $SQL = $this->db->query($query);
+        $orderData = $SQL->result_array();
+         // echo"<pre>"; print_r($orderData);
+        if ($orderData){
+            $cart_array = array();
+            foreach ($orderData as $key => $value) {
+               $data1 = array();
+               // $data2 = array();
+               $data1 = json_decode($value['product_details']);
+                
+                if(!empty($data1)){
+                    $myProductArr = array();
+                    foreach ($data1 as $k => $vv) {
+                        $respo = array();
+                        $productInfo=$this->Webservice_model->getDataFromTabel('product', 'product_id,title,num_of_imgs', array('product_id'=>$vv->product_id));
+                        $respo['product_id'] = $productInfo[0]->product_id;
+                        $respo['title'] = $productInfo[0]->title;
+                        $respo['qty'] = 1;//$data1[$k]->qty;
+                        $respo['grand_total'] = $orderData[$key]['grand_total'];
+                        $respo['description'] = !empty($productInfo[0]->description) ? $productInfo[0]->description : "Lorem Ipsum is simply dummy text";
+
+                        $respo['track_order'] = $orderData[$key]['sale_code'];
+                        $respo['transaction_id'] = $orderData[$key]['sale_code'];
+                        $respo['order_date'] = date("d-m-Y",$orderData[$key]['sale_datetime']);
+
+                        if(!empty($productInfo[0]->num_of_imgs)){
+                            // $num_of_img = explode(",", $row['num_of_imgs']); 
+                            $respo['num_of_imgs'] = base_url('uploads/product_image/'.$productInfo[0]->num_of_imgs);
+                        }else{
+                            $respo['num_of_imgs'] = base_url('uploads/product_image/default.jpg');
+                        }
+                        $myProductArr[]=$respo;
+                    }
+                }  
+                $cart_array['myorder']= $myProductArr;
+                // echo"<pre>"; print_r($myProductArr);die('yes'); //grand_total
+                // $cart_array[]=$myProductArr;
+            }
+
+            // $cart_array['order'] = $data2;
+
+            $final_data['status'] = 1;
+            $final_data['message'] = 'Order found !';
+            $final_data['data'] = $cart_array;
+        }else{
+            $final_data['status'] = 0;
+            $final_data['message'] = 'Order not found !';
+        }
+        exit(json_encode($final_data));
+    }
+
+
+
+    public function my_order_old(){
         $final_data = array();
         $user_id = $this->input->post('user_id');
         // $language_type = $this->input->post('language_type');
@@ -2015,6 +2074,12 @@
         $discount_total_item = 0;
         $total_cashback_discount = 0;
         $productKey = 0;
+
+        $total_saving = 0;
+        $total_promocode = 0;
+
+        $total_sub_total = 0;
+
 
         $user_id =  $this->input->post('user_id');
 
