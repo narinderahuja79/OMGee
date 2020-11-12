@@ -1615,43 +1615,57 @@
         $query = "SELECT * FROM `sale` WHERE `buyer`= ". $user_id ." ORDER BY `sale_datetime` DESC";
         $SQL = $this->db->query($query);
         $orderData = $SQL->result_array();
+        $cartArr = array();
+        // echo"<pre>"; print_r($orderData);echo"<pre>";die;
         if ($orderData){
             $cart_array = array();
             foreach ($orderData as $key => $value) {
-               $data1 = array();
-               // $data2 = array();
-               $data1 = json_decode($value['product_details']);
-                // echo"<pre>"; print_r($data1);die;
-                if(!empty($data1)){
-                    $myProductArr = array();
-                    foreach ($data1 as $k => $vv) {
-                        $respo = array();
-                        $productInfo=$this->Webservice_model->getDataFromTabel('product', 'product_id,title,num_of_imgs', array('product_id'=>$vv->product_id));
-                        $respo['product_id'] = $productInfo[0]->product_id;
-                        $respo['title'] = $productInfo[0]->title;
-                        $respo['qty'] = $data1[$k]->qty;
-                        $respo['grand_total'] = $orderData[$key]['grand_total'];
-                        $respo['description'] = !empty($productInfo[0]->description) ? $productInfo[0]->description : "Lorem Ipsum is simply dummy text";
+               $response = array(); 
 
-                        $respo['track_order'] = $orderData[$key]['sale_code'];
-                        $respo['transaction_id'] = $orderData[$key]['sale_code'];
-                        $respo['order_date'] = date("d-m-Y",$orderData[$key]['sale_datetime']);
+               // $response['product_details'] = $value['product_details'];
+               // $response['payment_type'] = $value['payment_type'];
+               // $response['buyer'] = $value['buyer'];
+               // $response['sale_id'] = $value['sale_id'];
 
-                        if(!empty($productInfo[0]->num_of_imgs)){
-                            // $num_of_img = explode(",", $row['num_of_imgs']); 
-                            $respo['num_of_imgs'] = base_url('uploads/product_image/'.$productInfo[0]->num_of_imgs);
-                        }else{
-                            $respo['num_of_imgs'] = base_url('uploads/product_image/default.jpg');
-                        }
-                        $myProductArr[]=$respo;
+                
+                
+                $data1 = json_decode($value['product_details']);
+            
+                foreach($data1 as $valArr){
+                    $arrayCart = array();
+
+                    $productInfo=$this->Webservice_model->getDataFromTabel('product', 'product_id,title,num_of_imgs', array('product_id'=>$valArr->product_id));
+
+                    $arrayCart['user_id']=$valArr->user_id;
+                    $arrayCart['product_id']=$valArr->product_id;
+                    $arrayCart['qty']=$valArr->qty;
+
+                    $arrayCart['title'] = $productInfo[0]->title;
+                    
+
+                    $arrayCart['grand_total'] = $value['grand_total'];
+                    $arrayCart['description'] = !empty($productInfo[0]->description) ? $productInfo[0]->description : "Lorem Ipsum is simply dummy text";
+
+                    $arrayCart['track_order'] = $value['sale_code'];
+                    $arrayCart['transaction_id'] = $value['sale_code'];
+                    $arrayCart['order_date'] = date("d-m-Y",$value['sale_datetime']);
+
+                    if(!empty($productInfo[0]->num_of_imgs)){
+                        // $num_of_img = explode(",", $row['num_of_imgs']); 
+                        $arrayCart['num_of_imgs'] = base_url('uploads/product_image/'.$productInfo[0]->num_of_imgs);
+                    }else{
+                        $arrayCart['num_of_imgs'] = base_url('uploads/product_image/default.jpg');
                     }
-                }  
-                $cart_array['myorder']= $myProductArr;
-                // echo"<pre>"; print_r($myProductArr);die('yes'); //grand_total
-                // $cart_array[]=$myProductArr;
-            }
 
-            // $cart_array['order'] = $data2;
+
+                    $cartArr[] = $arrayCart;
+                }
+
+               // $cart_array[]=$response;
+            }
+            // echo"<pre>"; print_r($cartArr);echo"<pre>";die;
+            
+            $cart_array['order'] = $cartArr;
 
             $final_data['status'] = 1;
             $final_data['message'] = 'Order found !';
@@ -1662,6 +1676,48 @@
         }
         exit(json_encode($final_data));
     }
+
+
+
+
+
+
+     // echo"<pre>"; print_r($cartArr);echo"<pre>";die;        
+               // $data1 = array();
+               // // $data2 = array();
+
+               
+                
+                
+                //  if(!empty($data1)){
+                //     $myProductArr = array();    
+                //     foreach ($data1 as $k => $vv) {
+                //         $respo = array();
+                //         $productInfo=$this->Webservice_model->getDataFromTabel('product', 'product_id,title,num_of_imgs', array('product_id'=>$vv->product_id));
+                //         $respo['product_id'] = $productInfo[0]->product_id;
+                //         $respo['title'] = $productInfo[0]->title;
+                //         $respo['qty'] = $data1[$k]->qty;
+                //         $respo['grand_total'] = $orderData[$key]['grand_total'];
+                //         $respo['description'] = !empty($productInfo[0]->description) ? $productInfo[0]->description : "Lorem Ipsum is simply dummy text";
+
+                //         $respo['track_order'] = $orderData[$key]['sale_code'];
+                //         $respo['transaction_id'] = $orderData[$key]['sale_code'];
+                //         $respo['order_date'] = date("d-m-Y",$orderData[$key]['sale_datetime']);
+
+                //         if(!empty($productInfo[0]->num_of_imgs)){
+                //             // $num_of_img = explode(",", $row['num_of_imgs']); 
+                //             $respo['num_of_imgs'] = base_url('uploads/product_image/'.$productInfo[0]->num_of_imgs);
+                //         }else{
+                //             $respo['num_of_imgs'] = base_url('uploads/product_image/default.jpg');
+                //         }
+                //         $myProductArr[]=$respo;
+                //     }
+                // }  
+                
+                // $cart_array['myorder']= $myProductArr;
+                // echo"<pre>"; print_r($myProductArr);die('yes'); //grand_total
+                // $cart_array[]=$myProductArr;
+
 
 
 
