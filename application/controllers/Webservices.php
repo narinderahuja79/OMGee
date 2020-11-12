@@ -2407,6 +2407,8 @@
                     )
                 );
 
+                echo "<pre>"; print_r($data);die;
+
                 // $Streetlines = array('3 Chome-5-4 Shinjuku, Shinjuku City, Tokyo 160-0022, Japan');
                 // $data = array(
                 //     "api_key" =>"p6RertCvahmbQm28Byky",
