@@ -710,6 +710,21 @@
 
   
 
+
+   function getProductCount($user_id){
+       $this->db->select_sum('qty');
+        $this->db->from('forCart');
+        $this->db->where('user_id', $user_id);
+        // $query = $this->db->get();
+        $query=$this->db->get(); 
+        $returnData = $query->result(); 
+        // echo $this->db->last_query();die;
+        return $returnData;    
+
+        
+    }
+
+  
     
 
 
