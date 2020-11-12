@@ -1615,14 +1615,13 @@
         $query = "SELECT * FROM `sale` WHERE `buyer`= ". $user_id ." ORDER BY `sale_datetime` DESC";
         $SQL = $this->db->query($query);
         $orderData = $SQL->result_array();
-         // echo"<pre>"; print_r($orderData);
         if ($orderData){
             $cart_array = array();
             foreach ($orderData as $key => $value) {
                $data1 = array();
                // $data2 = array();
                $data1 = json_decode($value['product_details']);
-                
+                // echo"<pre>"; print_r($data1);die;
                 if(!empty($data1)){
                     $myProductArr = array();
                     foreach ($data1 as $k => $vv) {
@@ -1630,7 +1629,7 @@
                         $productInfo=$this->Webservice_model->getDataFromTabel('product', 'product_id,title,num_of_imgs', array('product_id'=>$vv->product_id));
                         $respo['product_id'] = $productInfo[0]->product_id;
                         $respo['title'] = $productInfo[0]->title;
-                        $respo['qty'] = 1;//$data1[$k]->qty;
+                        $respo['qty'] = $data1[$k]->qty;
                         $respo['grand_total'] = $orderData[$key]['grand_total'];
                         $respo['description'] = !empty($productInfo[0]->description) ? $productInfo[0]->description : "Lorem Ipsum is simply dummy text";
 
@@ -2298,10 +2297,10 @@
             $category_product_list = array('WINE');
           
             
-            $deliveryAdd=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
+            // $deliveryAdd=$this->Webservice_model->getDataFromTabel('delivery_address', '*', array('user_id'=>$user_id));
 
             
-            if(!empty($deliveryAdd)){
+            // if(!empty($deliveryAdd)){
                 if(count($deliveryAdd)=='1'){
                     $name =  $deliveryAdd[0]->name;
                     $mobile =  $deliveryAdd[0]->mobile;
@@ -2407,11 +2406,11 @@
                 $res['cart_total'] = $cart_array;
                 $res['cart_data'] = $itemArr;
 
-            }else{
-                //error address
-                $res['status'] = 0;
-                $res['message'] = 'Please add Address first';
-            }
+            // }else{
+            //     //error address
+            //     $res['status'] = 0;
+            //     $res['message'] = 'Please add Address first';
+            // }
 
        
         }else{
