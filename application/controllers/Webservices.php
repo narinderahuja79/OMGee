@@ -2069,7 +2069,8 @@
 
 
 
-    public function my_cart_items(){
+    public function my_cart_items()
+    {
         $total_discount = 0;
         $discount_total_item = 0;
         $total_cashback_discount = 0;
@@ -2096,15 +2097,8 @@
         $cartContent = $this->Webservice_model->get_data_where('forCart',$where);
         if(!empty($cartContent)){
             foreach ($cartContent as $item) {
-                // echo "<pre>"; print_r($item);echo "<pre>";die; 
+                
 
-                //  [forCart_id] => 749
-                // [user_id] => 264
-                // [product_id] => 118
-                // [color] => 
-                // [qty] => 1
-                // [type] => each
-                // [options] => 
 
                 $response = array();
                 $where = array('product_id'=> $item['product_id']);
@@ -2118,27 +2112,36 @@
                 }else{
                     $response['images'] = base_url('uploads/product_image/default.jpg');
                 }
+                // echo "<pre>"; print_r($item['qty']);echo "<pre>";die; 
 
                 $response['title']  = $productDetail[0]['title'];
                 $response['qty']  = $item['qty'];
 
 
-                $default_price = !empty($productDetail[0]['sale_price_AU']) ? $productDetail[0]['sale_price_AU'] : '0';
+                $default_price = !empty($productDetail[0]['sale_price_AU']) ? $productDetail[0]['sale_price_AU'] : 0;
                 if($currencyType=="AUD"){
                     $sale_price = $default_price;
+                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'aud_tax'))->row()->value;
+
                 }else if($currencyType=="HKD"){
                     $sale_price = !empty($productDetail[0]['sale_price_HK']) ? $productDetail[0]['sale_price_HK'] : $default_price;
+
+                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'hkd_tax'))->row()->value;
                 }else if($currencyType=="JPY"){
                     $sale_price = !empty($productDetail[0]['sale_price_JP']) ? $productDetail[0]['sale_price_JP'] : $default_price;
+
+                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'jpy_tax'))->row()->value;
                 }else if($currencyType=="SGD"){
                     $sale_price = !empty($productDetail[0]['sale_price_SG']) ? $productDetail[0]['sale_price_SG'] : $default_price;
+
+
+                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'sgd_tax'))->row()->value;
                 }else{
                     $sale_price = $default_price;
                 }
                 
-
-
                 $rrp = $sale_price*$item['qty'];
+                
                 $response['rrp']  = $rrp;
                 $wholesale = $productDetail[0]['wholesale']*$item['qty'];
 
@@ -2152,25 +2155,53 @@
                     $commission_amount = ($this->db->get_where('business_settings', array('type' => 'nolimit_admin_commission_amount'))->row()->value)/100;
                 }
 
+                $discount = !empty($productDetail[0]['discount']) ? $productDetail[0]['discount'] : 0;  
 
-                $orpData=$this->get_orp($rrp,$wholesale,$productDetail[0]['discount'],$productDetail[0]['limited_release']);
+                $limited_release = !empty($productDetail[0]['limited_release']) ? $productDetail[0]['limited_release'] : 0;
+
+                $total_discount =  ($orpData['orp']*($discount/100));
+                    
+                $orpData=$this->get_orp($rrp,$wholesale,$discount,$limited_release);
+
+
+                $total_sub_total_orp = $orpData['orp'] - ($orpData['orp']*($discount/100));
 
                 $response['orp']  = $orpData['orp'];
                 $response['saving']  = '0';
                 $response['type']  = $item['type'];
                 $response['product_id']  = $item['product_id'];
                 $response['user_id']  = $item['user_id'];
+
+
+                $gap_revenue = $rrp - $wholesale;
+                $gap_revenue_commission = $gap_revenue * $commission_amount;    
+                $orp = $rrp - (($gap_revenue - $gap_revenue_commission)*$orp_commission_amount);
+
+               
+                $total_discount = ($orp*($discount/100));
+
+                $promocode = ($variationqty_arr->promocode_cal_discount_price > 0) ? $variationqty_arr->promocode_cal_discount_price *$items['qty'] : 0;
+
+                $saving = ($rrp - $orp)+$total_discount;
+
+                $total_sub_total_orp = $orp - ($orp*($discount/100));
+                            
+
                 $producttotal += $rrp;
                 $total_saving += $saving;
                 $total_promocode += $promocode;
                 $total_discounts += $total_discount;
                 $total_sub_total += $total_sub_total_orp;
 
-                if(!empty($cashback_product)){
-                    foreach($cashback_product as $key => $val) {
+
+                if(!empty($cashback_product))
+                {
+                    foreach($cashback_product as $key => $val) 
+                    {
                         $already_add_product_ar = json_decode($val['spec']);
 
-                        if(strtotime($val['till']) > strtotime($current_date)){
+                        if(strtotime($val['till']) > strtotime($current_date))
+                        {
                             $till_ar[] = strtotime($val['till']);
 
                             foreach(json_decode($already_add_product_ar->set) as $key => $productids) {
@@ -2192,8 +2223,7 @@
                         $cashback_price += (($discount_value)*$value['qty']);
                     }
                 }    
-                $total_cashback_discount =  round($cashback_price, 2);
-                    
+                $total_cashback_discount =  round($cashback_price, 2);                 
                 
                 $response['cashback']  = $total_cashback_discount;
 
@@ -2206,33 +2236,14 @@
                 
                 // $this->session->set_userdata('total_cashback_discount',$total_cashback_discount);
 
-                $total_cashback_discount = 0;
-
-
-
-                $default_price = !empty($productDetail[0]['sale_price_AU']) ? $productDetail[0]['sale_price_AU'] : '0';
-                if($currencyType=="AUD"){
-                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'aud_tax'))->row()->value;
-                }
-                if($currencyType=="HKD"){
-                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'hkd_tax'))->row()->value;
-                }
-                if($currencyType=="JPY"){
-                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'jpy_tax'))->row()->value;
-                }
-                if($currencyType=="SGD"){
-                    $currency_tax  = $this->db->get_where('business_settings', array('type' => 'sgd_tax'))->row()->value;
-                }
-
-                
-                
+                $total_cashback_discount = 0;              
+                    
                 $tax = ($producttotal - $total_discounts)*($currency_tax/100);
                 $sub_total= ($total_sub_total + $tax)-$total_promocode;
-                $grand = $sub_total + $shipping;
-                
+                $grand = $sub_total + $shipping;            
+
                 $cart_array['total_promocode']  = $total_promocode;
-                $cart_array['coupon_price']  = $coupon_price;
-                
+                $cart_array['coupon_price']  = $coupon_price;                
                 $cart_array['producttotal']  = $producttotal;
                 $cart_array['ship']  = $ship;
                 $cart_array['tax']  = $tax;
