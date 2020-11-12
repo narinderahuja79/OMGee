@@ -207,13 +207,14 @@
                                         $promocode = ($variationqty_arr->promocode_cal_discount_price > 0) ? $variationqty_arr->promocode_cal_discount_price *$items['qty'] : 0;
 
                                         $saving = ($rrp - $orp)+$total_discount;
+
                                         $total_sub_total_orp = $orp - ($orp * ($discount/100));
 
                                         if($this->session->userdata('currency') == '2')
                                         {
                                             $with_rrp_currency = currency($rrp);
                                             $with_orp_currency = currency($orp); 
-                                            $with_saving_currency = currency($saving); 
+                                            $with_saving_currency = ($saving > 0) ? currency($saving) : '-'; 
                                             $with_sub_total_currency = currency($total_sub_total_orp); 
                                         }
                                         if($this->session->userdata('currency') == '10')
@@ -222,14 +223,14 @@
                                             {
                                                 $with_rrp_currency = currency().$rrp;   
                                                 $with_orp_currency = currency().$orp;
-                                                $with_saving_currency = currency().$saving; 
+                                                $with_saving_currency = ($saving > 0) ? currency().$saving : '-';
                                                 $with_sub_total_currency = currency().$total_sub_total_orp;  
                                             }
                                             else
                                             {
                                                 $with_rrp_currency = currency($rrp);
                                                 $with_orp_currency = currency($orp);
-                                                $with_saving_currency = currency($saving);
+                                                $with_saving_currency = ($saving > 0) ? currency($saving) : '-';
                                                 $with_sub_total_currency = currency($total_sub_total_orp);
                                             }
                                         }
@@ -239,14 +240,14 @@
                                             {
                                                 $with_rrp_currency = currency().$rrp;
                                                 $with_orp_currency = currency().$orp;
-                                                $with_saving_currency = currency().$saving;
+                                                $with_saving_currency = ($saving > 0) ? currency().$saving : '-';
                                                 $with_sub_total_currency = currency().$total_sub_total_orp;
                                             }
                                             else
                                             {
                                                 $with_rrp_currency = currency($rrp);
                                                 $with_orp_currency = currency($orp);
-                                                $with_saving_currency = currency($saving);
+                                                $with_saving_currency = ($saving > 0) ? currency($saving) : '-';
                                                 $with_sub_total_currency = currency($total_sub_total_orp);
                                             }
                                         }
@@ -256,14 +257,14 @@
                                             {
                                                 $with_rrp_currency = currency().$rrp;
                                                 $with_orp_currency = currency().$orp;
-                                                $with_saving_currency = currency().$saving;
+                                                $with_saving_currency = ($saving > 0) ? currency().$saving : '-';
                                                 $with_sub_total_currency = currency().$total_sub_total_orp;
                                             }
                                             else
                                             {
                                                 $with_rrp_currency = currency($rrp);
                                                 $with_orp_currency = currency($orp);
-                                                $with_saving_currency = currency($saving);
+                                                $with_saving_currency = ($saving > 0) ? currency($saving) : '-';
                                                 $with_sub_total_currency = currency($total_sub_total_orp);
                                             }
                                         }

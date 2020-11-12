@@ -346,7 +346,14 @@ class Email_model extends CI_Model
                 $sub        = $this->db->get_where('email_template', array('email_template_id' => 6))->row()->subject;
                 $email_body      = $this->db->get_where('email_template', array('email_template_id' => 6))->row()->body;
 			}
-			if($account_type == 'vendor'){
+			if($account_type == 'vendor')
+            {
+
+                $query->row()->vendor_id;
+
+
+               
+
 				$to_name	= $query->row()->name;
 				$url 		= "<a href='".base_url()."vendor/'>".base_url()."vendor</a>";
 				$verify_url = "<a href='".base_url()."home/vendor_verification?verifykey=".base64_encode($verification_key)."'>".base_url()."home/vendor_verification?verifykey=".base64_encode($verification_key)."</a>"; 
@@ -355,7 +362,8 @@ class Email_model extends CI_Model
                 $sub        = $this->db->get_where('email_template', array('email_template_id' => 4))->row()->subject;
 				$email_body = $this->db->get_where('email_template', array('email_template_id' => 4))->row()->body;
 			}
-			if($account_type == 'user'){
+			if($account_type == 'user')
+            {
 				$to_name	= $query->row()->username;
 				$url 		= "<a href='".base_url()."home/login_set/login'>".base_url()."home/login_set/login</a>";
                 $verify_url = "<a href='".base_url()."home/verification?verifykey=".base64_encode($verification_key)."'>".base_url()."home/verification?verifykey=".base64_encode($verification_key)."</a>"; 
@@ -665,6 +673,28 @@ class Email_model extends CI_Model
             
             $vendor_name    = $query->row()->name;
 
+
+            $vendorbrands = $this->db->get_where('vendorbrands',array('user_id'=>$query->row()->vendor_id))->result_array();
+
+            $brands = "";
+            $category_arr = array();
+
+            foreach($vendorbrands as $key => $value) 
+            {
+               if($value['name'])
+               { 
+                   foreach(explode(",",$value['category']) as $value1) 
+                   {
+                        $category_name = $this->db->get_where('category',array('category_id'=>$value1))->row()->category_name; 
+                        $category_arr[] = $category_name; 
+                   }
+                   $brands .= "Brand : ".$value['name']." Category : ".implode(",", $category_arr)."<br>";
+                   unset($category_arr);
+                }   
+            }
+
+            $all_brands_names = $brands;
+
             $create_date = $this->db->get_where('vendor', array('email' => $email))->row()->create_timestamp;
             $request_date = date('D M Y H:i A',$create_date);
             $website = $this->db->get_where('vendor', array('email' => $email))->row()->website;
@@ -677,11 +707,12 @@ class Email_model extends CI_Model
             $email_body = $this->db->get_where('email_template', array('email_template_id' => 7))->row()->body;
             
             
-            $email_body      = str_replace('[[vendor_name]]', $vendor_name,$email_body);
+            $email_body      = str_replace('[[vendor_name]]', ucwords($vendor_name),$email_body);
             $email_body      = str_replace('[[email]]',$email,$email_body);
             $email_body      = str_replace('[[request_date]]',$request_date,$email_body);
             $email_body      = str_replace('[[website]]',$website,$email_body);
             $email_body      = str_replace('[[suburb]]',$suburb,$email_body);
+            $email_body      = str_replace('[[brands_category]]',$all_brands_names,$email_body);
             $email_body      = str_replace('[[state]]',$state,$email_body);
             $email_body      = str_replace('[[from]]',$from_name,$email_body);
             $email_body      = str_replace('[[omgee_image_url]]',$omgee_image_url,$email_body);
