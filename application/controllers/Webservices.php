@@ -2380,6 +2380,18 @@
                     $address1 =  $deliveryAdd[1]->address1;
                 } 
 
+                $CountryCode="AU";
+                if($country_code=="+81"){
+                    $CountryCode="JP";
+                }else if($country_code=="+61"){
+                    $CountryCode="AU";
+                }else if($country_code=="+65"){
+                    $CountryCode="SG";
+                }else if($country_code=="+852"){
+                    $CountryCode="HK";
+                }
+
+
                 $Streetlines = array($address1);
                 $data = array(
                     "api_key" =>"p6RertCvahmbQm28Byky",
@@ -2401,7 +2413,7 @@
                             "City" => $city,
                             "StateOrProvinceCode" => $state,
                             "PostalCode" => $post_code,
-                            "CountryCode" => $country_code,
+                            "CountryCode" => $CountryCode,
                             "Residental" => false
                         )
                     )
