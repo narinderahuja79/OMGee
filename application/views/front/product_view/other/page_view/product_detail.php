@@ -521,8 +521,8 @@ z-index: 1 !important;
                                             <td class="plusview">  
                                                 <div class="cart-plus-minus">
                                                     <a href="javascript:void(0);" class="dec qtybutton minusbutton" data-productid="2">-</a>
-                                                    <input  class="cart-plus-minus-box cart-plus-minus-box2 quantity-multiply<?php echo $row['product_id']; ?>2 cart_quantity" disabled realqty="6"
-                                                    type="text" name="qtybutton" value="6" min="1" remainingmax="" />
+                                                    <input  class="cart-plus-minus-box cart-plus-minus-box2 quantity-multiply<?php echo $row['product_id']; ?>2 cart_quantity" disabled realqty="1"
+                                                    type="text" name="qtybutton" value="1" min="1" remainingmax="" />
                                                     <input class="total_max quantity-field2" type="hidden"  value="1" min="1" max="" />
                                                     <a href="javascript:void(0);" class="inc qtybutton plusbutton" data-productid="2">+</a>
                                                 </div>
@@ -534,7 +534,7 @@ z-index: 1 !important;
                                                 <div class="cart-plus-minus">
                                                     <a href="javascript:void(0);" class="dec qtybutton minusbutton" data-productid="3">-</a>
                                                     <input  class="cart-plus-minus-box cart-plus-minus-box3 quantity-multiply<?php echo $row['product_id']; ?>3 cart_quantity"
-                                                    disabled realqty="12" type="text" name="qtybutton" value="12" min="1" remainingmax="" />
+                                                    disabled realqty="1" type="text" name="qtybutton" value="1" min="1" remainingmax="" />
                                                     <input class="total_max quantity-field3" type="hidden"  value="1" min="1" max="" />
                                                     <a href="javascript:void(0);" class="inc qtybutton plusbutton" data-productid="3">+</a>
                                                 </div>

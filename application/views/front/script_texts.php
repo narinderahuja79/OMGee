@@ -477,7 +477,14 @@ $( "#btn_no" ).click(function() {
 		var product = $(this).attr('productid');
 		var variationid = $(this).attr('variationid');		
 		var coupon_price = $(this).attr('coupon_price');		
-		var qty = $('.quantity-multiply'+product+variationid).val();
+		var qty;
+		if(variationid == 1) {
+			qty = $('.quantity-multiply'+product+variationid).val();
+		} else if(variationid == 2){
+			qty = $('.quantity-multiply'+product+variationid).val() * 6;
+		} else{
+			qty = $('.quantity-multiply'+product+variationid).val() * 12;
+		}
 		var variationqty = $(this).attr('variationqty'+variationid);
 		state.success(function (data) {
 		if(data == 'hypass')
