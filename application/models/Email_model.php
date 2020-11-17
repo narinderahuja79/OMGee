@@ -24,9 +24,9 @@ class Email_model extends CI_Model
     function password_reset_email($account_type = '', $id = '', $pass = '')
     {   
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
         //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
@@ -78,9 +78,9 @@ class Email_model extends CI_Model
     {
         //$this->load->database();
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.base_url().'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.base_url().'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.base_url().'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.base_url().'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.base_url().'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.base_url().'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
 
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -144,9 +144,9 @@ class Email_model extends CI_Model
     function membership_upgrade_email($vendor)
     {
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
         //$this->load->database();
         $account_type = 'vendor';
@@ -205,9 +205,9 @@ class Email_model extends CI_Model
     function vendor_payment($vendor,$amount)
     {
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
         //$this->load->database();
         $account_type = 'vendor';
@@ -258,9 +258,9 @@ class Email_model extends CI_Model
     function membership_upgrade_email_to_admin($vendor)
     {
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
         //$this->load->database();
         $account_type = 'vendor';
@@ -322,9 +322,9 @@ class Email_model extends CI_Model
     {
         //$this->load->database();
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
 
 
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
@@ -411,9 +411,9 @@ class Email_model extends CI_Model
     function withdrawal_amount($account_type = '', $id = '',$status = '', $amount = '')
     {
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
@@ -465,9 +465,9 @@ class Email_model extends CI_Model
     function create_event($account_type = '', $email = '')
     {
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
         //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
@@ -528,9 +528,9 @@ class Email_model extends CI_Model
     function vendor_event_email_to_admin($account_type = '',$email = '')
     {
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
        //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
@@ -593,9 +593,9 @@ class Email_model extends CI_Model
     function approved_event($account_type = '', $email = '',$youtube_id = '', $youtube_password = '',$video_link = '')
     {
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
         //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
@@ -654,9 +654,9 @@ class Email_model extends CI_Model
     function vendor_reg_email_to_admin($email = '', $pass = '')
     {
         $omgee_image_url        = '<img src="'.base_url().'uploads/logo_image/omgee_logo.png">';
-        $fb_image_url        = '<a href="'.'https://www.facebook.com"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
-        $insta_image_url        = '<a href="'.'https://www.instagram.com"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
-        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
+        $fb_image_url        = '<a href="'.'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
+        $insta_image_url        = '<a href="'.'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
+        $linkdin_image_url        = '<a href="'.'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
         
        //$this->load->database();
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
