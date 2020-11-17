@@ -81,7 +81,7 @@ class Email_model extends CI_Model
         $fb_image_url        = '<a href="'.base_url().'https://www.facebook.com/omgeeau/omgeeau"><img src="'.base_url().'uploads/logo_image/facebook_logo.png"></a>';
         $insta_image_url        = '<a href="'.base_url().'https://www.instagram.com/omgeeau/"><img src="'.base_url().'uploads/logo_image/instagram_logo.png"></a>';
         $linkdin_image_url        = '<a href="'.base_url().'https://www.linkedin.com/company/omgeeau/"><img src="'.base_url().'uploads/logo_image/linkdin_logo.png"></a>';
-
+ 
         $from_name  = $this->db->get_where('general_settings',array('type' => 'system_name'))->row()->value;
         $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
         if($protocol == 'smtp'){
